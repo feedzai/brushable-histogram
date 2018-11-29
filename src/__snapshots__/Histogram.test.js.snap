@@ -1,0 +1,411 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render renders 1`] = `
+<Histogram
+  barOptions={
+    Object {
+      "margin": 1,
+    }
+  }
+  brushDensityChartColor="rgba(33, 150, 243, 0.2)"
+  brushDensityChartFadedColor="rgba(176, 190, 197, 0.2)"
+  brushDensityChartHeightRatio={0.15}
+  data={
+    Array [
+      Object {
+        "amount": 64.49,
+        "amountFraud": 0,
+        "nodes": Array [
+          "DcUAegEbSz2w5M90hq9LyA",
+          "6LUAL4s1Q-Wcwbf2BNOpsg",
+          "s-ff2fJ2S_WQpGIoh4YrKQ",
+          "f44OdRl4QIetsc66Bs4r-w",
+          "CoJHu3lSTbyWXxaOJq3qug",
+          "ZCv4urRAQmqPOoqTUrOtbg",
+        ],
+        "timestamp": 1533164400000,
+        "total": 1,
+        "totalFraud": 0,
+      },
+      Object {
+        "amount": 88.11,
+        "amountFraud": 0,
+        "nodes": Array [
+          "fLdeVrbqRhmZ9R8jCMf5UQ",
+          "UJa00n8CSmGu0bHIr3GH-Q",
+          "p6a8CS7SRG-Rn2ju96t_Ng",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "dI_NJtF6Tdq_PUh6-dlR4Q",
+          "CoJHu3lSTbyWXxaOJq3qug",
+        ],
+        "timestamp": 1533164460000,
+        "total": 1,
+        "totalFraud": 0,
+      },
+      Object {
+        "amount": 14.39,
+        "amountFraud": 14.39,
+        "nodes": Array [
+          "tY7KxZ_4RNuXxvaLTfRdog",
+          "UJa00n8CSmGu0bHIr3GH-Q",
+          "95XLGohIRzyn1eBdSmV8Bw",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "dI_NJtF6Tdq_PUh6-dlR4Q",
+          "CoJHu3lSTbyWXxaOJq3qug",
+        ],
+        "timestamp": 1533164580000,
+        "total": 1,
+        "totalFraud": 1,
+      },
+      Object {
+        "amount": 36.85,
+        "amountFraud": 0,
+        "nodes": Array [
+          "UJa00n8CSmGu0bHIr3GH-Q",
+          "95XLGohIRzyn1eBdSmV8Bw",
+          "p6a8CS7SRG-Rn2ju96t_Ng",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "dI_NJtF6Tdq_PUh6-dlR4Q",
+          "CoJHu3lSTbyWXxaOJq3qug",
+        ],
+        "timestamp": 1533164700000,
+        "total": 1,
+        "totalFraud": 0,
+      },
+      Object {
+        "amount": 51.02,
+        "amountFraud": 0,
+        "nodes": Array [
+          "SlyF3jKCSU6JQown5uaPAg",
+          "6LUAL4s1Q-Wcwbf2BNOpsg",
+          "GtjdzwrNTliRUqU9J5uKNA",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "x6KwRcIyReyUFZpixAw1hg",
+          "rQeoV5AqTlWgUaoS7YtygQ",
+        ],
+        "timestamp": 1533164760000,
+        "total": 1,
+        "totalFraud": 0,
+      },
+      Object {
+        "amount": 33.58,
+        "amountFraud": 33.58,
+        "nodes": Array [
+          "fLdeVrbqRhmZ9R8jCMf5UQ",
+          "jANYL40RSkG465fgNx03ag",
+          "UJa00n8CSmGu0bHIr3GH-Q",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "dI_NJtF6Tdq_PUh6-dlR4Q",
+          "CoJHu3lSTbyWXxaOJq3qug",
+        ],
+        "timestamp": 1533164880000,
+        "total": 1,
+        "totalFraud": 1,
+      },
+      Object {
+        "amount": 80.84,
+        "amountFraud": 80.84,
+        "nodes": Array [
+          "uXnG98KQSQeTj6a_v5HbWQ",
+          "fLdeVrbqRhmZ9R8jCMf5UQ",
+          "DcUAegEbSz2w5M90hq9LyA",
+          "9jV6LCQsTQaZtPZEAxgy8A",
+          "jUa5dfM3SvmwaK4XhLPWbA",
+          "ZCv4urRAQmqPOoqTUrOtbg",
+        ],
+        "timestamp": 1533165000000,
+        "total": 1,
+        "totalFraud": 1,
+      },
+      Object {
+        "amount": 44.36,
+        "amountFraud": 44.36,
+        "nodes": Array [
+          "6LUAL4s1Q-Wcwbf2BNOpsg",
+          "UJa00n8CSmGu0bHIr3GH-Q",
+          "QKDMqTqNSLeg3ATDuYVcug",
+          "dI_NJtF6Tdq_PUh6-dlR4Q",
+          "f44OdRl4QIetsc66Bs4r-w",
+          "CoJHu3lSTbyWXxaOJq3qug",
+        ],
+        "timestamp": 1533165060000,
+        "total": 1,
+        "totalFraud": 1,
+      },
+    ]
+  }
+  defaultBarCount={18}
+  frameDelay={500}
+  frameStep={0.025}
+  height={100}
+  histogramHeightRatio={0.85}
+  minZoomUnit={1000}
+  onIntervalChange={[Function]}
+  padding={10}
+  size={
+    Object {
+      "width": 1000,
+    }
+  }
+  spaceBetweenCharts={10}
+  tooltipBarCustomization={[Function]}
+  xAccessor={[Function]}
+  xAxisFormatter={[Function]}
+  yAccessor={[Function]}
+  yAxisFormatter={[Function]}
+  yAxisTicks={3}
+>
+  <div
+    className="fdz-css-graph-histogram"
+  >
+    <svg
+      className="fdz-js-graph-histogram"
+      height={97}
+      transform="translate(20, 10)"
+      width={1000}
+    >
+      <g
+        className="fdz-css-graph-histogram-bars"
+      >
+        <rect
+          height={68}
+          key="histogram-bin-onbtmimupkd"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.763636363636365}
+          x={20.1}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-hf2torev97q"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363636}
+          x={62.86363636363637}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-jtfe30fd7u"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={105.62727272727273}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-mqv62fdzxk"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363638}
+          x={148.39090909090908}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-l1hcqboflrs"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={191.15454545454546}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-4qfcgf3ac49"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363638}
+          x={233.9181818181818}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-uyedhivqlu"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={276.6818181818182}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-f7b8c0wpzo"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363641}
+          x={319.44545454545454}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-j8pqjln5lxn"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={362.20909090909095}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-1x6dbyc7zvh"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={404.9727272727273}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-cygthmudbzi"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={447.73636363636365}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-hkw06veolvc"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={490.5}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-519b5e5cy3i"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={533.2636363636364}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-2lplna6m8q"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={576.0272727272727}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-o4qslieehz"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={618.790909090909}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-ev1h9ofb70c"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.763636363636465}
+          x={661.5545454545454}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-9vov85yascj"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363624}
+          x={704.3181818181819}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-mivv8ofihzn"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.763636363636465}
+          x={747.0818181818181}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-ux9jdxlh1y"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={789.8454545454546}
+          y={68}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-wnj7maog3j"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={832.6090909090909}
+          y={68}
+        />
+        <rect
+          height={68}
+          key="histogram-bin-00m5or0alr9"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={875.3727272727273}
+          y={0}
+        />
+        <rect
+          height={0}
+          key="histogram-bin-xqlnur7dvv"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={41.76363636363635}
+          x={918.1363636363636}
+          y={68}
+        />
+      </g>
+      <g
+        className="fdz-js-graph-histogram-axis-x fdz-css-graph-histogram-axis-x"
+        transform="translate(0, 67)"
+      />
+      <g
+        className="fdz-js-graph-histogram-axis-y fdz-css-graph-histogram-axis-y"
+        transform="translate(3, 3)"
+      />
+    </svg>
+    <div
+      className="fdz-css-graph-histogram-density__wrapper"
+    >
+      <Component
+        className="fdz-css-play-btn"
+        icon="play-circle"
+        onClick={[Function]}
+      >
+        <button />
+      </Component>
+      <div
+        className="fdz-css-graph-histogram-density"
+      >
+        <canvas
+          className="fdz-css-graph-histogram-density__canvas"
+          height={12}
+          style={
+            Object {
+              "top": 10,
+            }
+          }
+          width={960}
+        />
+        <svg
+          className="fdz-css-graph-histogram-brush"
+          height={12}
+          transform="translate(0, -12)"
+          width={960}
+        />
+      </div>
+    </div>
+  </div>
+</Histogram>
+`;

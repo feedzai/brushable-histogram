@@ -1,0 +1,71 @@
+{
+  "name": "time-histogram",
+  "version": "0.0.0",
+  "description": "A time histogram with a time brush that renders a summary of the events",
+  "main": "src/index.js",
+  "dependencies": {
+    "antd": "^3.10.9",
+    "classnames": "^2.2.6",
+    "d3-array": "^2.0.2",
+    "d3-axis": "^1.0.12",
+    "d3-brush": "^1.0.6",
+    "d3-scale": "^2.1.2",
+    "d3-selection": "^1.3.2",
+    "d3-time-format": "^2.1.3",
+    "d3-zoom": "^1.7.3",
+    "lodash": "^4.17.11",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-sizeme": "^2.5.2"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint src/**/*.js",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "publish:dry": "fdz-deploy --dry",
+    "publish:major": "fdz-deploy --major",
+    "publish:minor": "fdz-deploy --minor",
+    "publish:patch": "fdz-deploy --patch"
+  },
+  "authors": [
+    "beatriz.jorge@feedzai.com",
+    "victor.fernandes@feedzai.com",
+    "luis.cardoso@feedzai.com"
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-transform-react-jsx": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@feedzai/eslint-config-feedzai": "^1.1.0",
+    "@feedzai/eslint-config-feedzai-react": "^1.1.1",
+    "@storybook/addon-actions": "^4.0.9",
+    "@storybook/addon-knobs": "^4.0.9",
+    "@storybook/addon-links": "^4.0.9",
+    "@storybook/addons": "^4.0.9",
+    "@storybook/react": "^4.0.9",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme-to-json": "^3.3.4",
+    "eslint": "^5.9.0",
+    "eslint-plugin-jest": "^22.0.1",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "fdz-deploy": "^1.0.1",
+    "jest": "^23.6.0",
+    "node-sass": "^4.10.0",
+    "sass-loader": "^7.1.0"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  }
+}
