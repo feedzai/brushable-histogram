@@ -1,2 +1,2 @@
-# Brushable Histogram
+# brushable-histogram
 
