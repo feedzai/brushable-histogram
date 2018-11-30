@@ -169,7 +169,7 @@ exports[`render renders 1`] = `
       >
         <rect
           height={68}
-          key="histogram-bin-onbtmimupkd"
+          key="histogram-bin-0"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.763636363636365}
@@ -178,7 +178,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-hf2torev97q"
+          key="histogram-bin-1"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363636}
@@ -187,7 +187,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-jtfe30fd7u"
+          key="histogram-bin-2"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -196,7 +196,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-mqv62fdzxk"
+          key="histogram-bin-3"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363638}
@@ -205,7 +205,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-l1hcqboflrs"
+          key="histogram-bin-4"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -214,7 +214,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-4qfcgf3ac49"
+          key="histogram-bin-5"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363638}
@@ -223,7 +223,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-uyedhivqlu"
+          key="histogram-bin-6"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -232,7 +232,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-f7b8c0wpzo"
+          key="histogram-bin-7"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363641}
@@ -241,7 +241,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-j8pqjln5lxn"
+          key="histogram-bin-8"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -250,7 +250,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-1x6dbyc7zvh"
+          key="histogram-bin-9"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -259,7 +259,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-cygthmudbzi"
+          key="histogram-bin-10"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -268,7 +268,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-hkw06veolvc"
+          key="histogram-bin-11"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -277,7 +277,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-519b5e5cy3i"
+          key="histogram-bin-12"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -286,7 +286,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-2lplna6m8q"
+          key="histogram-bin-13"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -295,7 +295,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-o4qslieehz"
+          key="histogram-bin-14"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -304,7 +304,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-ev1h9ofb70c"
+          key="histogram-bin-15"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.763636363636465}
@@ -313,7 +313,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-9vov85yascj"
+          key="histogram-bin-16"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363624}
@@ -322,7 +322,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-mivv8ofihzn"
+          key="histogram-bin-17"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.763636363636465}
@@ -331,7 +331,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-ux9jdxlh1y"
+          key="histogram-bin-18"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -340,7 +340,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-wnj7maog3j"
+          key="histogram-bin-19"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -349,7 +349,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={68}
-          key="histogram-bin-00m5or0alr9"
+          key="histogram-bin-20"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}
@@ -358,7 +358,7 @@ exports[`render renders 1`] = `
         />
         <rect
           height={0}
-          key="histogram-bin-xqlnur7dvv"
+          key="histogram-bin-21"
           onMouseEnter={[Function]}
           onMouseLeave={[Function]}
           width={41.76363636363635}

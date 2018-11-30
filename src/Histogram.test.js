@@ -7,10 +7,12 @@ import sampleData from "../stories/sampleData";
 
 jest.mock("antd/es/button", () => () => <button/>);
 
+let mockCount = 0;
+
 jest.mock("./utils", () => ({
     drawRect: () => {},
     clearCanvas: () => {},
-    randomString: () => Math.random().toString(36).substr(2, 11),
+    randomString: () => mockCount++,
     callIfExists: (fn, ...params) => {
         if (typeof fn === "function") {
             return fn.apply(this, params);
