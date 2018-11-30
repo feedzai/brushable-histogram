@@ -1,5 +1,1 @@
 template: npm-module
-
-build:
-  avoid:
-    - build-artifacts
