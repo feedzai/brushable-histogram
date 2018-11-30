@@ -1,6 +1,6 @@
 {
   "name": "brushable-histogram",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A time histogram with a time brush that renders a summary of the events",
   "main": "src/index.js",
   "dependencies": {
