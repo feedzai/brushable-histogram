@@ -1,16 +1,54 @@
-# Component Boilerpate
+# Brushable Histogram
 
-This is a boilerpate project for Feedzai internal component packages.
+The brushable histogram renders a time histogram with a preview of the whole data bellow it, that can be used both to
+pan and zoom in on specific intervals as well as to see an overview of the distribution of the data.
 
-Out of the box provides:
-- Storybook setup
-- Integration with Victor's deploy-tasks
-- Baseline babel config
-- Integration with Jest and enzyme
-- Integrates with Feedzai's eslint config
+Brushable histogram works as an uncontrolled component.
+
+## Props
+
+### `data`
+**Type** `Array.<Object>` **Required**
+
+The data to render in the histogram. The properties of each element that will be used to render the histogram will be defined in the `xAccessor` and `yAccessor` props.
+
+### `xAccessor`
+**Type** `Function` **Required**
+
+A function that will receive an array element as argument and that should return the value of the x axis for that element. A possible example would be `({timestamp}) => timestamp`.
+
+### `yAccessor`
+**Type** `Function` **Required**
+
+A function that will receive an array element as argument and that should return the value of the y axis for that element. A possible example would be `({amount}) => amount`.
+
+### `xAxisFormatter`
+**Type** `Function` **Default** `(value) => String(value)`
+
+A function that will receive the value of the x axis returned by `xAccessor` and should return the formatted value as a string that will be displayed in the chart.
+
+### `yAxisFormatter`
+**Type** `Function` **Default** `(value) => String(value)`
+
+A function that will receive the value of the y axis returned by `yAccessor` and should return the formatted value as a string that will be displayed in the chart.
+
+### `height`
+**Type** `number` **Default** `100`
+
+The height in pixels that the histogram will have. Currently this does not take into account the height used by the summary chart (TODO: make this the real height).
+
+## `onIntervalChange`
+**Type** `Function` **Default** `() => {}`
+
+This callback will be called when the selected intervall changes.
+
+## `tooltipBarCustomization`
+**Type** `Function` **Default** `() => {}`
+
+To render a tooltip when the mouse hovers it this prop should be passed with a function that returns a React Element. This function will receive as an argument the data object relative to that column.
 
 ## How to install it?
-Clone this repo and change the name of the project.
+`npm install brushable-histogram` --save
 
 ## Repo Organization
 ```
@@ -18,10 +56,9 @@ Clone this repo and change the name of the project.
   |
   |\_ .storybook - This is the place of the storybook configurations (you should not need to change this often)
   |
-  |\_ src - Here you should add the source code and the unit tests
+  |\_ src - Source files including unit tests and the default scss
   |
-  |\_ stories - Here you should add the different stories for this component (Story Book)
-
+  |\_ stories - Stories that showcase the usage of the component.
 ```
 ## Develop process
 
