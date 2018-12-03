@@ -1,21 +1,18 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import Button from "antd/es/button";
 import { histogram as d3Histogram, max as d3Max, min as d3Min } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { withSize } from "react-sizeme";
 import {
-    clearCanvas,
-    drawRect,
     histogramDefaultYAxisFormatter,
     multiDateFormat,
     isHistogramDataEqual
 } from "./utils";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
-import { brushX } from "d3-brush";
+import DensityChart from "./DensityChart/DensityChart";
 
 /**
  * Histogram
@@ -84,8 +81,6 @@ export class Histogram extends PureComponent {
         yAxisTicks: 3,
         xAxisFormatter: multiDateFormat,
         yAxisFormatter: histogramDefaultYAxisFormatter,
-        brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
-        brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)",
         tooltipBarCustomization: null,
         onIntervalChange: () => {},
         minZoomUnit: 1000,
@@ -176,15 +171,18 @@ export class Histogram extends PureComponent {
             min: -1
         },
         selectedBarPosition: {},
-        showHistogramBarTooltip: false,
-        play: false
+        showHistogramBarTooltip: false
     };
+
+    constructor(props) {
+        super(props);
+
+        this._createDensityChartXScale();
+    }
 
     componentDidMount() {
         this._initializeScales();
-        this._initializeZoomAndBrush();
-
-        this.densityChartCanvasContext = this.densityChartRef.getContext("2d");
+        this._initializeZoom();
     }
 
     componentDidUpdate(prevProps) {
@@ -198,13 +196,23 @@ export class Histogram extends PureComponent {
             this._initializeScales();
 
             // Updates/initializes the zoom and brush
-            this._initializeZoomAndBrush();
+            this._initializeZoom();
         }
     }
 
-    componentWillUnmount() {
-        clearInterval(this.playInterval);
-    }
+    _onDensityChartDomainChanged = (brushSelection) => {
+        const brushSelectionMin = brushSelection[0];
+        const brushSelectionMax = brushSelection[1];
+
+        // converts for a time-scale
+        const brushedDomain = brushSelection.map(this.densityChartXScale.invert);
+
+        d3Select(this.histogramChartRef).call(this.zoom.transform, d3ZoomIdentity
+            .scale(this.state.densityChartDimensions.width / (brushSelectionMax - brushSelectionMin))
+            .translate(-brushSelection[0], 0));
+
+        this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
+    };
 
     /**
      * Handles resizing and zoom events. This functions triggers whenever a zoom or brush
@@ -232,33 +240,6 @@ export class Histogram extends PureComponent {
         this._moveBrush(brushSelection);
     };
 
-    /**
-     * Handles brush events. It will update this.state.brushedDomain according to the
-     * transformation on the event.
-     *
-     * @private
-     */
-    _onResizeBrush = () => {
-        // This occurs always when the user change the brush domain manually
-        if (d3Event.sourceEvent && d3Event.sourceEvent.type === "zoom") {
-            return;
-        }
-
-        const brushSelection = Array.isArray(d3Event.selection) ? d3Event.selection : this.densityChartXScale.range();
-
-        const brushSelectionMin = brushSelection[0];
-        const brushSelectionMax = brushSelection[1];
-
-        // converts for a time-scale
-        const brushedDomain = brushSelection.map(this.densityChartXScale.invert);
-
-        d3Select(this.histogramChartRef).call(this.zoom.transform, d3ZoomIdentity
-            .scale(this.state.densityChartDimensions.width / (brushSelectionMax - brushSelectionMin))
-            .translate(-brushSelection[0], 0));
-
-        this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
-    };
-
     _onMouseEnterHistogramBar = (evt) => {
         const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
         const bar = this.state.timeHistogramBars[index];
@@ -284,51 +265,12 @@ export class Histogram extends PureComponent {
     };
 
     /**
-     * Handles click on play button. Defines start and end for
-     * the domain-lapse and triggers _playLapse to play frames
-     * at set intervals.
-     *
-     * @private
-     */
-    _onClickPlay = () => {
-        const brushedMaxRange = this.densityChartXScale(this.state.brushDomain.max);
-        const brushedMinRange = this.densityChartXScale(this.state.brushDomain.min);
-        const frameStart = brushedMinRange;
-
-        const playEnd = this.state.densityChartDimensions.width;
-        const playStep = this.state.densityChartDimensions.width * this.props.frameStep;
-
-        this.frameEnd = frameStart;
-
-        if (brushedMaxRange === playEnd || brushedMaxRange === frameStart){
-            this.frameEnd = frameStart;
-        } else {
-            this.frameEnd = brushedMaxRange;
-        }
-
-        this.setState({
-            play: true
-        }, () => this._playLapseAtInterval(frameStart, playEnd, playStep));
-    };
-
-    /**
-     * Handles click on stop button. Will clear interval
-     * of funtion playInterval playing domain-lapse frames
-     *
-     * @private
-     */
-    _onClickStop = () => {
-        this._stopLapse();
-    };
-
-    /**
-     * Creates the zoom in the histogram chart and brush slider on the density chart
-     * using respective functions from d3.
+     * Creates the zoom in the histogram chart using the function from d3.
      * This function is called after component mounts.
 
      * @private
      */
-    _initializeZoomAndBrush() {
+    _initializeZoom() {
         // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
         const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
 
@@ -345,19 +287,12 @@ export class Histogram extends PureComponent {
             .on("zoom", this._onResizeZoom);
 
         d3Select(this.histogramChartRef).call(this.zoom);
+    }
 
-        this.brush = brushX()
-            .extent([
-                [0, 0],
-                [this.state.densityChartDimensions.width, this.state.densityChartDimensions.height]
-            ])
-            .on("brush end", this._onResizeBrush);
-
-
-        d3Select(this.densityBrushRef)
-            .call(this.brush);
-
-        this._moveBrush(this.densityChartXScale.range());
+    _createDensityChartXScale() {
+        this.densityChartXScale = scaleTime()
+            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
+            .range([ 0, this.state.densityChartDimensions.width ]);
     }
 
     /**
@@ -366,10 +301,6 @@ export class Histogram extends PureComponent {
      * @private
      */
     _initializeScales() {
-        this.densityChartXScale = scaleTime()
-            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
-            .range([ 0, this.state.densityChartDimensions.width ]);
-
         this._updateHistogramChartScales();
     }
 
@@ -401,16 +332,6 @@ export class Histogram extends PureComponent {
                 brushedDomain[1].getTime()
             ], isFullDomain);
         }
-    }
-
-    /**
-     * Moves brush on density strip plot to given domain
-     * @private
-     * @param {Array<Number>} domain
-     */
-    _moveBrush(domain) {
-        d3Select(".fdz-css-graph-histogram-brush")
-            .call(this.brush.move, domain);
     }
 
     /**
@@ -453,79 +374,7 @@ export class Histogram extends PureComponent {
             timeHistogramBars
         }, () => {
             this._renderHistogramAxis();
-            this._renderDensityChart();
         });
-    }
-
-    /**
-     * Plays a frame of the domain-lapse. Updates subset of domain
-     * to be displayed and moves brush to new domain.
-     *
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Number} step
-     * @private
-     */
-    _playFrame(start, end, step){
-        // If end of frame is at end of play region then stop domain-lapse
-
-        if (this.frameEnd >= end) {
-            this._stopLapse();
-            return;
-        }
-
-        // Check if adding a step will surprass max domain.
-        if (this.frameEnd + step >= end) {
-            // If so, set max frame to be max domain
-            this.frameEnd = end;
-        } else {
-            // Otherwise just add a step
-            this.frameEnd += step;
-        }
-        const domain = [start, this.frameEnd];
-
-        // Move brush to new frame location
-        this._moveBrush(domain);
-    }
-
-    /**
-     * Plays domain-lapse by calling _playFrame at interval
-     * to play each frame.
-     *
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Number} step
-     * @private
-     */
-    _playLapseAtInterval(start, end, step){
-        this.playInterval = setInterval(() => {
-            this._playFrame(start, end, step);
-        }, this.props.frameDelay);
-    }
-
-    /**
-     *  Stops domain-lapse at current frame. This
-     * is done by clearing the timeInterval in this.playInterval.
-     *
-     * @private
-     */
-    _stopLapse() {
-        this.setState({
-            play: false
-        }, () => clearInterval(this.playInterval));
-    }
-
-    _renderPlayButton() {
-        if (this.props.data.length <= 0) {
-            return null;
-        }
-
-        const buttonProps = {
-            icon: this.state.play ? "pause-circle" : "play-circle",
-            onClick: this.state.play ? this._onClickStop : this._onClickPlay
-        };
-
-        return <Button {...buttonProps} className="fdz-css-play-btn"/>;
     }
 
     /**
@@ -605,36 +454,6 @@ export class Histogram extends PureComponent {
     }
 
     /**
-     * Draws density strip plot in canvas.
-     * (Using canvas instead of svg for performance reasons as number of datapoints
-     * can be very large)
-     *
-     * @private
-     */
-    _renderDensityChart() {
-        clearCanvas(this.densityChartCanvasContext, this.state.densityChartDimensions.width,
-            this.state.densityChartDimensions.height);
-
-        for (let i = 0; i < this.state.data.length; ++i) {
-            const x = this.props.xAccessor(this.state.data[i]);
-            const isInsideOfBrushDomain = x >= this.state.brushDomain.min && x < this.state.brushDomain.max;
-
-            drawRect(
-                this.densityChartCanvasContext, // canvas context
-                this.densityChartXScale(x), // x
-                0, // y
-                2, // width
-                this.state.densityChartDimensions.height, // height
-                {
-                    fillStyle: isInsideOfBrushDomain
-                        ? this.props.brushDensityChartColor
-                        : this.props.brushDensityChartFadedColor
-                }
-            );
-        }
-    }
-
-    /**
      * Renders tooltip corresponding to an histogram bin.
      * Receives an object with all the data of the bin and gets corresponding
      * bar element. Then calls the prop function histogramBarTooltipFormatter
@@ -675,7 +494,6 @@ export class Histogram extends PureComponent {
         const histogramYAxisClassname = classnames("fdz-js-graph-histogram-axis-y", "fdz-css-graph-histogram-axis-y");
 
         const histogramXAxiosYPosition = (this.props.height * this.props.histogramHeightRatio) - X_AXIS_HEIGHT;
-        const densityChartCanvasStyle = { top: this.props.spaceBetweenCharts };
 
         return (
             <div className={histogramChartClass}>
@@ -704,25 +522,22 @@ export class Histogram extends PureComponent {
                         transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
                     />
                 </svg>
-                <div className="fdz-css-graph-histogram-density__wrapper" >
-                    {this._renderPlayButton()}
-                    <div className="fdz-css-graph-histogram-density">
-                        <canvas
-                            ref={(ref) => this.densityChartRef = ref}
-                            className="fdz-css-graph-histogram-density__canvas"
-                            width={this.state.densityChartDimensions.width}
-                            height={this.state.densityChartDimensions.height}
-                            style={densityChartCanvasStyle}
-                        />
-                        <svg
-                            ref={(ref) => this.densityBrushRef = ref}
-                            className="fdz-css-graph-histogram-brush"
-                            width={this.state.densityChartDimensions.width}
-                            height={this.state.densityChartDimensions.height}
-                            transform={`translate(0, -${this.state.densityChartDimensions.height})`}
-                        />
-                    </div>
-                </div>
+
+                <DensityChart
+                    width={this.state.densityChartDimensions.width}
+                    height={this.state.densityChartDimensions.height}
+                    brushDomainMax={this.state.brushDomain.max}
+                    brushDomainMin={this.state.brushDomain.min}
+                    frameStep={this.props.frameStep}
+                    frameDelay={this.props.frameDelay}
+                    spaceBetweenCharts={this.props.spaceBetweenCharts}
+                    brushDensityChartColor={this.props.brushDensityChartColor}
+                    brushDensityChartFadedColor={this.props.brushDensityChartFadedColor}
+                    densityChartXScale={this.densityChartXScale}
+                    renderPlayButton={this.props.data.length > 0}
+                    data={this.props.data}
+                    onDomainChanged={this._onDensityChartDomainChanged}
+                />
             </div>
         );
     }
