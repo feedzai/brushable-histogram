@@ -19,6 +19,8 @@ The data to render in the histogram. The properties of each element that will be
 
 A function that will receive an array element as argument and that should return the value of the x axis for that element. A possible example would be `({timestamp}) => timestamp`.
 
+**Important** The histogram assumes that `xAccessor` will return an unique value for each `data` element. 
+
 ### `yAccessor`
 **Type** `Function` **Required**
 

@@ -1,9 +1,8 @@
-import { isObject } from "lodash";
 import { timeFormat } from "d3-time-format";
 import { timeSecond, timeMinute, timeHour, timeDay, timeWeek, timeMonth, timeYear } from "d3-time";
 
-export function randomString() {
-    return `${Math.random()}`.substr(2, 11);
+export function isObject(obj) {
+    return Object(obj) === obj;
 }
 
 export function clearCanvas(context, width, height) {
@@ -36,7 +35,7 @@ export function histogramDefaultYAxisFormatter(value) {
     return "";
 }
 
-let formatMillisecond = timeFormat(".%L"),
+const formatMillisecond = timeFormat(".%L"),
     formatSecond = timeFormat(":%S"),
     formatMinute = timeFormat("%I:%M"),
     formatHour = timeFormat("%I %p"),

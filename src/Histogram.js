@@ -1,14 +1,19 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { isEqual, isEmpty, isObject, partial } from "lodash";
+import { isEqual } from "lodash";
 import Button from "antd/es/button";
 import { histogram as d3Histogram, max as d3Max, min as d3Min } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { withSize } from "react-sizeme";
-import { randomString, clearCanvas, drawRect, histogramDefaultYAxisFormatter, multiDateFormat } from "./utils";
+import {
+    clearCanvas,
+    drawRect,
+    histogramDefaultYAxisFormatter,
+    multiDateFormat
+} from "./utils";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import { brushX } from "d3-brush";
 
@@ -38,55 +43,56 @@ const BAR_TOOLTIP_ARROW_HEIGHT = 10;
 
 const MIN_ZOOM_VALUE = 1;
 
-const propTypes = {
-    data: PropTypes.array.isRequired,
-    size: PropTypes.shape({
-        width: PropTypes.number.isRequired
-    }).isRequired,
-    height: PropTypes.number,
-    padding: PropTypes.number,
-    defaultBarCount: PropTypes.number,
-    xAccessor: PropTypes.func.isRequired,
-    xAxisFormatter: PropTypes.func,
-    yAccessor: PropTypes.func.isRequired,
-    spaceBetweenCharts: PropTypes.number,
-    histogramHeightRatio: PropTypes.number,
-    barOptions: PropTypes.object,
-    yAxisTicks: PropTypes.number,
-    yAxisFormatter: PropTypes.func,
-    brushDensityChartColor: PropTypes.string,
-    brushDensityChartFadedColor: PropTypes.string,
-    tooltipBarCustomization: PropTypes.func,
-    onIntervalChange: PropTypes.func,
-    minZoomUnit: PropTypes.number,
-    frameStep: PropTypes.number,
-    frameDelay: PropTypes.number
-};
-
-const defaultProps = {
-    data: [],
-    height: 100,
-    padding: 10,
-    defaultBarCount: 18,
-    histogramHeightRatio: 0.85,
-    brushDensityChartHeightRatio: 0.15,
-    barOptions: {
-        margin: 1
-    },
-    spaceBetweenCharts: 10,
-    yAxisTicks: 3,
-    xAxisFormatter: multiDateFormat,
-    yAxisFormatter: histogramDefaultYAxisFormatter,
-    brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
-    brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)",
-    tooltipBarCustomization: () => null,
-    onIntervalChange: () => {},
-    minZoomUnit: 1000,
-    frameStep: 0.025,
-    frameDelay: 500
-};
-
 export class Histogram extends PureComponent {
+
+    static propTypes = {
+        data: PropTypes.array.isRequired,
+        size: PropTypes.shape({
+            width: PropTypes.number.isRequired
+        }).isRequired,
+        height: PropTypes.number,
+        padding: PropTypes.number,
+        defaultBarCount: PropTypes.number,
+        xAccessor: PropTypes.func.isRequired,
+        xAxisFormatter: PropTypes.func,
+        yAccessor: PropTypes.func.isRequired,
+        spaceBetweenCharts: PropTypes.number,
+        histogramHeightRatio: PropTypes.number,
+        barOptions: PropTypes.object,
+        yAxisTicks: PropTypes.number,
+        yAxisFormatter: PropTypes.func,
+        brushDensityChartColor: PropTypes.string,
+        brushDensityChartFadedColor: PropTypes.string,
+        tooltipBarCustomization: PropTypes.func,
+        onIntervalChange: PropTypes.func,
+        minZoomUnit: PropTypes.number,
+        frameStep: PropTypes.number,
+        frameDelay: PropTypes.number
+    };
+
+    static defaultProps = {
+        data: [],
+        height: 100,
+        padding: 10,
+        defaultBarCount: 18,
+        histogramHeightRatio: 0.85,
+        brushDensityChartHeightRatio: 0.15,
+        barOptions: {
+            margin: 1
+        },
+        spaceBetweenCharts: 10,
+        yAxisTicks: 3,
+        xAxisFormatter: multiDateFormat,
+        yAxisFormatter: histogramDefaultYAxisFormatter,
+        brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
+        brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)",
+        tooltipBarCustomization: null,
+        onIntervalChange: () => {},
+        minZoomUnit: 1000,
+        frameStep: 0.025,
+        frameDelay: 500
+    }
+
     /**
      * Receives the size the component should have, the padding and the how much vertical space the
      * histogram and the density plots should take and calculates the charts sizes and positions
@@ -113,21 +119,6 @@ export class Histogram extends PureComponent {
             }
         };
     }
-
-    state = {
-        data: [],
-        timeHistogramBars: [],
-        width: 10,
-        histogramChartDimensions: {},
-        densityChartDimensions: {},
-        brushDomain: {
-            max: -1,
-            min: -1
-        },
-        selectedBarPosition: {},
-        showHistogramBarTooltip: false,
-        play: false
-    };
 
     static getDerivedStateFromProps(props, state) {
         const hasWidthChanges = props.size.width !== state.width;
@@ -171,8 +162,23 @@ export class Histogram extends PureComponent {
             }
         }
 
-        return !isEmpty(nextState) ? nextState : null;
+        return Object.keys(nextState).length > 0 ? nextState : null;
     }
+
+    state = {
+        data: [],
+        timeHistogramBars: [],
+        width: 10,
+        histogramChartDimensions: {},
+        densityChartDimensions: {},
+        brushDomain: {
+            max: -1,
+            min: -1
+        },
+        selectedBarPosition: {},
+        showHistogramBarTooltip: false,
+        play: false
+    };
 
     componentDidMount() {
         this._initializeScales();
@@ -194,6 +200,10 @@ export class Histogram extends PureComponent {
             // Updates/initializes the zoom and brush
             this._initializeZoomAndBrush();
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.playInterval);
     }
 
     /**
@@ -249,28 +259,28 @@ export class Histogram extends PureComponent {
         this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
     };
 
-    _onMouseEnterHistogramBar = (bar, evt) => {
-        const hasInformation = isObject(bar);
-        const nextState = {};
+    _onMouseEnterHistogramBar = (evt) => {
+        const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
+        const bar = this.state.timeHistogramBars[index];
 
-        nextState.showHistogramBarTooltip = hasInformation;
+        const barBoundingBox = evt.currentTarget.getBoundingClientRect();
 
-        if (isObject(bar)) {
-            const barBoundingBox = evt.currentTarget.getBoundingClientRect();
+        const selectedBarPosition = {
+            top: barBoundingBox.top,
+            right: barBoundingBox.right,
+            bottom: barBoundingBox.bottom,
+            left: barBoundingBox.left,
+            width: barBoundingBox.width,
+            height: barBoundingBox.height
+        };
 
-            nextState.selectedBarPosition = {
-                top: barBoundingBox.top,
-                right: barBoundingBox.right,
-                bottom: barBoundingBox.bottom,
-                left: barBoundingBox.left,
-                width: barBoundingBox.width,
-                height: barBoundingBox.height
-            };
+        this.setState({ showHistogramBarTooltip: true, currentBar: bar, selectedBarPosition });
+    };
 
-            nextState.currentBar = bar;
-        }
-
-        this.setState(nextState);
+    _onMouseLeaveHistogramBar = () => {
+        this.setState({
+            showHistogramBarTooltip: false
+        });
     };
 
     /**
@@ -310,242 +320,6 @@ export class Histogram extends PureComponent {
     _onClickStop = () => {
         this._stopLapse();
     };
-
-    render() {
-        // Histogram classNames
-        const histogramChartClass = classnames("fdz-css-graph-histogram");
-        const histogramXAxisClassname = classnames("fdz-js-graph-histogram-axis-x", "fdz-css-graph-histogram-axis-x");
-        const histogramYAxisClassname = classnames("fdz-js-graph-histogram-axis-y", "fdz-css-graph-histogram-axis-y");
-
-        const histogramXAxiosYPosition = (this.props.height * this.props.histogramHeightRatio) - X_AXIS_HEIGHT;
-        const densityChartCanvasStyle = { top: this.props.spaceBetweenCharts };
-
-        return (
-            <div className={histogramChartClass}>
-                {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
-                <svg
-                    ref={(ref) => this.histogramChartRef = ref}
-                    className="fdz-js-graph-histogram"
-                    width={this.props.size.width}
-                    height={this.props.height - Y_AXIS_PADDING}
-                    transform={`translate(${2 * this.props.padding}, ${this.props.padding})`}
-                >
-                    {/* Rendering the histogram bars */}
-                    <g className="fdz-css-graph-histogram-bars">
-                        {this._renderHistogramBars(this.state.timeHistogramBars)}
-                    </g>
-
-                    {/* Rendering the histogram x-axis */}
-                    <g ref={(ref) => this.histogramXAxisRef = ref}
-                        className={histogramXAxisClassname}
-                        transform={`translate(0, ${histogramXAxiosYPosition})`}
-                    />
-
-                    {/* Rendering the histogram y-axis */}
-                    <g ref={(ref) => this.histogramYAxisRef = ref}
-                        className={histogramYAxisClassname}
-                        transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
-                    />
-                </svg>
-                <div className="fdz-css-graph-histogram-density__wrapper" >
-                    {this._renderPlayButton()}
-                    <div className="fdz-css-graph-histogram-density">
-                        <canvas
-                            ref={(ref) => this.densityChartRef = ref}
-                            className="fdz-css-graph-histogram-density__canvas"
-                            width={this.state.densityChartDimensions.width}
-                            height={this.state.densityChartDimensions.height}
-                            style={densityChartCanvasStyle}
-                        />
-                        <svg
-                            ref={(ref) => this.densityBrushRef = ref}
-                            className="fdz-css-graph-histogram-brush"
-                            width={this.state.densityChartDimensions.width}
-                            height={this.state.densityChartDimensions.height}
-                            transform={`translate(0, -${this.state.densityChartDimensions.height})`}
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    _renderPlayButton() {
-        if (this.props.data.length <= 0) {
-            return null;
-        }
-
-        const buttonProps = {
-            icon: this.state.play ? "pause-circle" : "play-circle",
-            onClick: this.state.play ? this._onClickStop : this._onClickPlay
-        };
-
-        return <Button {...buttonProps} className="fdz-css-play-btn"/>;
-    }
-
-    /**
-     * Renders histogram bars from array of histogram bins.
-     *
-     * @param {Array} timeHistogramBars
-     * @returns {Array.<React.Element>|null}
-     * @private
-     */
-    _renderHistogramBars(timeHistogramBars) {
-        if (!isEmpty(timeHistogramBars)) {
-            return timeHistogramBars.map((bar) => {
-                const barWidth = this.histogramChartXScale(bar.x1)
-                    - this.histogramChartXScale(bar.x0) - this.props.barOptions.margin;
-                const barHeight = this.state.histogramChartDimensions.height - this.histogramChartYScale(bar.yValue);
-
-
-                if (barWidth <= 0) {
-                    return null;
-                }
-
-                const barX = this.histogramChartXScale(bar.x0) + this.props.barOptions.margin / 2;
-                const barY = this.histogramChartYScale(bar.yValue);
-
-                return (
-                    <rect
-                        key={`histogram-bin-${randomString()}`}
-                        x={barX}
-                        y={barY}
-                        width={barWidth}
-                        height={barHeight}
-                        onMouseEnter={partial(this._onMouseEnterHistogramBar, bar)}
-                        onMouseLeave={partial(this._onMouseEnterHistogramBar, null)}
-                    />
-                );
-            });
-        }
-
-        return null;
-    }
-
-    /**
-     * This function will render the X and Y axis. This means it will set their scales
-     * as well as how many ticks, their respective positions and how their text should
-     * be formatted.
-     *
-     * @private
-     */
-    _renderHistogramAxis() {
-        const histogramXAxisScale = scaleTime()
-            .domain([
-                this.histogramChartXScale.invert(0),
-                this.histogramChartXScale.invert(this.state.histogramChartDimensions.width)
-            ])
-            .range([0, this.state.histogramChartDimensions.width]);
-
-        // Setting the x-axis histogram representation.
-        const histogramXAxis = d3AxisBottom(histogramXAxisScale)
-            .tickValues(this.histogramChartXScale.ticks(this.props.defaultBarCount / BARS_TICK_RATIO))
-            .tickFormat(this.props.xAxisFormatter);
-
-        d3Select(this.histogramXAxisRef)
-            .call(histogramXAxis);
-
-        const histogramYAxis = d3AxisLeft(this.histogramChartYScale)
-            .ticks(this.props.yAxisTicks)
-            .tickSize(0)
-            .tickFormat(this.props.yAxisFormatter);
-
-        d3Select(this.histogramYAxisRef)
-            .call(histogramYAxis);
-    }
-
-    /**
-     * Draws density strip plot in canvas.
-     * (Using canvas instead of svg for performance reasons as number of datapoints
-     * can be very large)
-     *
-     * @private
-     */
-    _renderDensityChart() {
-        clearCanvas(this.densityChartCanvasContext, this.state.densityChartDimensions.width,
-            this.state.densityChartDimensions.height);
-
-        for (let i = 0; i < this.state.data.length; ++i) {
-            const x = this.props.xAccessor(this.state.data[i]);
-            const isInsideOfBrushDomain = x >= this.state.brushDomain.min && x < this.state.brushDomain.max;
-
-            drawRect(
-                this.densityChartCanvasContext, // canvas context
-                this.densityChartXScale(x), // x
-                0, // y
-                2, // width
-                this.state.densityChartDimensions.height, // height
-                {
-                    fillStyle: isInsideOfBrushDomain
-                        ? this.props.brushDensityChartColor
-                        : this.props.brushDensityChartFadedColor
-                }
-            );
-        }
-    }
-
-    /**
-     * Renders tooltip corresponding to an histogram bin.
-     * Receives an object with all the data of the bin and gets corresponding
-     * bar element. Then calls the prop function histogramBarTooltipFormatter
-     * to get the tooltip element to be rendered. Updates states with this element
-     * and toggles showHistogramBarTooltip.
-     *
-     * @param {Object} currentBar
-     * @private
-     */
-
-    _renderBarTooltip(currentBar) {
-        const tooltipStyle = {
-            position: "fixed",
-            left: `${this.state.selectedBarPosition.left + this.state.selectedBarPosition.width / 2}px`,
-            top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
-        };
-        const tooltipElement = this.props.tooltipBarCustomization(currentBar);
-
-        if (!isObject(tooltipElement)) {
-            return null;
-        }
-
-        return (
-            <div
-                className="fdz-css-graph-histogram-bars--tooltip"
-                style={tooltipStyle}
-            >
-                {tooltipElement}
-            </div>
-        );
-    }
-
-    /**
-     * Check if brushed domain changed and if so, updates the component state
-     * and calls prop function for interval change.
-     *
-     * @param {Array<Number>} brushedDomain
-     * @private
-     */
-    _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain){
-        if (brushedDomain[0] !== this.state.brushDomain.min
-            && brushedDomain[1] !== this.state.brushDomain.max){
-
-            this.setState({
-                brushDomain: {
-                    min: brushedDomain[0],
-                    max: brushedDomain[1]
-                },
-                showHistogramBarTooltip: false
-            }, this._updateHistogramChartScales);
-
-            const fullDomain = this.densityChartXScale.domain();
-            const isFullDomain = fullDomain[0].getTime() === brushedDomain[0].getTime()
-                && fullDomain[1].getTime() === brushedDomain[1].getTime();
-
-            this.props.onIntervalChange([
-                brushedDomain[0].getTime(),
-                brushedDomain[1].getTime()
-            ], isFullDomain);
-        }
-    }
 
     /**
      * Creates the zoom in the histogram chart and brush slider on the density chart
@@ -597,6 +371,36 @@ export class Histogram extends PureComponent {
             .range([ 0, this.state.densityChartDimensions.width ]);
 
         this._updateHistogramChartScales();
+    }
+
+    /**
+     * Check if brushed domain changed and if so, updates the component state
+     * and calls prop function for interval change.
+     *
+     * @param {Array<Number>} brushedDomain
+     * @private
+     */
+    _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain){
+        if (brushedDomain[0] !== this.state.brushDomain.min
+            && brushedDomain[1] !== this.state.brushDomain.max){
+
+            this.setState({
+                brushDomain: {
+                    min: brushedDomain[0],
+                    max: brushedDomain[1]
+                },
+                showHistogramBarTooltip: false
+            }, this._updateHistogramChartScales);
+
+            const fullDomain = this.densityChartXScale.domain();
+            const isFullDomain = fullDomain[0].getTime() === brushedDomain[0].getTime()
+                && fullDomain[1].getTime() === brushedDomain[1].getTime();
+
+            this.props.onIntervalChange([
+                brushedDomain[0].getTime(),
+                brushedDomain[1].getTime()
+            ], isFullDomain);
+        }
     }
 
     /**
@@ -710,9 +514,218 @@ export class Histogram extends PureComponent {
             play: false
         }, () => clearInterval(this.playInterval));
     }
-}
 
-Histogram.propTypes = propTypes;
-Histogram.defaultProps = defaultProps;
+    _renderPlayButton() {
+        if (this.props.data.length <= 0) {
+            return null;
+        }
+
+        const buttonProps = {
+            icon: this.state.play ? "pause-circle" : "play-circle",
+            onClick: this.state.play ? this._onClickStop : this._onClickPlay
+        };
+
+        return <Button {...buttonProps} className="fdz-css-play-btn"/>;
+    }
+
+    /**
+     * Renders histogram bars from array of histogram bins.
+     *
+     * @param {Array} timeHistogramBars
+     * @returns {Array.<React.Element>|null}
+     * @private
+     */
+    _renderHistogramBars(timeHistogramBars) {
+        return timeHistogramBars.map((bar, index) => {
+            const barWidth = this.histogramChartXScale(bar.x1)
+                - this.histogramChartXScale(bar.x0) - this.props.barOptions.margin;
+            const barHeight = this.state.histogramChartDimensions.height - this.histogramChartYScale(bar.yValue);
+
+            if (barWidth <= 0) {
+                return null;
+            }
+
+            const barX = this.histogramChartXScale(bar.x0) + this.props.barOptions.margin / 2;
+            const barY = this.histogramChartYScale(bar.yValue);
+
+            let onMouseEnter = this._onMouseEnterHistogramBar;
+            let onMouseLeave = this._onMouseLeaveHistogramBar;
+
+            // If there is no tooltip we don't need the mouse enter and leave handlers
+            if (typeof this.props.tooltipBarCustomization === "function" === false) {
+                onMouseEnter = null;
+                onMouseLeave = null;
+            }
+
+            return (
+                <rect
+                    key={`histogram-bin-${bar.x0.getTime()}`}
+                    dataindex={index}
+                    x={barX}
+                    y={barY}
+                    width={barWidth}
+                    height={barHeight}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                />
+            );
+        });
+    }
+
+    /**
+     * This function will render the X and Y axis. This means it will set their scales
+     * as well as how many ticks, their respective positions and how their text should
+     * be formatted.
+     *
+     * @private
+     */
+    _renderHistogramAxis() {
+        const histogramXAxisScale = scaleTime()
+            .domain([
+                this.histogramChartXScale.invert(0),
+                this.histogramChartXScale.invert(this.state.histogramChartDimensions.width)
+            ])
+            .range([0, this.state.histogramChartDimensions.width]);
+
+        // Setting the x-axis histogram representation.
+        const histogramXAxis = d3AxisBottom(histogramXAxisScale)
+            .tickValues(this.histogramChartXScale.ticks(this.props.defaultBarCount / BARS_TICK_RATIO))
+            .tickFormat(this.props.xAxisFormatter);
+
+        d3Select(this.histogramXAxisRef)
+            .call(histogramXAxis);
+
+        const histogramYAxis = d3AxisLeft(this.histogramChartYScale)
+            .ticks(this.props.yAxisTicks)
+            .tickSize(0)
+            .tickFormat(this.props.yAxisFormatter);
+
+        d3Select(this.histogramYAxisRef)
+            .call(histogramYAxis);
+    }
+
+    /**
+     * Draws density strip plot in canvas.
+     * (Using canvas instead of svg for performance reasons as number of datapoints
+     * can be very large)
+     *
+     * @private
+     */
+    _renderDensityChart() {
+        clearCanvas(this.densityChartCanvasContext, this.state.densityChartDimensions.width,
+            this.state.densityChartDimensions.height);
+
+        for (let i = 0; i < this.state.data.length; ++i) {
+            const x = this.props.xAccessor(this.state.data[i]);
+            const isInsideOfBrushDomain = x >= this.state.brushDomain.min && x < this.state.brushDomain.max;
+
+            drawRect(
+                this.densityChartCanvasContext, // canvas context
+                this.densityChartXScale(x), // x
+                0, // y
+                2, // width
+                this.state.densityChartDimensions.height, // height
+                {
+                    fillStyle: isInsideOfBrushDomain
+                        ? this.props.brushDensityChartColor
+                        : this.props.brushDensityChartFadedColor
+                }
+            );
+        }
+    }
+
+    /**
+     * Renders tooltip corresponding to an histogram bin.
+     * Receives an object with all the data of the bin and gets corresponding
+     * bar element. Then calls the prop function histogramBarTooltipFormatter
+     * to get the tooltip element to be rendered. Updates states with this element
+     * and toggles showHistogramBarTooltip.
+     *
+     * @param {Object} currentBar
+     * @private
+     */
+
+    _renderBarTooltip(currentBar) {
+        const tooltipStyle = {
+            position: "fixed",
+            left: `${this.state.selectedBarPosition.left + this.state.selectedBarPosition.width / 2}px`,
+            top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
+        };
+
+        if (typeof this.props.tooltipBarCustomization === "function" === false) {
+            return null;
+        }
+
+        const tooltipElement = this.props.tooltipBarCustomization(currentBar);
+
+        return (
+            <div
+                className="fdz-css-graph-histogram-bars--tooltip"
+                style={tooltipStyle}
+            >
+                {tooltipElement}
+            </div>
+        );
+    }
+
+    render() {
+        // Histogram classNames
+        const histogramChartClass = classnames("fdz-css-graph-histogram");
+        const histogramXAxisClassname = classnames("fdz-js-graph-histogram-axis-x", "fdz-css-graph-histogram-axis-x");
+        const histogramYAxisClassname = classnames("fdz-js-graph-histogram-axis-y", "fdz-css-graph-histogram-axis-y");
+
+        const histogramXAxiosYPosition = (this.props.height * this.props.histogramHeightRatio) - X_AXIS_HEIGHT;
+        const densityChartCanvasStyle = { top: this.props.spaceBetweenCharts };
+
+        return (
+            <div className={histogramChartClass}>
+                {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
+                <svg
+                    ref={(ref) => this.histogramChartRef = ref}
+                    className="fdz-js-graph-histogram"
+                    width={this.props.size.width}
+                    height={this.props.height - Y_AXIS_PADDING}
+                    transform={`translate(${2 * this.props.padding}, ${this.props.padding})`}
+                >
+                    {/* Rendering the histogram bars */}
+                    <g className="fdz-css-graph-histogram-bars">
+                        {this._renderHistogramBars(this.state.timeHistogramBars)}
+                    </g>
+
+                    {/* Rendering the histogram x-axis */}
+                    <g ref={(ref) => this.histogramXAxisRef = ref}
+                        className={histogramXAxisClassname}
+                        transform={`translate(0, ${histogramXAxiosYPosition})`}
+                    />
+
+                    {/* Rendering the histogram y-axis */}
+                    <g ref={(ref) => this.histogramYAxisRef = ref}
+                        className={histogramYAxisClassname}
+                        transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
+                    />
+                </svg>
+                <div className="fdz-css-graph-histogram-density__wrapper" >
+                    {this._renderPlayButton()}
+                    <div className="fdz-css-graph-histogram-density">
+                        <canvas
+                            ref={(ref) => this.densityChartRef = ref}
+                            className="fdz-css-graph-histogram-density__canvas"
+                            width={this.state.densityChartDimensions.width}
+                            height={this.state.densityChartDimensions.height}
+                            style={densityChartCanvasStyle}
+                        />
+                        <svg
+                            ref={(ref) => this.densityBrushRef = ref}
+                            className="fdz-css-graph-histogram-brush"
+                            width={this.state.densityChartDimensions.width}
+                            height={this.state.densityChartDimensions.height}
+                            transform={`translate(0, -${this.state.densityChartDimensions.height})`}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 export default withSize()(Histogram);
