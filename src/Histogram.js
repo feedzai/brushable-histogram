@@ -1,7 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import classnames from "classnames";
-import { isEqual } from "lodash";
 import Button from "antd/es/button";
 import { histogram as d3Histogram, max as d3Max, min as d3Min } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
@@ -12,7 +11,8 @@ import {
     clearCanvas,
     drawRect,
     histogramDefaultYAxisFormatter,
-    multiDateFormat
+    multiDateFormat,
+    isHistogramDataEqual
 } from "./utils";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import { brushX } from "d3-brush";
@@ -122,7 +122,7 @@ export class Histogram extends PureComponent {
 
     static getDerivedStateFromProps(props, state) {
         const hasWidthChanges = props.size.width !== state.width;
-        const hasInformationChanged = !isEqual(props.data, state.data);
+        const hasInformationChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, state.data);
 
         let nextState = {};
 
@@ -190,7 +190,7 @@ export class Histogram extends PureComponent {
     componentDidUpdate(prevProps) {
         const hasWidthChanged = prevProps.size.width !== this.props.size.width;
         const hasDataChanged = prevProps.data.length !== this.state.data.length
-            || !isEqual(prevProps.data, this.state.data);
+            || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.state.data);
 
         if ((hasWidthChanged || hasDataChanged)) {
 

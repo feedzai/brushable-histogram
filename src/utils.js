@@ -53,3 +53,20 @@ export function multiDateFormat(date) {
                         : timeYear(date) < date ? formatMonth
                             : formatYear)(date);
 }
+
+export function isHistogramDataEqual(xAcessor, yAcessor, data1, data2) {
+    if (data1.length !== data2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < data1.length; i++) {
+        if (xAcessor(data1[i]) !== xAcessor(data2[i])) {
+            return false;
+        }
+        if (yAcessor(data1[i]) !== yAcessor(data2[i])) {
+            return false;
+        }
+    }
+
+    return true;
+}

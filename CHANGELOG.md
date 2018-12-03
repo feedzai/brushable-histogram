@@ -5,13 +5,14 @@
 [ ] Add more unit tests
 [ ] Extract the "timeline" to another module
 [ ] Remove the dependency on andtd
-[ ] Remove the dependency on lodash
+[x] Remove the dependency on lodash
 [x] Stop `_playLapseAtInterval` if the component was unmounted
 [x] Improve method order inside main component
 [ ] Add missing jsdoc
 [x] Remove the `randomString` key hack
 [ ] Make the play button optional
 [ ] Benchmark with a lot of nodes
+[ ] Handle different widths and heights correctly
 
 # 1.0.5 (2018/12/05)
 - Removes usage of `.toString()` to avoid requiring core-js.
