@@ -55,6 +55,7 @@ export class Histogram extends PureComponent {
         yAccessor: PropTypes.func.isRequired,
         spaceBetweenCharts: PropTypes.number,
         histogramHeightRatio: PropTypes.number,
+        brushDensityChartHeightRatio: PropTypes.number,
         barOptions: PropTypes.object,
         yAxisTicks: PropTypes.number,
         yAxisFormatter: PropTypes.func,
@@ -160,22 +161,29 @@ export class Histogram extends PureComponent {
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
 
-    state = {
-        data: [],
-        timeHistogramBars: [],
-        width: 10,
-        histogramChartDimensions: {},
-        densityChartDimensions: {},
-        brushDomain: {
-            max: -1,
-            min: -1
-        },
-        selectedBarPosition: {},
-        showHistogramBarTooltip: false
-    };
-
     constructor(props) {
         super(props);
+
+        // TODO: avoid duplicated work
+        const min = d3Min(props.data, props.xAccessor);
+        const max = d3Max(props.data, props.xAccessor);
+        const { histogramChartDimensions, densityChartDimensions } =
+                Histogram._calculateChartsPositionsAndSizing(props.height, props.size.width, props.padding,
+                    props.histogramHeightRatio, props.brushDensityChartHeightRatio);
+
+        this.state = {
+            data: [],
+            timeHistogramBars: [],
+            width: 10,
+            histogramChartDimensions: histogramChartDimensions,
+            densityChartDimensions: densityChartDimensions,
+            brushDomain: {
+                max,
+                min
+            },
+            selectedBarPosition: {},
+            showHistogramBarTooltip: false
+        };
 
         this.pureOperations();
     }
@@ -516,7 +524,7 @@ export class Histogram extends PureComponent {
                     densityChartXScale={this.densityChartXScale}
                     renderPlayButton={this.state.data.length > 0}
                     data={this.state.data}
-                    onDomainChanged={() => {} /*this._onDensityChartDomainChanged*/ }
+                    onDomainChanged={this._onDensityChartDomainChanged}
                 />
             </div>
         );
