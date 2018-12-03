@@ -19,6 +19,7 @@ export default class DensityChart extends PureComponent {
         frameStep: PropTypes.number.isRequired,
         frameDelay: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
+        xAccessor: PropTypes.func.isRequired,
         brushDensityChartColor: PropTypes.string,
         brushDensityChartFadedColor: PropTypes.string,
         renderPlayButton: PropTypes.bool
@@ -53,13 +54,17 @@ export default class DensityChart extends PureComponent {
             ])
             .on("brush end", this._onResizeBrush);
 
+        this._updateBrush();
+
         this._moveBrush(densityChartXScale.range());
 
-        this._updateBrush();
+        this._renderDensityChart();
     }
 
     componentDidUpdate() {
         this._updateBrush();
+
+        this._renderDensityChart();
     }
 
     componentWillUnmount() {
@@ -129,6 +134,16 @@ export default class DensityChart extends PureComponent {
     }
 
     /**
+     * Moves brush on density strip plot to given domain
+     * @private
+     * @param {Array<Number>} domain
+     */
+    _moveBrush = (domain) => {
+        d3Select(this.densityBrushRef.current)
+            .call(this.brush.move, domain);
+    };
+
+    /**
      * Plays a frame of the domain-lapse. Updates subset of domain
      * to be displayed and moves brush to new domain.
      *
@@ -186,22 +201,8 @@ export default class DensityChart extends PureComponent {
         }, () => clearInterval(this.playInterval));
     }
 
-    /**
-     * Moves brush on density strip plot to given domain
-     * @private
-     * @param {Array<Number>} domain
-     */
-    _moveBrush = (domain) => {
-        if (!this.densityBrushRef.current) {
-            console.log("Not available :(");
-        }
-
-        d3Select(this.densityBrushRef.current)
-            .call(this.brush.move, domain);
-    };
-
     _renderPlayButton() {
-        if (this.props.renderPlayButton) {
+        if (!this.props.renderPlayButton) {
             return null;
         }
 

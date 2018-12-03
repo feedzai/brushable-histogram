@@ -177,12 +177,38 @@ export class Histogram extends PureComponent {
     constructor(props) {
         super(props);
 
-        this._createDensityChartXScale();
+        this.pureOperations();
+    }
+
+    pureOperations() {
+        this.densityChartXScale = scaleTime()
+            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
+            .range([ 0, this.state.densityChartDimensions.width ]);
+
+        // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
+        const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
+
+        this.zoom = d3Zoom()
+            .scaleExtent([MIN_ZOOM_VALUE, MAX_ZOOM_VALUE])
+            .translateExtent([
+                [0, 0],
+                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+            ])
+            .extent([
+                [0, 0],
+                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+            ])
+            .on("zoom", this._onResizeZoom);
+    }
+
+    unpureOperations() {
+        d3Select(this.histogramChartRef).call(this.zoom);
+
+        this._updateHistogramChartScales();
     }
 
     componentDidMount() {
-        this._initializeScales();
-        this._initializeZoom();
+        this.unpureOperations();
     }
 
     componentDidUpdate(prevProps) {
@@ -192,11 +218,8 @@ export class Histogram extends PureComponent {
 
         if ((hasWidthChanged || hasDataChanged)) {
 
-            // Updates/initializes the x-axis and y-axis scales
-            this._initializeScales();
-
-            // Updates/initializes the zoom and brush
-            this._initializeZoom();
+            this.pureOperations();
+            this.unpureOperations();
         }
     }
 
@@ -234,10 +257,6 @@ export class Histogram extends PureComponent {
         const brushedDomain = transform.rescaleX(this.densityChartXScale).domain();
 
         this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
-
-        const brushSelection = brushedDomain.map(this.densityChartXScale);
-
-        this._moveBrush(brushSelection);
     };
 
     _onMouseEnterHistogramBar = (evt) => {
@@ -263,46 +282,6 @@ export class Histogram extends PureComponent {
             showHistogramBarTooltip: false
         });
     };
-
-    /**
-     * Creates the zoom in the histogram chart using the function from d3.
-     * This function is called after component mounts.
-
-     * @private
-     */
-    _initializeZoom() {
-        // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
-        const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
-
-        this.zoom = d3Zoom()
-            .scaleExtent([MIN_ZOOM_VALUE, MAX_ZOOM_VALUE])
-            .translateExtent([
-                [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
-            ])
-            .extent([
-                [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
-            ])
-            .on("zoom", this._onResizeZoom);
-
-        d3Select(this.histogramChartRef).call(this.zoom);
-    }
-
-    _createDensityChartXScale() {
-        this.densityChartXScale = scaleTime()
-            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
-            .range([ 0, this.state.densityChartDimensions.width ]);
-    }
-
-    /**
-     * Defines X scale for density chart and calls function to update X and Y scales fot histogram bar chart
-     *
-     * @private
-     */
-    _initializeScales() {
-        this._updateHistogramChartScales();
-    }
 
     /**
      * Check if brushed domain changed and if so, updates the component state
@@ -530,13 +509,14 @@ export class Histogram extends PureComponent {
                     brushDomainMin={this.state.brushDomain.min}
                     frameStep={this.props.frameStep}
                     frameDelay={this.props.frameDelay}
+                    xAccessor={this.props.xAccessor}
                     spaceBetweenCharts={this.props.spaceBetweenCharts}
                     brushDensityChartColor={this.props.brushDensityChartColor}
                     brushDensityChartFadedColor={this.props.brushDensityChartFadedColor}
                     densityChartXScale={this.densityChartXScale}
-                    renderPlayButton={this.props.data.length > 0}
-                    data={this.props.data}
-                    onDomainChanged={this._onDensityChartDomainChanged}
+                    renderPlayButton={this.state.data.length > 0}
+                    data={this.state.data}
+                    onDomainChanged={() => {} /*this._onDensityChartDomainChanged*/ }
                 />
             </div>
         );
