@@ -5,6 +5,8 @@ pan and zoom in on specific intervals as well as to see an overview of the distr
 
 Brushable histogram works as an uncontrolled component.
 
+Kudos to Beatriz Malveiro for the ideia and first proptotype and to Victor Fernandes for improvements to that first version.
+
 ## Props
 
 ### `data`
@@ -28,7 +30,7 @@ A function that will receive an array element as argument and that should return
 A function that will receive the value of the x axis returned by `xAccessor` and should return the formatted value as a string that will be displayed in the chart.
 
 ### `yAxisFormatter`
-**Type** `Function` **Default** `(value) => String(value)`
+**Type** `Function` **Default** Only renders integer numbers.
 
 A function that will receive the value of the y axis returned by `yAccessor` and should return the formatted value as a string that will be displayed in the chart.
 

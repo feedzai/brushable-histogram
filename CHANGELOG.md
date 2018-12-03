@@ -1,5 +1,12 @@
 # Brushable Histogram
 
+# 1.1.0 (TBD)
+[x] Document the props and have better defaults
+[ ] Add more unit tests
+[ ] Extract the "timeline" to another module
+[ ] Remove the dependency on andtd
+[ ] Remove the dependency on lodash
+
 # 1.0.5 (2018/12/05)
 - Removes usage of `.toString()` to avoid requiring core-js.
 

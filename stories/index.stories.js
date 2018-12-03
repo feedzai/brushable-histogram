@@ -3,7 +3,7 @@ import { timeFormat } from "d3-time-format";
 
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { withKnobs, boolean, text } from "@storybook/addon-knobs";
+import { withKnobs, boolean, text, number } from "@storybook/addon-knobs";
 
 import sampleData from "./sampleData";
 import Histogram from "../src/Histogram";
@@ -13,14 +13,7 @@ const stories = storiesOf("Histogram", module);
 
 stories.addDecorator(withKnobs);
 
-const formatMinute = timeFormat("%I:%M");
-
-function histogramYAxisFormatter(value) {
-    if (value > 0 && Number.isInteger(value)) {
-        return value;
-    }
-    return "";
-}
+const formatMinute = timeFormat("%M");
 
 function histogramTooltipBar(bar) {
     return (
@@ -36,14 +29,31 @@ function histogramTooltipBar(bar) {
 }
 
 stories
-    .add("simple example", () =>
+    .add("bare bones example", () =>
         (<Histogram
             data={sampleData}
-            height={100}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            yAccessor={(datapoint) => datapoint.total}
+        />))
+    .add("have a custom tooltip", () =>
+        (<Histogram
+            data={sampleData}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            yAccessor={(datapoint) => datapoint.total}
+            tooltipBarCustomization={histogramTooltipBar}
+        />))
+    .add("have custom axis formatters", () =>
+        (<Histogram
+            data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             xAxisFormatter={formatMinute}
+            yAxisFormatter={(value) => `${value} carrots`}
             yAccessor={(datapoint) => datapoint.total}
-            yAxisFormatter={histogramYAxisFormatter}
-            tooltipBarCustomization={histogramTooltipBar}
-            onIntervalChange={() => {}}
+        />))
+    .add("have custom a height", () =>
+        (<Histogram
+            data={sampleData}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            yAccessor={(datapoint) => datapoint.total}
+            height={number("height", 150)}
         />));

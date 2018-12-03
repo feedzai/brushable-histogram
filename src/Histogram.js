@@ -8,7 +8,7 @@ import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { withSize } from "react-sizeme";
-import { randomString, callIfExists, clearCanvas, drawRect } from "./utils";
+import { randomString, clearCanvas, drawRect, histogramDefaultYAxisFormatter, multiDateFormat } from "./utils";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import { brushX } from "d3-brush";
 
@@ -21,7 +21,6 @@ import { brushX } from "d3-brush";
  * @author Beatriz Malveiro Jorge (beatriz.jorge@feedzai.com)
  * @author Victor Fernandes (victor.fernandes@feedzai.com) ("productization" process)
  *
- * @since @@@feedzai.next.release@@@
  */
 
 // Constants
@@ -44,21 +43,21 @@ const propTypes = {
     size: PropTypes.shape({
         width: PropTypes.number.isRequired
     }).isRequired,
-    height: PropTypes.number.isRequired,
+    height: PropTypes.number,
     padding: PropTypes.number,
     defaultBarCount: PropTypes.number,
     xAccessor: PropTypes.func.isRequired,
-    xAxisFormatter: PropTypes.func.isRequired,
+    xAxisFormatter: PropTypes.func,
     yAccessor: PropTypes.func.isRequired,
     spaceBetweenCharts: PropTypes.number,
     histogramHeightRatio: PropTypes.number,
     barOptions: PropTypes.object,
     yAxisTicks: PropTypes.number,
-    yAxisFormatter: PropTypes.func.isRequired,
+    yAxisFormatter: PropTypes.func,
     brushDensityChartColor: PropTypes.string,
     brushDensityChartFadedColor: PropTypes.string,
-    tooltipBarCustomization: PropTypes.func.isRequired,
-    onIntervalChange: PropTypes.func.isRequired,
+    tooltipBarCustomization: PropTypes.func,
+    onIntervalChange: PropTypes.func,
     minZoomUnit: PropTypes.number,
     frameStep: PropTypes.number,
     frameDelay: PropTypes.number
@@ -66,6 +65,7 @@ const propTypes = {
 
 const defaultProps = {
     data: [],
+    height: 100,
     padding: 10,
     defaultBarCount: 18,
     histogramHeightRatio: 0.85,
@@ -75,8 +75,12 @@ const defaultProps = {
     },
     spaceBetweenCharts: 10,
     yAxisTicks: 3,
+    xAxisFormatter: multiDateFormat,
+    yAxisFormatter: histogramDefaultYAxisFormatter,
     brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
     brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)",
+    tooltipBarCustomization: () => null,
+    onIntervalChange: () => {},
     minZoomUnit: 1000,
     frameStep: 0.025,
     frameDelay: 500
@@ -497,13 +501,18 @@ export class Histogram extends PureComponent {
             left: `${this.state.selectedBarPosition.left + this.state.selectedBarPosition.width / 2}px`,
             top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
         };
+        const tooltipElement = this.props.tooltipBarCustomization(currentBar);
+
+        if (!isObject(tooltipElement)) {
+            return null;
+        }
 
         return (
             <div
                 className="fdz-css-graph-histogram-bars--tooltip"
                 style={tooltipStyle}
             >
-                {callIfExists(this.props.tooltipBarCustomization(currentBar))}
+                {tooltipElement}
             </div>
         );
     }

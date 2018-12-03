@@ -1,15 +1,9 @@
-import { isFunction, isObject } from "lodash";
+import { isObject } from "lodash";
+import { timeFormat } from "d3-time-format";
+import { timeSecond, timeMinute, timeHour, timeDay, timeWeek, timeMonth, timeYear } from "d3-time";
 
 export function randomString() {
     return `${Math.random()}`.substr(2, 11);
-}
-
-export function callIfExists(fn, ...params) {
-    if (isFunction(fn)) {
-        return fn.apply(this, params);
-    }
-
-    return fn;
 }
 
 export function clearCanvas(context, width, height) {
@@ -33,4 +27,30 @@ export function drawRect(canvasContext, x = 0, y = 0, width = 0, height = 0, opt
     canvasContext.fillStyle = isObject(options) && (options.fillStyle) ? options.fillStyle : "transparent";
 
     canvasContext.fillRect(x, y, width, height);
+}
+
+export function histogramDefaultYAxisFormatter(value) {
+    if (value > 0 && Number.isInteger(value)) {
+        return value;
+    }
+    return "";
+}
+
+let formatMillisecond = timeFormat(".%L"),
+    formatSecond = timeFormat(":%S"),
+    formatMinute = timeFormat("%I:%M"),
+    formatHour = timeFormat("%I %p"),
+    formatDay = timeFormat("%a %d"),
+    formatWeek = timeFormat("%b %d"),
+    formatMonth = timeFormat("%B"),
+    formatYear = timeFormat("%Y");
+
+export function multiDateFormat(date) {
+    return (timeSecond(date) < date ? formatMillisecond
+        : timeMinute(date) < date ? formatSecond
+            : timeHour(date) < date ? formatMinute
+                : timeDay(date) < date ? formatHour
+                    : timeMonth(date) < date ? (timeWeek(date) < date ? formatDay : formatWeek)
+                        : timeYear(date) < date ? formatMonth
+                            : formatYear)(date);
 }
