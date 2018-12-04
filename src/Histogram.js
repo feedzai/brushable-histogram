@@ -63,7 +63,8 @@ export class Histogram extends PureComponent {
         onIntervalChange: PropTypes.func,
         minZoomUnit: PropTypes.number,
         frameStep: PropTypes.number,
-        frameDelay: PropTypes.number
+        frameDelay: PropTypes.number,
+        renderPlayButton: PropTypes.bool
     };
 
     static defaultProps = {
@@ -84,23 +85,27 @@ export class Histogram extends PureComponent {
         onIntervalChange: () => {},
         minZoomUnit: 1000,
         frameStep: 0.025,
-        frameDelay: 500
+        frameDelay: 500,
+        renderPlayButton: true
     }
 
     /**
      * Receives the size the component should have, the padding and the how much vertical space the
      * histogram and the density plots should take and calculates the charts sizes and positions
      *
-     * @param {Number} height
-     * @param {Number} width
-     * @param {Object} padding
-     * @param {Number} histogramHeightRatio
-     * @param {Number} densityHeightRatio
+     * @param {Object} props
      * @returns {Object}
      * @private
      */
-    static _calculateChartsPositionsAndSizing(height, width, padding, histogramHeightRatio, densityHeightRatio) {
-        const playButtonPadding = (width > (padding + padding)) ? BUTTON_PADDING : 0;
+    static _calculateChartsPositionsAndSizing(props) {
+        const { height, padding, histogramHeightRatio, brushDensityChartHeightRatio, renderPlayButton } = props;
+        const width = props.size.width;
+
+        let playButtonPadding = 0;
+
+        if (renderPlayButton) {
+            playButtonPadding = (width > (padding + padding)) ? BUTTON_PADDING : 0;
+        }
 
         return {
             histogramChartDimensions: {
@@ -109,7 +114,7 @@ export class Histogram extends PureComponent {
             },
             densityChartDimensions: {
                 width: width - padding - padding - playButtonPadding,
-                height: (height - padding - padding) * densityHeightRatio
+                height: (height - padding - padding) * brushDensityChartHeightRatio
             }
         };
     }
@@ -118,8 +123,7 @@ export class Histogram extends PureComponent {
         let nextState = {};
 
         const { histogramChartDimensions, densityChartDimensions } =
-                Histogram._calculateChartsPositionsAndSizing(props.height, props.size.width, props.padding,
-                    props.histogramHeightRatio, props.brushDensityChartHeightRatio);
+            Histogram._calculateChartsPositionsAndSizing(props);
 
         nextState = {
             width: props.size.width,
@@ -508,6 +512,7 @@ export class Histogram extends PureComponent {
                 <DensityChart
                     width={this.state.densityChartDimensions.width}
                     height={this.state.densityChartDimensions.height}
+                    padding={this.props.padding}
                     brushDomainMax={this.state.brushDomain.max}
                     brushDomainMin={this.state.brushDomain.min}
                     frameStep={this.props.frameStep}
@@ -517,7 +522,7 @@ export class Histogram extends PureComponent {
                     brushDensityChartColor={this.props.brushDensityChartColor}
                     brushDensityChartFadedColor={this.props.brushDensityChartFadedColor}
                     densityChartXScale={this.densityChartXScale}
-                    renderPlayButton={this.state.data.length > 0}
+                    renderPlayButton={this.props.renderPlayButton && this.state.data.length > 0}
                     data={this.state.data}
                     onDomainChanged={this._onDensityChartDomainChanged}
                 />

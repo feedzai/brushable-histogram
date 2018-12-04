@@ -2,8 +2,7 @@ import React, { Fragment } from "react";
 import { timeFormat } from "d3-time-format";
 
 import { storiesOf } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
-import { withKnobs, boolean, text, number } from "@storybook/addon-knobs";
+import { withKnobs, boolean, number } from "@storybook/addon-knobs";
 
 import sampleData from "./sampleData";
 import Histogram from "../src/Histogram";
@@ -34,6 +33,7 @@ stories
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
+            renderPlayButton={true}
         />))
     .add("have a custom tooltip", () =>
         (<Histogram
@@ -41,6 +41,7 @@ stories
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             tooltipBarCustomization={histogramTooltipBar}
+            renderPlayButton={true}
         />))
     .add("have custom axis formatters", () =>
         (<Histogram
@@ -49,6 +50,14 @@ stories
             xAxisFormatter={formatMinute}
             yAxisFormatter={(value) => `${value} carrots`}
             yAccessor={(datapoint) => datapoint.total}
+            renderPlayButton={true}
+        />))
+    .add("hide the play button", () =>
+        (<Histogram
+            data={sampleData}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            yAccessor={(datapoint) => datapoint.total}
+            renderPlayButton={false}
         />))
     .add("have custom a height", () =>
         (<Histogram
@@ -56,4 +65,5 @@ stories
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             height={number("height", 150)}
+            renderPlayButton={true}
         />));

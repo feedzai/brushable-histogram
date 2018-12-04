@@ -10,7 +10,7 @@
 [x] Improve method order inside main component
 [ ] Add missing jsdoc
 [x] Remove the `randomString` key hack
-[ ] Make the play button optional
+[x] Make the play button optional
 [ ] Benchmark with a lot of nodes
 [ ] Handle different widths and heights correctly
 [x] Remove global selectors

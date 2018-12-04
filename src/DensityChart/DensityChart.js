@@ -14,6 +14,7 @@ export default class DensityChart extends PureComponent {
         spaceBetweenCharts: PropTypes.number.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
+        padding: PropTypes.number.isRequired,
         brushDomainMax: PropTypes.oneOfType([
             PropTypes.instanceOf(Date),
             PropTypes.number
@@ -173,8 +174,15 @@ export default class DensityChart extends PureComponent {
     }
 
     render() {
-        const { width, height, spaceBetweenCharts } = this.props;
-        const densityChartCanvasStyle = { top: spaceBetweenCharts };
+        let leftPadding = 0;
+
+        const { width, height, padding, spaceBetweenCharts } = this.props;
+
+        if (!this.props.renderPlayButton) {
+            leftPadding = padding * 2;
+        }
+
+        const densityChartCanvasStyle = { top: spaceBetweenCharts, left: leftPadding };
 
         return (<div className="fdz-css-graph-histogram-density__wrapper" >
             {this._renderPlayButton()}
@@ -191,7 +199,7 @@ export default class DensityChart extends PureComponent {
                     className="fdz-css-graph-histogram-brush"
                     width={width}
                     height={height}
-                    transform={`translate(0, -${height})`}
+                    transform={`translate(${leftPadding}, -${height})`}
                 />
             </div>
         </div>);
