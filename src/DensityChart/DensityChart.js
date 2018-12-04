@@ -14,8 +14,14 @@ export default class DensityChart extends PureComponent {
         spaceBetweenCharts: PropTypes.number.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
-        brushDomainMax: PropTypes.number.isRequired,
-        brushDomainMin: PropTypes.number.isRequired,
+        brushDomainMax: PropTypes.oneOfType([
+            PropTypes.instanceOf(Date),
+            PropTypes.number
+        ]).isRequired,
+        brushDomainMin: PropTypes.oneOfType([
+            PropTypes.instanceOf(Date),
+            PropTypes.number
+        ]).isRequired,
         frameStep: PropTypes.number.isRequired,
         frameDelay: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,

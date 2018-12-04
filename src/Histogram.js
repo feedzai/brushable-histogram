@@ -1,6 +1,5 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import classnames from "classnames";
 import { histogram as d3Histogram, max as d3Max, min as d3Min } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
@@ -164,6 +163,8 @@ export class Histogram extends PureComponent {
     constructor(props) {
         super(props);
 
+        this.histogramChartRef = React.createRef();
+
         // TODO: avoid duplicated work
         const min = d3Min(props.data, props.xAccessor);
         const max = d3Max(props.data, props.xAccessor);
@@ -210,7 +211,7 @@ export class Histogram extends PureComponent {
     }
 
     unpureOperations() {
-        d3Select(this.histogramChartRef).call(this.zoom);
+        d3Select(this.histogramChartRef.current).call(this.zoom);
 
         this._updateHistogramChartScales();
     }
@@ -242,7 +243,7 @@ export class Histogram extends PureComponent {
         // converts for a time-scale
         const brushedDomain = brushSelection.map(this.densityChartXScale.invert);
 
-        d3Select(this.histogramChartRef).call(this.zoom.transform, d3ZoomIdentity
+        d3Select(this.histogramChartRef.current).call(this.zoom.transform, d3ZoomIdentity
             .scale(this.state.densityChartDimensions.width / (brushSelectionMax - brushSelectionMin))
             .translate(-brushSelection[0], 0));
 
@@ -480,17 +481,16 @@ export class Histogram extends PureComponent {
 
     render() {
         // Histogram classNames
-        const histogramChartClass = classnames("fdz-css-graph-histogram");
-        const histogramXAxisClassname = classnames("fdz-js-graph-histogram-axis-x", "fdz-css-graph-histogram-axis-x");
-        const histogramYAxisClassname = classnames("fdz-js-graph-histogram-axis-y", "fdz-css-graph-histogram-axis-y");
+        const histogramXAxisClassname = "fdz-js-graph-histogram-axis-x fdz-css-graph-histogram-axis-x";
+        const histogramYAxisClassname = "fdz-js-graph-histogram-axis-y fdz-css-graph-histogram-axis-y";
 
         const histogramXAxiosYPosition = (this.props.height * this.props.histogramHeightRatio) - X_AXIS_HEIGHT;
 
         return (
-            <div className={histogramChartClass}>
+            <div className="fdz-css-graph-histogram">
                 {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
                 <svg
-                    ref={(ref) => this.histogramChartRef = ref}
+                    ref={this.histogramChartRef}
                     className="fdz-js-graph-histogram"
                     width={this.props.size.width}
                     height={this.props.height - Y_AXIS_PADDING}
