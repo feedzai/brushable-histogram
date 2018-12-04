@@ -54,7 +54,6 @@ export class Histogram extends PureComponent {
         yAccessor: PropTypes.func.isRequired,
         spaceBetweenCharts: PropTypes.number,
         histogramHeightRatio: PropTypes.number,
-        brushDensityChartHeightRatio: PropTypes.number,
         barOptions: PropTypes.object,
         yAxisTicks: PropTypes.number,
         yAxisFormatter: PropTypes.func,
@@ -115,28 +114,24 @@ export class Histogram extends PureComponent {
         };
     }
 
-    static getDerivedStateFromProps(props, state) {
-        const hasWidthChanges = props.size.width !== state.width;
-        const hasInformationChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, state.data);
-
+    static calculateWidthsAndDomain(props, previousData, previousBrushDomain) {
         let nextState = {};
 
-        if (hasWidthChanges) {
-            const { histogramChartDimensions, densityChartDimensions } =
+        const { histogramChartDimensions, densityChartDimensions } =
                 Histogram._calculateChartsPositionsAndSizing(props.height, props.size.width, props.padding,
                     props.histogramHeightRatio, props.brushDensityChartHeightRatio);
 
-            nextState = {
-                ...nextState,
-                width: props.size.width,
-                histogramChartDimensions,
-                densityChartDimensions
-            };
-        }
+        nextState = {
+            width: props.size.width,
+            histogramChartDimensions,
+            densityChartDimensions
+        };
+
+        const hasDataChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, previousData);
 
         // If the new information received is different we need to verify if there is any update in the max and min
         // values for the brush domain.
-        if (hasInformationChanged) {
+        if (hasDataChanged) {
 
             // Setting the new Data
             nextState = { ...nextState, data: props.data };
@@ -146,7 +141,7 @@ export class Histogram extends PureComponent {
             const max = d3Max(props.data, props.xAccessor);
 
             // If the brush domain changed we could
-            if (state.brushDomain.min > min || state.brushDomain.max < max) {
+            if (previousBrushDomain.min > min || previousBrushDomain.max < max) {
                 nextState = {
                     ...nextState,
                     brushDomain: {
@@ -157,6 +152,12 @@ export class Histogram extends PureComponent {
             }
         }
 
+        return nextState;
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        const nextState = Histogram.calculateWidthsAndDomain(props, state.data, state.brushDomain);
+
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
 
@@ -165,59 +166,23 @@ export class Histogram extends PureComponent {
 
         this.histogramChartRef = React.createRef();
 
-        // TODO: avoid duplicated work
-        const min = d3Min(props.data, props.xAccessor);
-        const max = d3Max(props.data, props.xAccessor);
-        const { histogramChartDimensions, densityChartDimensions } =
-                Histogram._calculateChartsPositionsAndSizing(props.height, props.size.width, props.padding,
-                    props.histogramHeightRatio, props.brushDensityChartHeightRatio);
-
-        this.state = {
+        // We need to compute the widths and domain right at the constructor because we
+        // need them to compute the scales correctly, which are needed in the children
+        this.state = Object.assign({
             data: [],
             timeHistogramBars: [],
-            width: 10,
-            histogramChartDimensions: histogramChartDimensions,
-            densityChartDimensions: densityChartDimensions,
-            brushDomain: {
-                max,
-                min
-            },
             selectedBarPosition: {},
             showHistogramBarTooltip: false
-        };
+        }, Histogram.calculateWidthsAndDomain(props, [], {
+            max: -Infinity,
+            min: Infinity
+        }));
 
-        this.pureOperations();
-    }
-
-    pureOperations() {
-        this.densityChartXScale = scaleTime()
-            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
-            .range([ 0, this.state.densityChartDimensions.width ]);
-
-        // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
-        const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
-
-        this.zoom = d3Zoom()
-            .scaleExtent([MIN_ZOOM_VALUE, MAX_ZOOM_VALUE])
-            .translateExtent([
-                [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
-            ])
-            .extent([
-                [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
-            ])
-            .on("zoom", this._onResizeZoom);
-    }
-
-    unpureOperations() {
-        d3Select(this.histogramChartRef.current).call(this.zoom);
-
-        this._updateHistogramChartScales();
+        this._createScaleAndZoom();
     }
 
     componentDidMount() {
-        this.unpureOperations();
+        this._setUpZoomAndChartScales();
     }
 
     componentDidUpdate(prevProps) {
@@ -226,9 +191,8 @@ export class Histogram extends PureComponent {
             || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.state.data);
 
         if ((hasWidthChanged || hasDataChanged)) {
-
-            this.pureOperations();
-            this.unpureOperations();
+            this._createScaleAndZoom();
+            this._setUpZoomAndChartScales();
         }
     }
 
@@ -295,6 +259,33 @@ export class Histogram extends PureComponent {
             showHistogramBarTooltip: false
         });
     };
+
+    _createScaleAndZoom() {
+        this.densityChartXScale = scaleTime()
+            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
+            .range([ 0, this.state.densityChartDimensions.width ]);
+
+        // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
+        const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
+
+        this.zoom = d3Zoom()
+            .scaleExtent([MIN_ZOOM_VALUE, MAX_ZOOM_VALUE])
+            .translateExtent([
+                [0, 0],
+                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+            ])
+            .extent([
+                [0, 0],
+                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+            ])
+            .on("zoom", this._onResizeZoom);
+    }
+
+    _setUpZoomAndChartScales() {
+        d3Select(this.histogramChartRef.current).call(this.zoom);
+
+        this._updateHistogramChartScales();
+    }
 
     /**
      * Check if brushed domain changed and if so, updates the component state
