@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import Button from "antd/es/button";
+import PlayButton from "./PlayButton";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import {
     clearCanvas,
@@ -25,6 +25,7 @@ export default class DensityChart extends PureComponent {
         frameStep: PropTypes.number.isRequired,
         frameDelay: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
+        onDomainChanged: PropTypes.func.isRequired,
         xAccessor: PropTypes.func.isRequired,
         brushDensityChartColor: PropTypes.string,
         brushDensityChartFadedColor: PropTypes.string,
@@ -35,10 +36,6 @@ export default class DensityChart extends PureComponent {
         renderPlayButton: true,
         brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
         brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)"
-    };
-
-    state = {
-        play: false
     };
 
     constructor(props) {
@@ -103,45 +100,6 @@ export default class DensityChart extends PureComponent {
         this.props.onDomainChanged(brushSelection);
     };
 
-    /**
-     * Handles click on play button. Defines start and end for
-     * the domain-lapse and triggers _playLapse to play frames
-     * at set intervals.
-     *
-     * @private
-     */
-    _onClickPlay = () => {
-        const { width, densityChartXScale, brushDomainMax, brushDomainMin, frameStep } = this.props;
-        const brushedMaxRange = densityChartXScale(brushDomainMax);
-        const brushedMinRange = densityChartXScale(brushDomainMin);
-        const frameStart = brushedMinRange;
-
-        const playEnd = width;
-        const playStep = width * frameStep;
-
-        this.frameEnd = frameStart;
-
-        if (brushedMaxRange === playEnd || brushedMaxRange === frameStart){
-            this.frameEnd = frameStart;
-        } else {
-            this.frameEnd = brushedMaxRange;
-        }
-
-        this.setState({
-            play: true
-        }, () => this._playLapseAtInterval(frameStart, playEnd, playStep));
-    };
-
-    /**
-     * Handles click on stop button. Will clear interval
-     * of funtion playInterval playing domain-lapse frames
-     *
-     * @private
-     */
-    _onClickStop = () => {
-        this._stopLapse();
-    };
-
     _updateBrush() {
         d3Select(this.densityBrushRef.current)
             .call(this.brush);
@@ -157,75 +115,22 @@ export default class DensityChart extends PureComponent {
             .call(this.brush.move, domain);
     };
 
-    /**
-     * Plays a frame of the domain-lapse. Updates subset of domain
-     * to be displayed and moves brush to new domain.
-     *
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Number} step
-     * @private
-     */
-    _playFrame(start, end, step){
-        // If end of frame is at end of play region then stop domain-lapse
-
-        if (this.frameEnd >= end) {
-            this._stopLapse();
-            return;
-        }
-
-        // Check if adding a step will surprass max domain.
-        if (this.frameEnd + step >= end) {
-            // If so, set max frame to be max domain
-            this.frameEnd = end;
-        } else {
-            // Otherwise just add a step
-            this.frameEnd += step;
-        }
-        const domain = [start, this.frameEnd];
-
-        // Move brush to new frame location
-        this._moveBrush(domain);
-    }
-
-    /**
-     * Plays domain-lapse by calling _playFrame at interval
-     * to play each frame.
-     *
-     * @param {Number} start
-     * @param {Number} end
-     * @param {Number} step
-     * @private
-     */
-    _playLapseAtInterval(start, end, step){
-        this.playInterval = setInterval(() => {
-            this._playFrame(start, end, step);
-        }, this.props.frameDelay);
-    }
-
-    /**
-     *  Stops domain-lapse at current frame. This
-     * is done by clearing the timeInterval in this.playInterval.
-     *
-     * @private
-     */
-    _stopLapse() {
-        this.setState({
-            play: false
-        }, () => clearInterval(this.playInterval));
-    }
-
     _renderPlayButton() {
         if (!this.props.renderPlayButton) {
             return null;
         }
 
-        const buttonProps = {
-            icon: this.state.play ? "pause-circle" : "play-circle",
-            onClick: this.state.play ? this._onClickStop : this._onClickPlay
-        };
+        const { width, densityChartXScale, brushDomainMax, brushDomainMin, frameStep, frameDelay } = this.props;
 
-        return <Button {...buttonProps} className="fdz-css-play-btn"/>;
+        return (<PlayButton
+            width={width}
+            densityChartXScale={densityChartXScale}
+            brushDomainMax={brushDomainMax}
+            brushDomainMin={brushDomainMin}
+            frameStep={frameStep}
+            frameDelay={frameDelay}
+            moveBrush={this._moveBrush}
+        />);
     }
 
     /**
