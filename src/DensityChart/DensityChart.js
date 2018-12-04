@@ -89,6 +89,7 @@ export default class DensityChart extends PureComponent {
         if (Array.isArray(d3Event.selection)) {
             brushSelection = d3Event.selection;
         } else {
+            // When we don't have any selection we should select everything
             brushSelection = this.props.densityChartXScale.range();
             this._moveBrush(brushSelection);
         }
