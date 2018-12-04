@@ -4,6 +4,7 @@
   "description": "A time histogram with a time brush that renders a summary of the events",
   "main": "lib/index.js",
   "dependencies": {
+    "@ant-design/icons": "1.1.15",
     "antd": "3.9.3",
     "classnames": "2.2.5",
     "d3-array": "1.2.1",
