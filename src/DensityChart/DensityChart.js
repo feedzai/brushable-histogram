@@ -84,7 +84,14 @@ export default class DensityChart extends PureComponent {
             return;
         }
 
-        const brushSelection = Array.isArray(d3Event.selection) ? d3Event.selection : this.densityChartXScale.range();
+        let brushSelection;
+
+        if (Array.isArray(d3Event.selection)) {
+            brushSelection = d3Event.selection;
+        } else {
+            brushSelection = this.props.densityChartXScale.range();
+            this._moveBrush(brushSelection);
+        }
 
         this.props.onDomainChanged(brushSelection);
     };
