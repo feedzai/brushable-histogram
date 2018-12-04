@@ -231,6 +231,10 @@ export class Histogram extends PureComponent {
         }
     }
 
+    componentWillUnmount() {
+        this.zoom.on("zoom", null); // This is the way to unbind events in d3
+    }
+
     _onDensityChartDomainChanged = (brushSelection) => {
         const brushSelectionMin = brushSelection[0];
         const brushSelectionMax = brushSelection[1];

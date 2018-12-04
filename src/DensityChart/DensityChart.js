@@ -69,7 +69,7 @@ export default class DensityChart extends PureComponent {
 
     componentWillUnmount() {
         clearInterval(this.playInterval);
-        //this.brush.off("brush end");
+        this.brush.on("brush end", null); // This is the way to unbind events in d3
     }
 
     /**

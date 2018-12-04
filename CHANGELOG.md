@@ -3,7 +3,7 @@
 # 1.1.0 (TBD)
 [x] Document the props and have better defaults
 [ ] Add more unit tests
-[ ] Extract the "timeline" to another module
+[x] Extract the "timeline" to another module
 [ ] Remove the dependency on andtd
 [x] Remove the dependency on lodash
 [x] Stop `_playLapseAtInterval` if the component was unmounted
