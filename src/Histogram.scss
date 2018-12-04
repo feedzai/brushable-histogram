@@ -21,20 +21,10 @@ $tooltip-arrow-height: 6px;
     cursor: pointer;
 }
 
-// TODO clean css
 .fdz-css-play-btn {
-    padding-left: 8px;
-    padding-right: 8px;
-
-    outline: 0;
-
     line-height: 1.5;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
     padding: 0 15px;
     border-radius: 4px;
-    height: 32px;
     user-select: none;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     position: relative;
@@ -46,7 +36,6 @@ $tooltip-arrow-height: 6px;
     border-color: transparent;
     color: $grey-6;
     font-size: 18px;
-    margin-top: 3px;
 
     &:hover, &:active, &:focus {
         background: transparent;
@@ -61,14 +50,9 @@ $tooltip-arrow-height: 6px;
         transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         line-height: 1;
         pointer-events: none;
-        display: inline-block;
-        font-style: normal;
         vertical-align: -0.125em;
-        text-align: center;
-        text-transform: none;
-
+        
         svg {
-            display: inline-block;
             line-height: 1;
         }
     }

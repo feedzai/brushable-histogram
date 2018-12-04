@@ -199,7 +199,7 @@ export default class DensityChart extends PureComponent {
                     className="fdz-css-graph-histogram-brush"
                     width={width}
                     height={height}
-                    transform={`translate(${leftPadding}, -${height})`}
+                    transform={`translate(${leftPadding}, -${height - 4})`}
                 />
             </div>
         </div>);
