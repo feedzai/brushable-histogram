@@ -169,6 +169,8 @@ export class Histogram extends PureComponent {
         super(props);
 
         this.histogramChartRef = React.createRef();
+        this.histogramXAxisRef = React.createRef();
+        this.histogramYAxisRef = React.createRef();
 
         // We need to compute the widths and domain right at the constructor because we
         // need them to compute the scales correctly, which are needed in the children
@@ -428,7 +430,7 @@ export class Histogram extends PureComponent {
             .tickValues(this.histogramChartXScale.ticks(this.props.defaultBarCount / BARS_TICK_RATIO))
             .tickFormat(this.props.xAxisFormatter);
 
-        d3Select(this.histogramXAxisRef)
+        d3Select(this.histogramXAxisRef.current)
             .call(histogramXAxis);
 
         const histogramYAxis = d3AxisLeft(this.histogramChartYScale)
@@ -436,7 +438,7 @@ export class Histogram extends PureComponent {
             .tickSize(0)
             .tickFormat(this.props.yAxisFormatter);
 
-        d3Select(this.histogramYAxisRef)
+        d3Select(this.histogramYAxisRef.current)
             .call(histogramYAxis);
     }
 
@@ -497,13 +499,13 @@ export class Histogram extends PureComponent {
                     </g>
 
                     {/* Rendering the histogram x-axis */}
-                    <g ref={(ref) => this.histogramXAxisRef = ref}
+                    <g ref={this.histogramXAxisRef}
                         className={histogramXAxisClassname}
                         transform={`translate(0, ${histogramXAxiosYPosition})`}
                     />
 
                     {/* Rendering the histogram y-axis */}
-                    <g ref={(ref) => this.histogramYAxisRef = ref}
+                    <g ref={this.histogramYAxisRef}
                         className={histogramYAxisClassname}
                         transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
                     />
