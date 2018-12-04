@@ -5,8 +5,6 @@ import { Histogram } from "./Histogram";
 
 import sampleData from "../stories/sampleData";
 
-jest.mock("antd/es/button", () => () => <button/>);
-
 let mockCount = 0;
 
 jest.mock("./utils", () => ({

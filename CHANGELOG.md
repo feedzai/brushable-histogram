@@ -4,7 +4,7 @@
 [x] Document the props and have better defaults
 [ ] Add more unit tests
 [x] Extract the "timeline" to another module
-[ ] Remove the dependency on andtd
+[x] Remove the dependency on andtd
 [x] Remove the dependency on lodash
 [x] Stop `_playLapseAtInterval` if the component was unmounted
 [x] Improve method order inside main component

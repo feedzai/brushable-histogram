@@ -1,5 +1,3 @@
-@import url('~antd/dist/antd.css');
-
 $color-blue-500: #2196f3;
 $color-blue-300: #64b5f6;
 $color-blue-200: #90caf9;
@@ -23,7 +21,27 @@ $tooltip-arrow-height: 6px;
     cursor: pointer;
 }
 
+// TODO clean css
 .fdz-css-play-btn {
+    padding-left: 8px;
+    padding-right: 8px;
+
+    outline: 0;
+
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    padding: 0 15px;
+    border-radius: 4px;
+    height: 32px;
+    user-select: none;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    cursor: pointer;
+
+
     background: transparent;
     border-color: transparent;
     color: $grey-6;
@@ -33,6 +51,26 @@ $tooltip-arrow-height: 6px;
     &:hover, &:active, &:focus {
         background: transparent;
         border-color: transparent;
+    }
+
+    &:hover {
+        color: #40a9ff;
+    }
+
+    .anticon {
+        transition: margin-left 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        line-height: 1;
+        pointer-events: none;
+        display: inline-block;
+        font-style: normal;
+        vertical-align: -0.125em;
+        text-align: center;
+        text-transform: none;
+
+        svg {
+            display: inline-block;
+            line-height: 1;
+        }
     }
 }
 
