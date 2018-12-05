@@ -1,7 +1,7 @@
 import { isFunction, isObject } from "lodash";
 
 export function randomString() {
-    return Math.random().toString(36).substr(2, 11);
+    return `${Math.random()}`.substr(2, 11);
 }
 
 export function callIfExists(fn, ...params) {
