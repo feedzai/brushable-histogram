@@ -17,11 +17,11 @@ import DensityChart from "./DensityChart/DensityChart";
  * Histogram
  *
  * Plots an histogram with zoom and brush features on the x domain.
- * Also plots a density strip plot for context when brushing and zoomin histogram.
+ * Also plots a density strip plot for context when brushing and zooming the histogram.
  *
  * @author Beatriz Malveiro Jorge (beatriz.jorge@feedzai.com)
  * @author Victor Fernandes (victor.fernandes@feedzai.com) ("productization" process)
- *
+ * @author Luis Cardoso (luis.cardoso@feedzai.com)
  */
 
 // Constants
@@ -127,7 +127,14 @@ export class Histogram extends PureComponent {
         };
     }
 
-    static calculateWidthsAndDomain(props, previousData, previousBrushDomain) {
+    /**
+     * Calculates the size of the histogram and density charts and the domain.
+     * @param {Object} props
+     * @param {Array.<Object>} previousData
+     * @param {Object} previousBrushDomain
+     * @returns {Object}
+     */
+    static calculateChartSizesAndDomain(props, previousData, previousBrushDomain) {
         let nextState = {};
 
         const { histogramChartDimensions, densityChartDimensions } =
@@ -172,7 +179,7 @@ export class Histogram extends PureComponent {
             throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
         }
 
-        const nextState = Histogram.calculateWidthsAndDomain(props, state.data, state.brushDomain);
+        const nextState = Histogram.calculateChartSizesAndDomain(props, state.data, state.brushDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
@@ -190,7 +197,7 @@ export class Histogram extends PureComponent {
             timeHistogramBars: [],
             selectedBarPosition: {},
             showHistogramBarTooltip: false
-        }, Histogram.calculateWidthsAndDomain(props, [], {
+        }, Histogram.calculateChartSizesAndDomain(props, [], {
             max: -Infinity,
             min: Infinity
         }));
@@ -217,6 +224,12 @@ export class Histogram extends PureComponent {
         this.zoom.on("zoom", null); // This is the way to unbind events in d3
     }
 
+    /**
+     * Handles a domain change in the density chart.
+     *
+     * @param {Array} brushSelection
+     * @private
+     */
     _onDensityChartDomainChanged = (brushSelection) => {
         const brushSelectionMin = brushSelection[0];
         const brushSelectionMax = brushSelection[1];
@@ -253,6 +266,12 @@ export class Histogram extends PureComponent {
         this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
     };
 
+    /**
+     * Handles the mouse entering an histogram bar.
+     *
+     * @param {Object} evt
+     * @private
+     */
     _onMouseEnterHistogramBar = (evt) => {
         const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
         const bar = this.state.timeHistogramBars[index];
@@ -271,12 +290,20 @@ export class Histogram extends PureComponent {
         this.setState({ showHistogramBarTooltip: true, currentBar: bar, selectedBarPosition });
     };
 
+    /**
+     * Handles the mouse leaving an histogram bar.
+     * @private
+     */
     _onMouseLeaveHistogramBar = () => {
         this.setState({
             showHistogramBarTooltip: false
         });
     };
 
+    /**
+     * Creates the density chart x axis scale and the histogram zoom.
+     * @private
+     */
     _createScaleAndZoom() {
         this.densityChartXScale = scaleTime()
             .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
@@ -298,6 +325,10 @@ export class Histogram extends PureComponent {
             .on("zoom", this._onResizeZoom);
     }
 
+    /**
+     * Sets up the zoom and the chart scales.
+     * @private
+     */
     _setUpZoomAndChartScales() {
         d3Select(this.histogramChartRef.current).call(this.zoom);
 

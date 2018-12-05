@@ -8,6 +8,16 @@ import {
 } from "../utils";
 import { brushX } from "d3-brush";
 
+/**
+ * DensityChart
+ *
+ * Plots a density strip plot for context when brushing and zooming the histogram.
+ *
+ * @author Beatriz Malveiro Jorge (beatriz.jorge@feedzai.com)
+ * @author Victor Fernandes (victor.fernandes@feedzai.com)
+ * @author Luis Cardoso (luis.cardoso@feedzai.com)
+ */
+
 export default class DensityChart extends PureComponent {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -100,6 +110,10 @@ export default class DensityChart extends PureComponent {
         this.props.onDomainChanged(brushSelection);
     };
 
+    /**
+     * Reapplies the brush
+     * @private
+     */
     _updateBrush() {
         d3Select(this.densityBrushRef.current)
             .call(this.brush);
@@ -115,6 +129,10 @@ export default class DensityChart extends PureComponent {
             .call(this.brush.move, domain);
     };
 
+    /**
+     * Renders the play button that allows to replay a time-lapse of the events.
+     * @returns {React.Element|null}
+     */
     _renderPlayButton() {
         if (!this.props.renderPlayButton) {
             return null;

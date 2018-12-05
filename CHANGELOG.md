@@ -8,7 +8,7 @@
 [x] Remove the dependency on lodash
 [x] Stop `_playLapseAtInterval` if the component was unmounted
 [x] Improve method order inside main component
-[ ] Add missing jsdoc
+[x] Add missing jsdoc
 [x] Remove the `randomString` key hack
 [x] Make the play button optional
 [ ] Benchmark with a lot of nodes

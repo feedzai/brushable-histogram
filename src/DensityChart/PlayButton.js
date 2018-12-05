@@ -14,6 +14,17 @@ const PLAY_ICON_PATHS = [
     15.9 0 0 0 0-25.8zm-257.6 134V390.9L628.5 512 461.8 633.1z`
 ];
 
+/**
+ * PlayButton
+ *
+ * Renders a play button that allows to play a time-lapse of the events
+ * in the histogram.
+ *
+ * @author Beatriz Malveiro Jorge (beatriz.jorge@feedzai.com)
+ * @author Victor Fernandes (victor.fernandes@feedzai.com)
+ * @author Luis Cardoso (luis.cardoso@feedzai.com)
+ */
+
 export default class PlayButton extends PureComponent {
 
     static propTypes = {
