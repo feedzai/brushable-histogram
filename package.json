@@ -1,6 +1,6 @@
 {
   "name": "brushable-histogram",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A time histogram with a time brush that renders a summary of the events",
   "main": "lib/index.js",
   "dependencies": {
@@ -16,7 +16,6 @@
     "d3-zoom": "1.7.1",
     "lodash": "4.17.11",
     "react": "16.6.1",
-    "react-dom": "16.6.1",
     "react-sizeme": "2.5.2"
   },
   "scripts": {
@@ -37,6 +36,7 @@
     "luis.cardoso@feedzai.com"
   ],
   "devDependencies": {
+    "react-dom": "16.6.1",
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-class-properties": "^7.1.0",

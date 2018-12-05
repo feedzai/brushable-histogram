@@ -1,5 +1,8 @@
 # Brushable Histogram
 
+# 1.0.4 (2018/12/05)
+- Reduces dependencies of the transpiled code to reduce the bundle size of the package consumers.
+
 # 1.0.3 (2018/12/04)
 - Adds missing antd dependency
 
