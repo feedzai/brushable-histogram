@@ -26,6 +26,8 @@ A function that will receive an array element as argument and that should return
 
 A function that will receive an array element as argument and that should return the value of the y axis for that element. A possible example would be `({amount}) => amount`.
 
+**Important** currently the histogram only support positive values.
+
 ### `xAxisFormatter`
 **Type** `Function` **Default** `(value) => String(value)`
 

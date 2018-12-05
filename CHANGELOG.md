@@ -15,7 +15,6 @@
 [x] Handle different widths and heights correctly
 [x] Remove global selectors
 [ ] Create a static page with the story book
-[ ] Fix negative attribute errors
 
 # 1.0.5 (2018/12/05)
 - Removes usage of `.toString()` to avoid requiring core-js.
