@@ -502,7 +502,7 @@ export class Histogram extends PureComponent {
                     width={this.props.size.width}
                     height={this.state.histogramChartDimensions.height}
                     style={{
-                        "margin-bottom": this.props.spaceBetweenCharts
+                        marginBottom: this.props.spaceBetweenCharts
                     }}
                 >
                     {/* Rendering the histogram bars */}

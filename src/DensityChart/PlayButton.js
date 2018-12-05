@@ -139,11 +139,11 @@ export default class PlayButton extends PureComponent {
         let iconElement;
 
         if (this.state.play) {
-            iconElement = (<svg viewBox="64 64 896 896" width="1em" height="1em" fill="currentColor" ariaHidden="true">
+            iconElement = (<svg viewBox="64 64 896 896" width="1em" height="1em" fill="currentColor">
                 <path d={PAUSE_ICON_PATH}></path>
             </svg>);
         } else {
-            iconElement = (<svg viewBox="64 64 896 896" width="1em" height="1em" fill="currentColor" ariaHidden="true">
+            iconElement = (<svg viewBox="64 64 896 896" width="1em" height="1em" fill="currentColor">
                 <path d={PLAY_ICON_PATHS[0]}></path>
                 <path d={PLAY_ICON_PATHS[1]}></path>
             </svg>);
