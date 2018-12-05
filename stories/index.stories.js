@@ -64,6 +64,6 @@ stories
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
-            height={number("height", 150)}
+            height={number("height (min 150)", 150)}
             renderPlayButton={true}
         />));

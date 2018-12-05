@@ -39,6 +39,12 @@ const BAR_TOOLTIP_ARROW_HEIGHT = 10;
 
 const MIN_ZOOM_VALUE = 1;
 
+const DENSITY_CHART_HEIGHT_PX = 35;
+
+const MIN_TOTAL_HEIGHT = 150;
+
+const PADDING = 10;
+
 export class Histogram extends PureComponent {
 
     static propTypes = {
@@ -46,14 +52,11 @@ export class Histogram extends PureComponent {
         size: PropTypes.shape({
             width: PropTypes.number.isRequired
         }).isRequired,
-        height: PropTypes.number,
-        padding: PropTypes.number,
         defaultBarCount: PropTypes.number,
         xAccessor: PropTypes.func.isRequired,
         xAxisFormatter: PropTypes.func,
         yAccessor: PropTypes.func.isRequired,
         spaceBetweenCharts: PropTypes.number,
-        histogramHeightRatio: PropTypes.number,
         barOptions: PropTypes.object,
         yAxisTicks: PropTypes.number,
         yAxisFormatter: PropTypes.func,
@@ -69,11 +72,9 @@ export class Histogram extends PureComponent {
 
     static defaultProps = {
         data: [],
-        height: 100,
+        height: MIN_TOTAL_HEIGHT,
         padding: 10,
         defaultBarCount: 18,
-        histogramHeightRatio: 0.85,
-        brushDensityChartHeightRatio: 0.15,
         barOptions: {
             margin: 1
         },
@@ -98,23 +99,26 @@ export class Histogram extends PureComponent {
      * @private
      */
     static _calculateChartsPositionsAndSizing(props) {
-        const { height, padding, histogramHeightRatio, brushDensityChartHeightRatio, renderPlayButton } = props;
+        const { height, renderPlayButton } = props;
         const width = props.size.width;
 
         let playButtonPadding = 0;
 
         if (renderPlayButton) {
-            playButtonPadding = (width > (padding + padding)) ? BUTTON_PADDING : 0;
+            playButtonPadding = (width > (PADDING + PADDING)) ? BUTTON_PADDING : 0;
         }
+
+        const histogramHeight = height - DENSITY_CHART_HEIGHT_PX;
 
         return {
             histogramChartDimensions: {
-                width: (width - padding - padding),
-                height: (height - padding - padding) * histogramHeightRatio
+                width: (width - PADDING),
+                height: histogramHeight,
+                heightForBars: histogramHeight - X_AXIS_HEIGHT
             },
             densityChartDimensions: {
-                width: width - padding - padding - playButtonPadding,
-                height: (height - padding - padding) * brushDensityChartHeightRatio
+                width: width - (PADDING * 4) - playButtonPadding,
+                height: DENSITY_CHART_HEIGHT_PX
             }
         };
     }
@@ -160,6 +164,10 @@ export class Histogram extends PureComponent {
     }
 
     static getDerivedStateFromProps(props, state) {
+        if (props.height < MIN_TOTAL_HEIGHT) {
+            throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
+        }
+
         const nextState = Histogram.calculateWidthsAndDomain(props, state.data, state.brushDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
@@ -357,7 +365,7 @@ export class Histogram extends PureComponent {
         // Setting the histogram y-axis domain scale
         this.histogramChartYScale = scaleLinear()
             .domain([0, d3Max(timeHistogramBars, (bin) => bin.yValue)])
-            .range([this.state.histogramChartDimensions.height, 0]);
+            .range([this.state.histogramChartDimensions.heightForBars, 0]);
 
         this.setState({
             timeHistogramBars
@@ -377,7 +385,7 @@ export class Histogram extends PureComponent {
         return timeHistogramBars.map((bar, index) => {
             const barWidth = this.histogramChartXScale(bar.x1)
                 - this.histogramChartXScale(bar.x0) - this.props.barOptions.margin;
-            const barHeight = this.state.histogramChartDimensions.height - this.histogramChartYScale(bar.yValue);
+            const barHeight = this.state.histogramChartDimensions.heightForBars - this.histogramChartYScale(bar.yValue);
 
             if (barWidth <= 0) {
                 return null;
@@ -481,17 +489,17 @@ export class Histogram extends PureComponent {
         const histogramXAxisClassname = "fdz-js-graph-histogram-axis-x fdz-css-graph-histogram-axis-x";
         const histogramYAxisClassname = "fdz-js-graph-histogram-axis-y fdz-css-graph-histogram-axis-y";
 
-        const histogramXAxiosYPosition = (this.props.height * this.props.histogramHeightRatio) - X_AXIS_HEIGHT;
-
         return (
             <div className="fdz-css-graph-histogram">
                 {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
                 <svg
                     ref={this.histogramChartRef}
-                    className="fdz-js-graph-histogram"
+                    className="fdz-js-graph-histogram fdz-css-graph-histogram"
                     width={this.props.size.width}
-                    height={this.props.height - Y_AXIS_PADDING}
-                    transform={`translate(${2 * this.props.padding}, ${this.props.padding})`}
+                    height={this.state.histogramChartDimensions.height}
+                    style={{
+                        "margin-bottom": this.props.spaceBetweenCharts
+                    }}
                 >
                     {/* Rendering the histogram bars */}
                     <g className="fdz-css-graph-histogram-bars">
@@ -501,7 +509,7 @@ export class Histogram extends PureComponent {
                     {/* Rendering the histogram x-axis */}
                     <g ref={this.histogramXAxisRef}
                         className={histogramXAxisClassname}
-                        transform={`translate(0, ${histogramXAxiosYPosition})`}
+                        transform={`translate(0, ${this.state.histogramChartDimensions.heightForBars})`}
                     />
 
                     {/* Rendering the histogram y-axis */}
@@ -514,7 +522,7 @@ export class Histogram extends PureComponent {
                 <DensityChart
                     width={this.state.densityChartDimensions.width}
                     height={this.state.densityChartDimensions.height}
-                    padding={this.props.padding}
+                    padding={PADDING}
                     brushDomainMax={this.state.brushDomain.max}
                     brushDomainMin={this.state.brushDomain.min}
                     frameStep={this.props.frameStep}

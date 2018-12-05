@@ -11,7 +11,6 @@ import { brushX } from "d3-brush";
 export default class DensityChart extends PureComponent {
     static propTypes = {
         data: PropTypes.arrayOf(PropTypes.object).isRequired,
-        spaceBetweenCharts: PropTypes.number.isRequired,
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         padding: PropTypes.number.isRequired,
@@ -176,17 +175,17 @@ export default class DensityChart extends PureComponent {
     render() {
         let leftPadding = 0;
 
-        const { width, height, padding, spaceBetweenCharts } = this.props;
+        const { width, height, padding } = this.props;
 
         if (!this.props.renderPlayButton) {
             leftPadding = padding * 2;
         }
 
-        const densityChartCanvasStyle = { top: spaceBetweenCharts, left: leftPadding };
+        const densityChartCanvasStyle = { left: leftPadding };
 
         return (<div className="fdz-css-graph-histogram-density__wrapper" >
             {this._renderPlayButton()}
-            <div className="fdz-css-graph-histogram-density">
+            <div className="fdz-css-graph-histogram-density" style={{ position: "relative" }}>
                 <canvas
                     ref={this.densityChartRef}
                     className="fdz-css-graph-histogram-density__canvas"
@@ -199,7 +198,7 @@ export default class DensityChart extends PureComponent {
                     className="fdz-css-graph-histogram-brush"
                     width={width}
                     height={height}
-                    transform={`translate(${leftPadding}, -${height - 4})`}
+                    style={{ position: "absolute", left: leftPadding, top: 0 }}
                 />
             </div>
         </div>);
