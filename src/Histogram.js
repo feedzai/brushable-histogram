@@ -35,14 +35,18 @@ const BUTTON_PADDING = 20;
 // We place as many ticks as a third of the number of bars, enough to give context and not overlap.
 const BARS_TICK_RATIO = 3;
 
-const BAR_TOOLTIP_ARROW_HEIGHT = 10;
+// Magical value so that the tooltip is positioned correctly vertically
+const BAR_TOOLTIP_ARROW_HEIGHT = 25;
 
 const MIN_ZOOM_VALUE = 1;
 
+// The density chart has a fixed height
 const DENSITY_CHART_HEIGHT_PX = 35;
 
+// The minimum total height of the chart
 const MIN_TOTAL_HEIGHT = 150;
 
+// An internal magic value used to align things horizontally
 const PADDING = 10;
 
 export class Histogram extends PureComponent {
@@ -108,7 +112,7 @@ export class Histogram extends PureComponent {
             playButtonPadding = (width > (PADDING + PADDING)) ? BUTTON_PADDING : 0;
         }
 
-        const histogramHeight = height - DENSITY_CHART_HEIGHT_PX;
+        const histogramHeight = height - DENSITY_CHART_HEIGHT_PX - props.spaceBetweenCharts;
 
         return {
             histogramChartDimensions: {
@@ -494,7 +498,7 @@ export class Histogram extends PureComponent {
                 {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
                 <svg
                     ref={this.histogramChartRef}
-                    className="fdz-js-graph-histogram fdz-css-graph-histogram"
+                    className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
                     width={this.props.size.width}
                     height={this.state.histogramChartDimensions.height}
                     style={{

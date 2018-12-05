@@ -65,5 +65,6 @@ stories
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             height={number("height (min 150)", 150)}
+            tooltipBarCustomization={histogramTooltipBar}
             renderPlayButton={true}
         />));
