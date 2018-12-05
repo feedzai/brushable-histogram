@@ -134,7 +134,6 @@ export class Histogram extends PureComponent {
             Histogram._calculateChartsPositionsAndSizing(props);
 
         nextState = {
-            width: props.size.width,
             histogramChartDimensions,
             densityChartDimensions
         };
@@ -145,7 +144,8 @@ export class Histogram extends PureComponent {
         // values for the brush domain.
         if (hasDataChanged) {
 
-            // Setting the new Data
+            // We need to store the date so that we can compare it to new data comming from `props`
+            // to see if we need to recalculate the domain
             nextState = { ...nextState, data: props.data };
 
             const min = d3Min(props.data, props.xAccessor);
@@ -187,7 +187,6 @@ export class Histogram extends PureComponent {
         // We need to compute the widths and domain right at the constructor because we
         // need them to compute the scales correctly, which are needed in the children
         this.state = Object.assign({
-            data: [],
             timeHistogramBars: [],
             selectedBarPosition: {},
             showHistogramBarTooltip: false
@@ -205,8 +204,8 @@ export class Histogram extends PureComponent {
 
     componentDidUpdate(prevProps) {
         const hasWidthChanged = prevProps.size.width !== this.props.size.width;
-        const hasDataChanged = prevProps.data.length !== this.state.data.length
-            || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.state.data);
+        const hasDataChanged = prevProps.data.length !== this.props.data.length
+            || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.props.data);
 
         if ((hasWidthChanged || hasDataChanged)) {
             this._createScaleAndZoom();
@@ -360,7 +359,7 @@ export class Histogram extends PureComponent {
             .thresholds(this.histogramChartXScale.ticks(this.props.defaultBarCount));
 
         // Calculating the time histogram bins
-        const timeHistogramBars = histogram(this.state.data).map((bar) => {
+        const timeHistogramBars = histogram(this.props.data).map((bar) => {
             const yValue = bar.reduce((sum, curr) => sum + this.props.yAccessor(curr), 0);
 
             return { ...bar, yValue };
@@ -536,8 +535,8 @@ export class Histogram extends PureComponent {
                     brushDensityChartColor={this.props.brushDensityChartColor}
                     brushDensityChartFadedColor={this.props.brushDensityChartFadedColor}
                     densityChartXScale={this.densityChartXScale}
-                    renderPlayButton={this.props.renderPlayButton && this.state.data.length > 0}
-                    data={this.state.data}
+                    renderPlayButton={this.props.renderPlayButton && this.props.data.length > 0}
+                    data={this.props.data}
                     onDomainChanged={this._onDensityChartDomainChanged}
                 />
             </div>
