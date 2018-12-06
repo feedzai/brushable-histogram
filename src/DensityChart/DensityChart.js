@@ -4,8 +4,9 @@ import PlayButton from "./PlayButton";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import {
     clearCanvas,
-    drawRect
-} from "../utils";
+    drawRect,
+    getRenderContext
+} from "../canvasRenderUtils";
 import { brushX } from "d3-brush";
 
 /**
@@ -50,7 +51,7 @@ export default class DensityChart extends PureComponent {
     }
 
     componentDidMount() {
-        this.densityChartCanvasContext = this.densityChartRef.current.getContext("2d");
+        this.densityChartCanvasContext = getRenderContext(this.densityChartRef.current);
 
         const { width, height, densityChartXScale } = this.props;
 

@@ -3,21 +3,12 @@ import { timeFormat } from "d3-time-format";
 import { mount } from "enzyme";
 import { Histogram } from "./Histogram";
 
-import sampleData from "../stories/sampleData";
+import { smallSample } from "../stories/sampleData";
 
-let mockCount = 0;
-
-jest.mock("./utils", () => ({
+jest.mock("./canvasRenderUtils", () => ({
     drawRect: () => {},
     clearCanvas: () => {},
-    randomString: () => mockCount++,
-    callIfExists: (fn, ...params) => {
-        if (typeof fn === "function") {
-            return fn.apply(this, params);
-        }
-
-        return fn;
-    }
+    getRenderContext: () => ({})
 }));
 
 const formatMinute = timeFormat("%I:%M");
@@ -45,9 +36,9 @@ function histogramTooltipBar(bar) {
 describe("render", () => {
     it("renders", () => {
         expect(mount(<Histogram
-            data={sampleData}
+            data={smallSample}
             size={{ width: 1000 }}
-            height={100}
+            height={150}
             xAccessor={(datapoint) => datapoint.timestamp}
             xAxisFormatter={formatMinute}
             yAccessor={(datapoint) => datapoint.total}
