@@ -75,7 +75,11 @@ export default class DensityChart extends PureComponent {
     }
 
     componentDidUpdate() {
+        const { brushDomainMin, brushDomainMax, densityChartXScale } = this.props;
+
         this._updateBrush();
+
+        this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
 
         this._renderDensityChart();
     }

@@ -557,8 +557,8 @@ export class Histogram extends PureComponent {
                     width={this.state.densityChartDimensions.width}
                     height={this.state.densityChartDimensions.height}
                     padding={PADDING}
-                    brushDomainMax={this.state.brushDomain.max}
-                    brushDomainMin={this.state.brushDomain.min}
+                    brushDomainMax={this.state.brushDomain.max instanceof Date ? this.state.brushDomain.max.getTime() : this.state.brushDomain.max}
+                    brushDomainMin={this.state.brushDomain.min instanceof Date ? this.state.brushDomain.min.getTime() : this.state.brushDomain.min}
                     frameStep={this.props.frameStep}
                     frameDelay={this.props.frameDelay}
                     xAccessor={this.props.xAccessor}
