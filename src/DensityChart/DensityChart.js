@@ -128,28 +128,6 @@ export default class DensityChart extends PureComponent {
     };
 
     /**
-     * Renders the play button that allows to replay a time-lapse of the events.
-     * @returns {React.Element|null}
-     */
-    _renderPlayButton() {
-        if (!this.props.renderPlayButton) {
-            return null;
-        }
-
-        const { width, densityChartXScale, brushDomainMax, brushDomainMin, frameStep, frameDelay } = this.props;
-
-        return (<PlayButton
-            width={width}
-            densityChartXScale={densityChartXScale}
-            brushDomainMax={brushDomainMax}
-            brushDomainMin={brushDomainMin}
-            frameStep={frameStep}
-            frameDelay={frameDelay}
-            moveBrush={this._moveBrush}
-        />);
-    }
-
-    /**
      * Draws density strip plot in canvas.
      * (Using canvas instead of svg for performance reasons as number of datapoints
      * can be very large)
@@ -186,6 +164,28 @@ export default class DensityChart extends PureComponent {
                 }
             );
         }
+    }
+
+    /**
+     * Renders the play button that allows to replay a time-lapse of the events.
+     * @returns {React.Element|null}
+     */
+    _renderPlayButton() {
+        if (!this.props.renderPlayButton) {
+            return null;
+        }
+
+        const { width, densityChartXScale, brushDomainMax, brushDomainMin, frameStep, frameDelay } = this.props;
+
+        return (<PlayButton
+            width={width}
+            densityChartXScale={densityChartXScale}
+            brushDomainMax={brushDomainMax}
+            brushDomainMin={brushDomainMin}
+            frameStep={frameStep}
+            frameDelay={frameDelay}
+            moveBrush={this._moveBrush}
+        />);
     }
 
     render() {

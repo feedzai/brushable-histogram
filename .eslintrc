@@ -1,5 +1,24 @@
 {
-    "rules": {},
+    "rules": {
+        "react/sort-comp": ["error", {
+            "order": [
+                "static-methods",
+                "lifecycle",
+                "event-handlers",
+                "everything-else",
+                "rendering"
+            ],
+            "groups": {
+                "event-handlers": [
+                    "/^_?on.+$/"
+                ],
+                "rendering": [
+                    "/^_?render.+$/",
+                    "render"
+                ]
+            }
+        }]
+    },
     "globals": {},
     "env": {
         "es6": true,
