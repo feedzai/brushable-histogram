@@ -65,7 +65,7 @@ export default class DensityChart extends PureComponent {
 
         this._moveBrush(densityChartXScale.range());
 
-        this._renderDensityChart();
+        this._drawDensityChart();
     }
 
     componentDidUpdate() {
@@ -75,7 +75,7 @@ export default class DensityChart extends PureComponent {
 
         this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
 
-        this._renderDensityChart();
+        this._drawDensityChart();
     }
 
     componentWillUnmount() {
@@ -156,7 +156,7 @@ export default class DensityChart extends PureComponent {
      *
      * @private
      */
-    _renderDensityChart() {
+    _drawDensityChart() {
         const {
             width,
             height,
@@ -208,6 +208,7 @@ export default class DensityChart extends PureComponent {
                     width={width}
                     height={height}
                     style={densityChartCanvasStyle}
+                    aria-label="Density Chart"
                 />
                 <svg
                     ref={this.densityBrushRef}
@@ -215,6 +216,7 @@ export default class DensityChart extends PureComponent {
                     width={width}
                     height={height}
                     style={{ position: "absolute", left: leftPadding, top: 0 }}
+                    alt="Density Chart Brush"
                 />
             </div>
         </div>);

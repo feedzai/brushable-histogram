@@ -1,6 +1,6 @@
 # Brushable Histogram
 
-The brushable histogram renders a time histogram with a preview of the whole data bellow it, that can be used both to
+The brushable histogram renders a time histogram with a preview of the whole data below it, that can be used both to
 pan and zoom in on specific intervals as well as to see an overview of the distribution of the data.
 
 Brushable histogram works as an uncontrolled component.
