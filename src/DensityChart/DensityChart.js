@@ -27,17 +27,19 @@ export default class DensityChart extends PureComponent {
         padding: PropTypes.number.isRequired,
         brushDomainMax: PropTypes.number.isRequired,
         brushDomainMin: PropTypes.number.isRequired,
-        frameStep: PropTypes.number.isRequired,
-        frameDelay: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
         onDomainChanged: PropTypes.func.isRequired,
         xAccessor: PropTypes.func.isRequired,
+        frameStep: PropTypes.number,
+        frameDelay: PropTypes.number,
         brushDensityChartColor: PropTypes.string,
         brushDensityChartFadedColor: PropTypes.string,
         renderPlayButton: PropTypes.bool
     };
 
     static defaultProps = {
+        frameStep: 0.025,
+        frameDelay: 500,
         renderPlayButton: true,
         brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
         brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)"
@@ -92,22 +94,35 @@ export default class DensityChart extends PureComponent {
      */
     _onResizeBrush = () => {
         // This occurs always when the user change the brush domain manually
-        if (d3Event.sourceEvent && d3Event.sourceEvent.type === "zoom") {
+
+        const event = this._getD3Event();
+
+        if (event.sourceEvent && event.sourceEvent.type === "zoom") {
             return;
         }
 
         let brushSelection;
 
-        if (Array.isArray(d3Event.selection)) {
-            brushSelection = d3Event.selection;
+        if (Array.isArray(event.selection)) {
+            brushSelection = event.selection;
         } else {
             // When we don't have any selection we should select everything
             brushSelection = this.props.densityChartXScale.range();
-            this._moveBrush(brushSelection);
         }
 
         this.props.onDomainChanged(brushSelection);
     };
+
+    /**
+     * Returns the D3 event object
+     *
+     * Used for stubbing in tests.
+     *
+     * @returns {Object|null}
+     */
+    _getD3Event() {
+        return d3Event;
+    }
 
     /**
      * Reapplies the brush

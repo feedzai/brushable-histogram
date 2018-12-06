@@ -1,0 +1,163 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render does a baseline render 1`] = `
+<DensityChart
+  brushDensityChartColor="rgba(33, 150, 243, 0.2)"
+  brushDensityChartFadedColor="rgba(176, 190, 197, 0.2)"
+  brushDomainMax={1533164401000}
+  brushDomainMin={1533164400146}
+  data={
+    Array [
+      Object {
+        "timestamp": 1533164401000,
+        "total": 0,
+      },
+      Object {
+        "timestamp": 1533164400540,
+        "total": 0.8414709848078965,
+      },
+      Object {
+        "timestamp": 1533164400417,
+        "total": 0.9092974268256817,
+      },
+      Object {
+        "timestamp": 1533164400990,
+        "total": 0.1411200080598672,
+      },
+      Object {
+        "timestamp": 1533164400654,
+        "total": 0.7568024953079282,
+      },
+      Object {
+        "timestamp": 1533164400283,
+        "total": 0.9589242746631385,
+      },
+      Object {
+        "timestamp": 1533164400960,
+        "total": 0.27941549819892586,
+      },
+      Object {
+        "timestamp": 1533164400753,
+        "total": 0.6569865987187891,
+      },
+      Object {
+        "timestamp": 1533164400146,
+        "total": 0.9893582466233818,
+      },
+      Object {
+        "timestamp": 1533164400912,
+        "total": 0.4121184852417566,
+      },
+    ]
+  }
+  densityChartXScale={[Function]}
+  frameDelay={500}
+  frameStep={0.025}
+  height={50}
+  onDomainChanged={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            0,
+            1000,
+          ],
+        ],
+        Array [
+          Array [
+            0,
+            1000,
+          ],
+        ],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  padding={10}
+  renderPlayButton={true}
+  width={1000}
+  xAccessor={[Function]}
+>
+  <div
+    className="fdz-css-graph-histogram-density__wrapper"
+  >
+    <PlayButton
+      brushDomainMax={1533164401000}
+      brushDomainMin={1533164400146}
+      densityChartXScale={[Function]}
+      frameDelay={500}
+      frameStep={0.025}
+      moveBrush={[Function]}
+      width={1000}
+    >
+      <button
+        className="ant-btn fdz-css-play-btn ant-btn-icon-only"
+        onClick={[Function]}
+        type="button"
+      >
+        <i
+          className="anticon anticon-play-circle"
+        >
+          <svg
+            fill="currentColor"
+            height="1em"
+            viewBox="64 64 896 896"
+            width="1em"
+          >
+            <path
+              d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 
+    0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
+            />
+            <path
+              d="M719.4 499.1l-296.1-215A15.9 15.9 0 0 0 398 297v430c0 13.1 14.8 20.5 25.3 12.9l296.1-215a15.9 
+    15.9 0 0 0 0-25.8zm-257.6 134V390.9L628.5 512 461.8 633.1z"
+            />
+          </svg>
+        </i>
+      </button>
+    </PlayButton>
+    <div
+      className="fdz-css-graph-histogram-density"
+      style={
+        Object {
+          "position": "relative",
+        }
+      }
+    >
+      <canvas
+        aria-label="Density Chart"
+        className="fdz-css-graph-histogram-density__canvas"
+        height={50}
+        style={
+          Object {
+            "left": 0,
+          }
+        }
+        width={1000}
+      />
+      <svg
+        alt="Density Chart Brush"
+        className="fdz-css-graph-histogram-brush"
+        height={50}
+        style={
+          Object {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+          }
+        }
+        width={1000}
+      />
+    </div>
+  </div>
+</DensityChart>
+`;

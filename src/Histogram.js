@@ -90,8 +90,6 @@ export class Histogram extends PureComponent {
         tooltipBarCustomization: null,
         onIntervalChange: () => {},
         minZoomUnit: 1000,
-        frameStep: 0.025,
-        frameDelay: 500,
         renderPlayButton: true
     }
 

@@ -34,7 +34,7 @@ function histogramTooltipBar(bar) {
 }
 
 describe("render", () => {
-    it("renders", () => {
+    it("does a baseline render", () => {
         expect(mount(<Histogram
             data={smallSample}
             size={{ width: 1000 }}

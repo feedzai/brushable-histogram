@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`render renders 1`] = `
+exports[`render does a baseline render 1`] = `
 <Histogram
   barOptions={
     Object {
@@ -52,8 +52,6 @@ exports[`render renders 1`] = `
     ]
   }
   defaultBarCount={18}
-  frameDelay={500}
-  frameStep={0.025}
   height={150}
   minZoomUnit={1000}
   onIntervalChange={[Function]}
