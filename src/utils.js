@@ -1,10 +1,21 @@
 import { timeFormat } from "d3-time-format";
 import { timeSecond, timeMinute, timeHour, timeDay, timeWeek, timeMonth, timeYear } from "d3-time";
 
+/**
+ * Returns true if the given value is an Object.
+ * @param {*} obj
+ * @returns {boolean}
+ */
 export function isObject(obj) {
     return Object(obj) === obj;
 }
 
+/**
+ * Clears the given canvas.
+ * @param {Object} context
+ * @param {number} width
+ * @param {number} height
+ */
 export function clearCanvas(context, width, height) {
     context.save();
     context.clearRect(0, 0, width, height);
@@ -14,10 +25,10 @@ export function clearCanvas(context, width, height) {
  * Renders a rectangle in Canvas
  *
  * @param {Object} canvasContext
- * @param {Number} x
- * @param {Number} y
- * @param {Number} width
- * @param {Number} height
+ * @param {number} x
+ * @param {number} y
+ * @param {number} width
+ * @param {number} height
  * @param {Object} options
  */
 export function drawRect(canvasContext, x = 0, y = 0, width = 0, height = 0, options = null) {
@@ -28,6 +39,11 @@ export function drawRect(canvasContext, x = 0, y = 0, width = 0, height = 0, opt
     canvasContext.fillRect(x, y, width, height);
 }
 
+/**
+ * The default histogram y axis formatter. Only returns integer values.
+ * @param {number} value
+ * @returns {String}
+ */
 export function histogramDefaultYAxisFormatter(value) {
     if (value > 0 && Number.isInteger(value)) {
         return value;
@@ -44,16 +60,48 @@ const formatMillisecond = timeFormat(".%L"),
     formatMonth = timeFormat("%B"),
     formatYear = timeFormat("%Y");
 
+/**
+ * Formats a date. This is the histogram default x axis formatter.
+ *
+ * This code is adapted from the D3 documentation.
+ *
+ * @param {Date} date
+ * @returns {string}
+ */
 export function multiDateFormat(date) {
-    return (timeSecond(date) < date ? formatMillisecond
-        : timeMinute(date) < date ? formatSecond
-            : timeHour(date) < date ? formatMinute
-                : timeDay(date) < date ? formatHour
-                    : timeMonth(date) < date ? (timeWeek(date) < date ? formatDay : formatWeek)
-                        : timeYear(date) < date ? formatMonth
-                            : formatYear)(date);
+    let formatter;
+
+    if (timeSecond(date) < date) {
+        formatter = formatMillisecond;
+    } else if (timeMinute(date) < date) {
+        formatter = formatSecond;
+    } else if (timeHour(date) < date) {
+        formatter = formatMinute;
+    } else if (timeDay(date) < date) {
+        formatter = formatHour;
+    } else if (timeMonth(date) < date) {
+        if (timeWeek(date) < date) {
+            formatter = formatDay;
+        } else {
+            formatter = formatWeek;
+        }
+    } else if (timeYear(date) < date) {
+        formatter = formatMonth;
+    } else {
+        formatter = formatYear;
+    }
+
+    return formatter(date);
 }
 
+/**
+ * Compares the x and y histogram data in two arrays and returns whenever they are the same.
+ * @param {function} xAcessor The function that will return the x value.
+ * @param {function} yAcessor The function that will return the y value.
+ * @param {Array.<Object>} data1 The first data array.
+ * @param {Array.<Object>} data2 The second data array.
+ * @returns {boolean}
+ */
 export function isHistogramDataEqual(xAcessor, yAcessor, data1, data2) {
     if (data1.length !== data2.length) {
         return false;
@@ -69,4 +117,14 @@ export function isHistogramDataEqual(xAcessor, yAcessor, data1, data2) {
     }
 
     return true;
+}
+
+/**
+ * Converts a Date object to unix timestamp if the parameter is
+ * indeed a date, if it's not then just return the value.
+ * @param {Date|number} date
+ * @returns {number}
+ */
+export function dateToTimestamp(date) {
+    return date instanceof Date ? date.getTime() : date;
 }
