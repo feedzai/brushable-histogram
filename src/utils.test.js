@@ -133,12 +133,12 @@ describe("calculateChartsPositionsAndSizing", () => {
             }
         })).toEqual({
             "densityChartDimensions": {
-                "height": 35,
+                "height": 20,
                 "width": 940
             },
             "histogramChartDimensions": {
-                "height": 100,
-                "heightForBars": 82,
+                "height": 115,
+                "heightForBars": 97,
                 "width": 990
             }
         });
@@ -154,12 +154,12 @@ describe("calculateChartsPositionsAndSizing", () => {
             }
         })).toEqual({
             "densityChartDimensions": {
-                "height": 35,
+                "height": 20,
                 "width": 960
             },
             "histogramChartDimensions": {
-                "height": 100,
-                "heightForBars": 82,
+                "height": 115,
+                "heightForBars": 97,
                 "width": 990
             }
         });
@@ -181,12 +181,12 @@ describe("calculateChartSizesAndDomain", () => {
         }, smallSample.slice(1), previousBrushDomain)).toEqual({
             "data": smallSample,
             "densityChartDimensions": {
-                "height": 35,
+                "height": 20,
                 "width": 960
             },
             "histogramChartDimensions": {
-                "height": 100,
-                "heightForBars": 82,
+                "height": 115,
+                "heightForBars": 97,
                 "width": 990
             }
         });
@@ -206,16 +206,16 @@ describe("calculateChartSizesAndDomain", () => {
         }, smallSample.slice(1), { min: 1533164500146, max: 1533167401146 })).toEqual({
             "data": smallSample,
             "brushDomain": {
-                "max": 1533164401000,
-                "min": 1533164400146
+                "max": 1534164400000,
+                "min": 1533309900034
             },
             "densityChartDimensions": {
-                "height": 35,
+                "height": 20,
                 "width": 960
             },
             "histogramChartDimensions": {
-                "height": 100,
-                "heightForBars": 82,
+                "height": 115,
+                "heightForBars": 97,
                 "width": 990
             }
         });
@@ -234,12 +234,12 @@ describe("calculateChartSizesAndDomain", () => {
             yAccessor: yAccessor
         }, smallSample, previousBrushDomain)).toEqual({
             "densityChartDimensions": {
-                "height": 35,
+                "height": 20,
                 "width": 960
             },
             "histogramChartDimensions": {
-                "height": 100,
-                "heightForBars": 82,
+                "height": 115,
+                "heightForBars": 97,
                 "width": 990
             }
         });

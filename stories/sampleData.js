@@ -12,7 +12,7 @@ export function calculate(numberOfPoints) {
 
     for (let i = 0; i < numberOfPoints; i++) {
         data.push({
-            "timestamp": startTimestamp + Math.abs(Math.floor(Math.cos(i) * 1000)),
+            "timestamp": startTimestamp + Math.abs(Math.floor(Math.cos(i) * 1000000000)),
             "total": Math.abs(Math.sin(i))
         });
     }

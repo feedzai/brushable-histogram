@@ -2,8 +2,8 @@
 
 exports[`render does a baseline render 1`] = `
 <PlayButton
-  brushDomainMax={1533164401000}
-  brushDomainMin={1533164400146}
+  brushDomainMax={1534164400000}
+  brushDomainMin={1533309900034}
   densityChartXScale={[Function]}
   frameDelay={500}
   frameStep={0.025}
