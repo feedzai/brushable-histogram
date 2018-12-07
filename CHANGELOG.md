@@ -2,7 +2,7 @@
 
 # 1.1.0 (TBD)
 [x] Document the props and have better defaults
-[ ] Add more unit tests
+[x] Add more unit tests (still missing for Histogram.js)
 [x] Extract the "timeline" to another module
 [x] Remove the dependency on andtd
 [x] Remove the dependency on lodash
@@ -11,7 +11,10 @@
 [x] Add missing jsdoc
 [x] Remove the `randomString` key hack
 [x] Make the play button optional
-[ ] Benchmark with a lot of nodes
+[x] Benchmark with a lot of nodes
+    - Initial render is relativelly fast with 100k data points
+    - Tooltip highlight works smoothly with 300k data points
+    - Brushing works with 100k data points, and smoothly with 25k data points
 [x] Handle different widths and heights correctly
 [x] Remove global selectors
 [ ] Create a static page with the story book

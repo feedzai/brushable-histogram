@@ -3,8 +3,23 @@ import {
     histogramDefaultYAxisFormatter,
     multiDateFormat,
     isHistogramDataEqual,
-    dateToTimestamp
+    dateToTimestamp,
+    calculateChartsPositionsAndSizing,
+    calculateChartSizesAndDomain
 } from "./utils";
+import { max as d3Max, min as d3Min } from "d3-array";
+import { smallSample } from "../stories/sampleData";
+
+let xAccessor, yAccessor, previousBrushDomain;
+
+beforeEach(() => {
+    const brushDomainMin = d3Min(smallSample, xAccessor);
+    const brushDomainMax = d3Max(smallSample, xAccessor);
+
+    xAccessor = (elm) => elm.timestamp;
+    yAccessor = (elm) => elm.total;
+    previousBrushDomain = { max: brushDomainMax, min: brushDomainMin };
+});
 
 describe("isObject", () => {
     it("returns true if an object is passed", () => {
@@ -107,3 +122,126 @@ describe("dateToTimestamp", () => {
     });
 });
 
+describe("calculateChartsPositionsAndSizing", () => {
+    it("calculate the sizes correctly if the play button is rendered", () => {
+        expect(calculateChartsPositionsAndSizing({
+            height: 150,
+            renderPlayButton: true,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            }
+        })).toEqual({
+            "densityChartDimensions": {
+                "height": 35,
+                "width": 940
+            },
+            "histogramChartDimensions": {
+                "height": 100,
+                "heightForBars": 82,
+                "width": 990
+            }
+        });
+    });
+
+    it("calculate the sizes correctly if the play button is not rendered", () => {
+        expect(calculateChartsPositionsAndSizing({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            }
+        })).toEqual({
+            "densityChartDimensions": {
+                "height": 35,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 100,
+                "heightForBars": 82,
+                "width": 990
+            }
+        });
+    });
+});
+
+describe("calculateChartSizesAndDomain", () => {
+    it("returns the data if the data has changed", () => {
+        expect(calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: smallSample,
+            xAccessor: xAccessor,
+            yAccessor: yAccessor
+        }, smallSample.slice(1), previousBrushDomain)).toEqual({
+            "data": smallSample,
+            "densityChartDimensions": {
+                "height": 35,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 100,
+                "heightForBars": 82,
+                "width": 990
+            }
+        });
+    });
+
+    it("returns the data and domain if the domain has changed", () => {
+        expect(calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: smallSample,
+            xAccessor: xAccessor,
+            yAccessor: yAccessor
+        }, smallSample.slice(1), { min: 1533164500146, max: 1533167401146 })).toEqual({
+            "data": smallSample,
+            "brushDomain": {
+                "max": 1533164401000,
+                "min": 1533164400146
+            },
+            "densityChartDimensions": {
+                "height": 35,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 100,
+                "heightForBars": 82,
+                "width": 990
+            }
+        });
+    });
+
+    it("returns doesn't return data and domain if the data has not changed", () => {
+        expect(calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: smallSample,
+            xAccessor: xAccessor,
+            yAccessor: yAccessor
+        }, smallSample, previousBrushDomain)).toEqual({
+            "densityChartDimensions": {
+                "height": 35,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 100,
+                "heightForBars": 82,
+                "width": 990
+            }
+        });
+    });
+});

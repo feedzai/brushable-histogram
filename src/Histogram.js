@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { histogram as d3Histogram, max as d3Max, min as d3Min } from "d3-array";
+import { histogram as d3Histogram, max as d3Max } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
@@ -9,8 +9,18 @@ import {
     histogramDefaultYAxisFormatter,
     multiDateFormat,
     isHistogramDataEqual,
-    dateToTimestamp
+    dateToTimestamp,
+    calculateChartSizesAndDomain
 } from "./utils";
+import {
+    X_AXIS_PADDING,
+    Y_AXIS_PADDING,
+    BARS_TICK_RATIO,
+    BAR_TOOLTIP_ARROW_HEIGHT,
+    MIN_ZOOM_VALUE,
+    MIN_TOTAL_HEIGHT,
+    PADDING
+} from "./constants";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import DensityChart from "./DensityChart/DensityChart";
 
@@ -24,31 +34,6 @@ import DensityChart from "./DensityChart/DensityChart";
  * @author Victor Fernandes (victor.fernandes@feedzai.com) ("productization" process)
  * @author Luis Cardoso (luis.cardoso@feedzai.com)
  */
-
-// Constants
-
-// We reserve some space for the x adn y axis ticks.
-const X_AXIS_HEIGHT = 18;
-const X_AXIS_PADDING = .02;
-const Y_AXIS_PADDING = 3;
-const BUTTON_PADDING = 20;
-
-// We place as many ticks as a third of the number of bars, enough to give context and not overlap.
-const BARS_TICK_RATIO = 3;
-
-// Magical value so that the tooltip is positioned correctly vertically
-const BAR_TOOLTIP_ARROW_HEIGHT = 25;
-
-const MIN_ZOOM_VALUE = 1;
-
-// The density chart has a fixed height
-const DENSITY_CHART_HEIGHT_PX = 35;
-
-// The minimum total height of the chart
-const MIN_TOTAL_HEIGHT = 150;
-
-// An internal magic value used to align things horizontally
-const PADDING = 10;
 
 export class Histogram extends PureComponent {
 
@@ -93,92 +78,12 @@ export class Histogram extends PureComponent {
         renderPlayButton: true
     }
 
-    /**
-     * Receives the size the component should have, the padding and the how much vertical space the
-     * histogram and the density plots should take and calculates the charts sizes and positions
-     *
-     * @param {Object} props
-     * @returns {Object}
-     * @private
-     */
-    static _calculateChartsPositionsAndSizing(props) {
-        const { height, renderPlayButton } = props;
-        const width = props.size.width;
-
-        let playButtonPadding = 0;
-
-        if (renderPlayButton) {
-            playButtonPadding = (width > (PADDING + PADDING)) ? BUTTON_PADDING : 0;
-        }
-
-        const histogramHeight = height - DENSITY_CHART_HEIGHT_PX - props.spaceBetweenCharts;
-
-        return {
-            histogramChartDimensions: {
-                width: (width - PADDING),
-                height: histogramHeight,
-                heightForBars: histogramHeight - X_AXIS_HEIGHT
-            },
-            densityChartDimensions: {
-                width: width - (PADDING * 4) - playButtonPadding,
-                height: DENSITY_CHART_HEIGHT_PX
-            }
-        };
-    }
-
-    /**
-     * Calculates the size of the histogram and density charts and the domain.
-     * @param {Object} props
-     * @param {Array.<Object>} previousData
-     * @param {Object} previousBrushDomain
-     * @returns {Object}
-     */
-    static calculateChartSizesAndDomain(props, previousData, previousBrushDomain) {
-        let nextState = {};
-
-        const { histogramChartDimensions, densityChartDimensions } =
-            Histogram._calculateChartsPositionsAndSizing(props);
-
-        nextState = {
-            histogramChartDimensions,
-            densityChartDimensions
-        };
-
-        const hasDataChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, previousData);
-
-        // If the new information received is different we need to verify if there is any update in the max and min
-        // values for the brush domain.
-        if (hasDataChanged) {
-
-            // We need to store the date so that we can compare it to new data comming from `props`
-            // to see if we need to recalculate the domain
-            nextState = { ...nextState, data: props.data };
-
-            const min = d3Min(props.data, props.xAccessor);
-
-            const max = d3Max(props.data, props.xAccessor);
-
-            // If the brush domain changed we could
-            if (previousBrushDomain.min > min || previousBrushDomain.max < max) {
-                nextState = {
-                    ...nextState,
-                    brushDomain: {
-                        min,
-                        max
-                    }
-                };
-            }
-        }
-
-        return nextState;
-    }
-
     static getDerivedStateFromProps(props, state) {
         if (props.height < MIN_TOTAL_HEIGHT) {
             throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
         }
 
-        const nextState = Histogram.calculateChartSizesAndDomain(props, state.data, state.brushDomain);
+        const nextState = calculateChartSizesAndDomain(props, state.data, state.brushDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
@@ -196,7 +101,7 @@ export class Histogram extends PureComponent {
             timeHistogramBars: [],
             selectedBarPosition: {},
             showHistogramBarTooltip: false
-        }, Histogram.calculateChartSizesAndDomain(props, [], {
+        }, calculateChartSizesAndDomain(props, [], {
             max: -Infinity,
             min: Infinity
         }));
@@ -275,18 +180,11 @@ export class Histogram extends PureComponent {
         const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
         const bar = this.state.timeHistogramBars[index];
 
-        const barBoundingBox = evt.currentTarget.getBoundingClientRect();
-
-        const selectedBarPosition = {
-            top: barBoundingBox.top,
-            right: barBoundingBox.right,
-            bottom: barBoundingBox.bottom,
-            left: barBoundingBox.left,
-            width: barBoundingBox.width,
-            height: barBoundingBox.height
-        };
-
-        this.setState({ showHistogramBarTooltip: true, currentBar: bar, selectedBarPosition });
+        this.setState({
+            showHistogramBarTooltip: true,
+            currentBar: bar,
+            selectedBarPosition: evt.currentTarget.getBoundingClientRect()
+        });
     };
 
     /**

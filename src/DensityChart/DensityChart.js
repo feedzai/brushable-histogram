@@ -69,14 +69,18 @@ export default class DensityChart extends PureComponent {
         this._drawDensityChart();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { brushDomainMin, brushDomainMax, densityChartXScale } = this.props;
 
         this._updateBrush();
 
         this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
 
-        this._drawDensityChart();
+        // We only need to re-render the density chart if the data, the weight or the height have changed.
+        if (prevProps.data !== this.props.data || prevProps.width !== this.props.width ||
+                prevProps.height !== this.props.height) {
+            this._drawDensityChart();
+        }
     }
 
     componentWillUnmount() {

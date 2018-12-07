@@ -1,5 +1,12 @@
 import { timeFormat } from "d3-time-format";
 import { timeSecond, timeMinute, timeHour, timeDay, timeWeek, timeMonth, timeYear } from "d3-time";
+import { max as d3Max, min as d3Min } from "d3-array";
+import {
+    X_AXIS_HEIGHT,
+    BUTTON_PADDING,
+    DENSITY_CHART_HEIGHT_PX,
+    PADDING
+} from "./constants";
 
 /**
  * utils
@@ -108,4 +115,83 @@ export function isHistogramDataEqual(xAcessor, yAcessor, data1, data2) {
  */
 export function dateToTimestamp(date) {
     return date instanceof Date ? date.getTime() : date;
+}
+
+/**
+ * Receives the size the component should have, the padding and the how much vertical space the
+ * histogram and the density plots should take and calculates the charts sizes and positions
+ *
+ * @param {Object} props
+ * @returns {Object}
+ * @private
+ */
+export function calculateChartsPositionsAndSizing(props) {
+    const { height, renderPlayButton, spaceBetweenCharts, size } = props;
+    const width = size.width;
+
+    let playButtonPadding = 0;
+
+    if (renderPlayButton) {
+        playButtonPadding = (width > (PADDING + PADDING)) ? BUTTON_PADDING : 0;
+    }
+
+    const histogramHeight = height - DENSITY_CHART_HEIGHT_PX - spaceBetweenCharts;
+
+    return {
+        histogramChartDimensions: {
+            width: (width - PADDING),
+            height: histogramHeight,
+            heightForBars: histogramHeight - X_AXIS_HEIGHT
+        },
+        densityChartDimensions: {
+            width: width - (PADDING * 4) - playButtonPadding,
+            height: DENSITY_CHART_HEIGHT_PX
+        }
+    };
+}
+
+/**
+ * Calculates the size of the histogram and density charts and the domain.
+ * @param {Object} props
+ * @param {Array.<Object>} previousData
+ * @param {Object} previousBrushDomain
+ * @returns {Object}
+ */
+export function calculateChartSizesAndDomain(props, previousData, previousBrushDomain) {
+    let nextState = {};
+
+    const { histogramChartDimensions, densityChartDimensions } = calculateChartsPositionsAndSizing(props);
+
+    nextState = {
+        histogramChartDimensions,
+        densityChartDimensions
+    };
+
+    const hasDataChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, previousData);
+
+    // If the new information received is different we need to verify if there is any update in the max and min
+    // values for the brush domain.
+    if (hasDataChanged) {
+
+        // We need to store the date so that we can compare it to new data comming from `props`
+        // to see if we need to recalculate the domain
+        nextState = { ...nextState, data: props.data };
+
+        const min = d3Min(props.data, props.xAccessor);
+
+        const max = d3Max(props.data, props.xAccessor);
+
+        // If the brush domain changed we could
+        if (previousBrushDomain.min > min || previousBrushDomain.max < max) {
+            nextState = {
+                ...nextState,
+                brushDomain: {
+                    min,
+                    max
+                }
+            };
+        }
+    }
+
+    return nextState;
 }
