@@ -24,7 +24,7 @@ export const BAR_TOOLTIP_ARROW_HEIGHT = 25;
 export const MIN_ZOOM_VALUE = 1;
 
 // The density chart has a fixed height
-export const DENSITY_CHART_HEIGHT_PX = 35;
+export const DENSITY_CHART_HEIGHT_PX = 20;
 
 // The minimum total height of the chart
 export const MIN_TOTAL_HEIGHT = 150;
