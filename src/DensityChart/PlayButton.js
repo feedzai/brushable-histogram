@@ -64,7 +64,7 @@ export default class PlayButton extends PureComponent {
 
         this.frameEnd = frameStart;
 
-        if (brushedMaxRange === playEnd){
+        if (brushedMaxRange === playEnd) {
             this.frameEnd = frameStart;
         } else {
             this.frameEnd = brushedMaxRange;
@@ -94,7 +94,7 @@ export default class PlayButton extends PureComponent {
      * @param {Number} step
      * @private
      */
-    _playFrame(start, end, step){
+    _playFrame(start, end, step) {
         // If end of frame is at end of play region then stop domain-lapse
 
         if (this.frameEnd >= end) {
@@ -125,7 +125,7 @@ export default class PlayButton extends PureComponent {
      * @param {Number} step
      * @private
      */
-    _playLapseAtInterval(start, end, step){
+    _playLapseAtInterval(start, end, step) {
         this.playInterval = setInterval(() => {
             this._playFrame(start, end, step);
         }, this.props.frameDelay);

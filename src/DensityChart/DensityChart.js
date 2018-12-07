@@ -191,11 +191,12 @@ export default class DensityChart extends PureComponent {
      * @returns {React.Element|null}
      */
     _renderPlayButton() {
-        if (!this.props.renderPlayButton) {
+        const { width, densityChartXScale, brushDomainMax, brushDomainMin,
+            frameStep, frameDelay, renderPlayButton } = this.props;
+
+        if (!renderPlayButton) {
             return null;
         }
-
-        const { width, densityChartXScale, brushDomainMax, brushDomainMin, frameStep, frameDelay } = this.props;
 
         return (<PlayButton
             width={width}
