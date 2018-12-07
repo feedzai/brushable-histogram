@@ -60,7 +60,7 @@ $tooltip-arrow-height: 6px;
 }
 
 .fdz-css-graph-histogram {
-    margin-top: 50px;
+    margin-top: 80px;
 
     &-bars{
         rect {
@@ -74,11 +74,12 @@ $tooltip-arrow-height: 6px;
         &--tooltip {
             background-color: $color-blue-gray-600;
             width: $tooltip-width;
-            padding: 0.5em 0 0.5em 0;
+            padding: 0.3em 0.1em 0.3em 0.1em;
             margin-left: -$tooltip-width / 2;
             margin-top: -$tooltip-heigth - 10;
             text-align: center;
             z-index: $histogram-tooltip-z-index;
+            font-family: 'Roboto Mono', Arial, sans-serif;
 
             &:after {
                 top: 100%;
@@ -95,6 +96,7 @@ $tooltip-arrow-height: 6px;
             &-value {
                 color: $color-blue-200;
                 font-size: 10px;
+                margin-bottom: 2px;
             }
 
             &-dates {
