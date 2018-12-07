@@ -4,7 +4,6 @@ import { max as d3Max, min as d3Min } from "d3-array";
 import { scaleTime } from "d3-scale";
 import DensityChart from "./DensityChart";
 import PlayButton from "./PlayButton";
-
 import { smallSample } from "../../stories/sampleData";
 
 jest.mock("../canvasRenderUtils", () => ({

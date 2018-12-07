@@ -38,8 +38,6 @@ export default class DensityChart extends PureComponent {
     };
 
     static defaultProps = {
-        frameStep: 0.025,
-        frameDelay: 500,
         renderPlayButton: true,
         brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
         brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)"

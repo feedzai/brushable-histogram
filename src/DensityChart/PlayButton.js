@@ -29,18 +29,17 @@ export default class PlayButton extends PureComponent {
 
     static propTypes = {
         width: PropTypes.number.isRequired,
-        brushDomainMax: PropTypes.oneOfType([
-            PropTypes.instanceOf(Date),
-            PropTypes.number
-        ]).isRequired,
-        brushDomainMin: PropTypes.oneOfType([
-            PropTypes.instanceOf(Date),
-            PropTypes.number
-        ]).isRequired,
-        frameStep: PropTypes.number.isRequired,
-        frameDelay: PropTypes.number.isRequired,
+        brushDomainMax: PropTypes.number.isRequired,
+        brushDomainMin: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
-        moveBrush: PropTypes.func.isRequired
+        moveBrush: PropTypes.func.isRequired,
+        frameStep: PropTypes.number,
+        frameDelay: PropTypes.number
+    };
+
+    static defaultProps = {
+        frameStep: 0.025,
+        frameDelay: 500
     };
 
     state = {
@@ -65,7 +64,7 @@ export default class PlayButton extends PureComponent {
 
         this.frameEnd = frameStart;
 
-        if (brushedMaxRange === playEnd || brushedMaxRange === frameStart){
+        if (brushedMaxRange === playEnd){
             this.frameEnd = frameStart;
         } else {
             this.frameEnd = brushedMaxRange;

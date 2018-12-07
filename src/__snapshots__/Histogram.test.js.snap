@@ -326,8 +326,6 @@ exports[`render does a baseline render 1`] = `
         ]
       }
       densityChartXScale={[Function]}
-      frameDelay={500}
-      frameStep={0.025}
       height={35}
       onDomainChanged={[Function]}
       padding={10}

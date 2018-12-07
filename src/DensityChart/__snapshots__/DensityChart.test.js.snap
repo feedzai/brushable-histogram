@@ -51,8 +51,6 @@ exports[`render does a baseline render 1`] = `
     ]
   }
   densityChartXScale={[Function]}
-  frameDelay={500}
-  frameStep={0.025}
   height={50}
   onDomainChanged={
     [MockFunction] {
