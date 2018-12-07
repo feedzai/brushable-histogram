@@ -41,43 +41,39 @@ function histogramTooltipBar(bar) {
 }
 
 stories
-    .add("bare bones example", () =>
+    .add("Basic example", () =>
         (<Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
-            renderPlayButton={true}
         />))
-    .add("have a custom tooltip", () =>
+    .add("With a custom tooltip", () =>
         (<Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             tooltipBarCustomization={histogramTooltipBar}
-            renderPlayButton={true}
         />))
-    .add("have custom axis formatters", () =>
+    .add("With a custom axis formatters", () =>
         (<Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
-            xAxisFormatter={formatMinute}
+            xAxisFormatter={formatDayFull}
             yAxisFormatter={(value) => (value > 0 ? `${value}$` : "")}
             yAccessor={(datapoint) => datapoint.total}
-            renderPlayButton={true}
         />))
-    .add("hide the play button", () =>
+    .add("Without the play button", () =>
         (<Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             renderPlayButton={false}
         />))
-    .add("have custom a height", () =>
+    .add("With a custom a height", () =>
         (<Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
-            height={number("height (min 150)", 150)}
+            height={number("height (min 150)", 300)}
             tooltipBarCustomization={histogramTooltipBar}
-            renderPlayButton={true}
         />));
