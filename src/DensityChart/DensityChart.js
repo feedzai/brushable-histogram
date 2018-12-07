@@ -76,9 +76,11 @@ export default class DensityChart extends PureComponent {
 
         this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
 
-        // We only need to re-render the density chart if the data, the weight or the height have changed.
+        // We only need to re-render the density chart if the data, the weight, the height or
+        // the chart x scale have changed.
         if (prevProps.data !== this.props.data || prevProps.width !== this.props.width ||
-                prevProps.height !== this.props.height) {
+                prevProps.height !== this.props.height ||
+                prevProps.densityChartXScale !== this.props.densityChartXScale) {
             this._drawDensityChart();
         }
     }
