@@ -14,7 +14,7 @@ let xAccessor, yAccessor, previousBrushDomain;
 
 beforeEach(() => {
     const brushDomainMin = d3Min(smallSample, xAccessor);
-    const brushDomainMax = d3Max(smallSample, xAccessor);
+    const brushDomainMax = d3Max(smallSample, xAccessor) + 1;
 
     xAccessor = (elm) => elm.timestamp;
     yAccessor = (elm) => elm.total;
@@ -206,7 +206,7 @@ describe("calculateChartSizesAndDomain", () => {
         }, smallSample.slice(1), { min: 1533164500146, max: 1533167401146 })).toEqual({
             "data": smallSample,
             "brushDomain": {
-                "max": 1534164400000,
+                "max": 1534164400001,
                 "min": 1533309900034
             },
             "densityChartDimensions": {

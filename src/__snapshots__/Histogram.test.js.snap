@@ -309,7 +309,7 @@ exports[`render does a baseline render 1`] = `
     <DensityChart
       brushDensityChartColor="rgba(33, 150, 243, 0.2)"
       brushDensityChartFadedColor="rgba(176, 190, 197, 0.2)"
-      brushDomainMax={1534164400000}
+      brushDomainMax={1534164400001}
       brushDomainMin={1533309900034}
       data={
         Array [
@@ -368,7 +368,7 @@ exports[`render does a baseline render 1`] = `
         className="fdz-css-graph-histogram-density__wrapper"
       >
         <PlayButton
-          brushDomainMax={1534164400000}
+          brushDomainMax={1534164400001}
           brushDomainMin={1533309900034}
           densityChartXScale={[Function]}
           frameDelay={500}
