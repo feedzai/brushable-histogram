@@ -202,22 +202,25 @@ export class Histogram extends PureComponent {
      * @private
      */
     _createScaleAndZoom() {
+        const { min, max } = this.state.brushDomain;
+        const { width, height } = this.state.histogramChartDimensions;
+
         this.densityChartXScale = scaleTime()
-            .domain([ this.state.brushDomain.min, this.state.brushDomain.max])
+            .domain([ min, max])
             .range([ 0, this.state.densityChartDimensions.width ]);
 
         // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.
-        const MAX_ZOOM_VALUE = (this.state.brushDomain.max - this.state.brushDomain.min) / this.props.minZoomUnit;
+        const MAX_ZOOM_VALUE = (max - min) / this.props.minZoomUnit;
 
         this.zoom = d3Zoom()
             .scaleExtent([MIN_ZOOM_VALUE, MAX_ZOOM_VALUE])
             .translateExtent([
                 [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+                [width, height]
             ])
             .extent([
                 [0, 0],
-                [this.state.histogramChartDimensions.width, this.state.histogramChartDimensions.height]
+                [width, height]
             ])
             .on("zoom", this._onResizeZoom);
     }
@@ -415,58 +418,80 @@ export class Histogram extends PureComponent {
         );
     }
 
-    render() {
+    /**
+     * Renders the histogram chart (i.e., the bars and the axis).
+     * @returns {React.Element}
+     */
+    _renderHistogramChart() {
         // Histogram classNames
         const histogramXAxisClassname = "fdz-js-graph-histogram-axis-x fdz-css-graph-histogram-axis-x";
         const histogramYAxisClassname = "fdz-js-graph-histogram-axis-y fdz-css-graph-histogram-axis-y";
 
+        const { histogramChartDimensions, timeHistogramBars } = this.state;
+        const { spaceBetweenCharts, size } = this.props;
+
+        return (<svg
+            ref={this.histogramChartRef}
+            className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
+            width={size.width}
+            height={histogramChartDimensions.height}
+            style={{
+                marginBottom: spaceBetweenCharts
+            }}
+        >
+            {/* Rendering the histogram bars */}
+            <g className="fdz-css-graph-histogram-bars">
+                {this._renderHistogramBars(timeHistogramBars)}
+            </g>
+
+            {/* Rendering the histogram x-axis */}
+            <g ref={this.histogramXAxisRef}
+                className={histogramXAxisClassname}
+                transform={`translate(0, ${histogramChartDimensions.heightForBars})`}
+            />
+
+            {/* Rendering the histogram y-axis */}
+            <g ref={this.histogramYAxisRef}
+                className={histogramYAxisClassname}
+                transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
+            />
+        </svg>);
+    }
+
+    /**
+     * Renders the density chart.
+     * @returns {React.Element}
+     */
+    _renderDensityChart() {
+        const { densityChartDimensions, brushDomain } = this.state;
+        const { frameStep, frameDelay, xAccessor, spaceBetweenCharts, brushDensityChartColor,
+            brushDensityChartFadedColor, renderPlayButton, data } = this.props;
+
+        return (<DensityChart
+            width={densityChartDimensions.width}
+            height={densityChartDimensions.height}
+            padding={PADDING}
+            brushDomainMax={dateToTimestamp(brushDomain.max)}
+            brushDomainMin={dateToTimestamp(brushDomain.min)}
+            frameStep={frameStep}
+            frameDelay={frameDelay}
+            xAccessor={xAccessor}
+            spaceBetweenCharts={spaceBetweenCharts}
+            brushDensityChartColor={brushDensityChartColor}
+            brushDensityChartFadedColor={brushDensityChartFadedColor}
+            densityChartXScale={this.densityChartXScale}
+            renderPlayButton={renderPlayButton && data.length > 0}
+            data={data}
+            onDomainChanged={this._onDensityChartDomainChanged}
+        />);
+    }
+
+    render() {
         return (
             <div className="fdz-css-graph-histogram">
                 {this.state.showHistogramBarTooltip ? this._renderBarTooltip(this.state.currentBar) : null }
-                <svg
-                    ref={this.histogramChartRef}
-                    className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
-                    width={this.props.size.width}
-                    height={this.state.histogramChartDimensions.height}
-                    style={{
-                        marginBottom: this.props.spaceBetweenCharts
-                    }}
-                >
-                    {/* Rendering the histogram bars */}
-                    <g className="fdz-css-graph-histogram-bars">
-                        {this._renderHistogramBars(this.state.timeHistogramBars)}
-                    </g>
-
-                    {/* Rendering the histogram x-axis */}
-                    <g ref={this.histogramXAxisRef}
-                        className={histogramXAxisClassname}
-                        transform={`translate(0, ${this.state.histogramChartDimensions.heightForBars})`}
-                    />
-
-                    {/* Rendering the histogram y-axis */}
-                    <g ref={this.histogramYAxisRef}
-                        className={histogramYAxisClassname}
-                        transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
-                    />
-                </svg>
-
-                <DensityChart
-                    width={this.state.densityChartDimensions.width}
-                    height={this.state.densityChartDimensions.height}
-                    padding={PADDING}
-                    brushDomainMax={dateToTimestamp(this.state.brushDomain.max)}
-                    brushDomainMin={dateToTimestamp(this.state.brushDomain.min)}
-                    frameStep={this.props.frameStep}
-                    frameDelay={this.props.frameDelay}
-                    xAccessor={this.props.xAccessor}
-                    spaceBetweenCharts={this.props.spaceBetweenCharts}
-                    brushDensityChartColor={this.props.brushDensityChartColor}
-                    brushDensityChartFadedColor={this.props.brushDensityChartFadedColor}
-                    densityChartXScale={this.densityChartXScale}
-                    renderPlayButton={this.props.renderPlayButton && this.props.data.length > 0}
-                    data={this.props.data}
-                    onDomainChanged={this._onDensityChartDomainChanged}
-                />
+                {this._renderHistogramChart()}
+                {this._renderDensityChart()}
             </div>
         );
     }
