@@ -178,12 +178,15 @@ export class Histogram extends PureComponent {
      */
     _onMouseEnterHistogramBar = (evt) => {
         const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
-        const bar = this.state.timeHistogramBars[index];
 
-        this.setState({
-            showHistogramBarTooltip: true,
-            currentBar: bar,
-            selectedBarPosition: evt.currentTarget.getBoundingClientRect()
+        this.setState((state) => {
+            const bar = state.timeHistogramBars[index];
+
+            return {
+                showHistogramBarTooltip: true,
+                currentBar: bar,
+                selectedBarPosition: evt.currentTarget.getBoundingClientRect()
+            };
         });
     };
 
@@ -430,32 +433,34 @@ export class Histogram extends PureComponent {
         const { histogramChartDimensions, timeHistogramBars } = this.state;
         const { spaceBetweenCharts, size } = this.props;
 
-        return (<svg
-            ref={this.histogramChartRef}
-            className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
-            width={size.width}
-            height={histogramChartDimensions.height}
-            style={{
-                marginBottom: spaceBetweenCharts
-            }}
-        >
-            {/* Rendering the histogram bars */}
-            <g className="fdz-css-graph-histogram-bars">
-                {this._renderHistogramBars(timeHistogramBars)}
-            </g>
+        return (
+            <svg
+                ref={this.histogramChartRef}
+                className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
+                width={size.width}
+                height={histogramChartDimensions.height}
+                style={{
+                    marginBottom: spaceBetweenCharts
+                }}
+            >
+                {/* Rendering the histogram bars */}
+                <g className="fdz-css-graph-histogram-bars">
+                    {this._renderHistogramBars(timeHistogramBars)}
+                </g>
 
-            {/* Rendering the histogram x-axis */}
-            <g ref={this.histogramXAxisRef}
-                className={histogramXAxisClassname}
-                transform={`translate(0, ${histogramChartDimensions.heightForBars})`}
-            />
+                {/* Rendering the histogram x-axis */}
+                <g ref={this.histogramXAxisRef}
+                    className={histogramXAxisClassname}
+                    transform={`translate(0, ${histogramChartDimensions.heightForBars})`}
+                />
 
-            {/* Rendering the histogram y-axis */}
-            <g ref={this.histogramYAxisRef}
-                className={histogramYAxisClassname}
-                transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
-            />
-        </svg>);
+                {/* Rendering the histogram y-axis */}
+                <g ref={this.histogramYAxisRef}
+                    className={histogramYAxisClassname}
+                    transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
+                />
+            </svg>
+        );
     }
 
     /**
@@ -467,23 +472,25 @@ export class Histogram extends PureComponent {
         const { frameStep, frameDelay, xAccessor, spaceBetweenCharts, brushDensityChartColor,
             brushDensityChartFadedColor, renderPlayButton, data } = this.props;
 
-        return (<DensityChart
-            width={densityChartDimensions.width}
-            height={densityChartDimensions.height}
-            padding={PADDING}
-            brushDomainMax={dateToTimestamp(brushDomain.max)}
-            brushDomainMin={dateToTimestamp(brushDomain.min)}
-            frameStep={frameStep}
-            frameDelay={frameDelay}
-            xAccessor={xAccessor}
-            spaceBetweenCharts={spaceBetweenCharts}
-            brushDensityChartColor={brushDensityChartColor}
-            brushDensityChartFadedColor={brushDensityChartFadedColor}
-            densityChartXScale={this.densityChartXScale}
-            renderPlayButton={renderPlayButton && data.length > 0}
-            data={data}
-            onDomainChanged={this._onDensityChartDomainChanged}
-        />);
+        return (
+            <DensityChart
+                width={densityChartDimensions.width}
+                height={densityChartDimensions.height}
+                padding={PADDING}
+                brushDomainMax={dateToTimestamp(brushDomain.max)}
+                brushDomainMin={dateToTimestamp(brushDomain.min)}
+                frameStep={frameStep}
+                frameDelay={frameDelay}
+                xAccessor={xAccessor}
+                spaceBetweenCharts={spaceBetweenCharts}
+                brushDensityChartColor={brushDensityChartColor}
+                brushDensityChartFadedColor={brushDensityChartFadedColor}
+                densityChartXScale={this.densityChartXScale}
+                renderPlayButton={renderPlayButton && data.length > 0}
+                data={data}
+                onDomainChanged={this._onDensityChartDomainChanged}
+            />
+        );
     }
 
     render() {
