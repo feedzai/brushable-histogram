@@ -198,15 +198,17 @@ export default class DensityChart extends PureComponent {
             return null;
         }
 
-        return (<PlayButton
-            width={width}
-            densityChartXScale={densityChartXScale}
-            brushDomainMax={brushDomainMax}
-            brushDomainMin={brushDomainMin}
-            frameStep={frameStep}
-            frameDelay={frameDelay}
-            moveBrush={this._moveBrush}
-        />);
+        return (
+            <PlayButton
+                width={width}
+                densityChartXScale={densityChartXScale}
+                brushDomainMax={brushDomainMax}
+                brushDomainMin={brushDomainMin}
+                frameStep={frameStep}
+                frameDelay={frameDelay}
+                moveBrush={this._moveBrush}
+            />
+        );
     }
 
     render() {
@@ -220,26 +222,28 @@ export default class DensityChart extends PureComponent {
 
         const densityChartCanvasStyle = { left: leftPadding };
 
-        return (<div className="fdz-css-graph-histogram-density__wrapper" >
-            {this._renderPlayButton()}
-            <div className="fdz-css-graph-histogram-density" style={{ position: "relative" }}>
-                <canvas
-                    ref={this.densityChartRef}
-                    className="fdz-css-graph-histogram-density__canvas"
-                    width={width}
-                    height={height}
-                    style={densityChartCanvasStyle}
-                    aria-label="Density Chart"
-                />
-                <svg
-                    ref={this.densityBrushRef}
-                    className="fdz-css-graph-histogram-brush"
-                    width={width}
-                    height={height}
-                    style={{ position: "absolute", left: leftPadding, top: 0 }}
-                    alt="Density Chart Brush"
-                />
+        return (
+            <div className="fdz-css-graph-histogram-density__wrapper" >
+                {this._renderPlayButton()}
+                <div className="fdz-css-graph-histogram-density" style={{ position: "relative" }}>
+                    <canvas
+                        ref={this.densityChartRef}
+                        className="fdz-css-graph-histogram-density__canvas"
+                        width={width}
+                        height={height}
+                        style={densityChartCanvasStyle}
+                        aria-label="Density Chart"
+                    />
+                    <svg
+                        ref={this.densityBrushRef}
+                        className="fdz-css-graph-histogram-brush"
+                        width={width}
+                        height={height}
+                        style={{ position: "absolute", left: leftPadding, top: 0 }}
+                        alt="Density Chart Brush"
+                    />
+                </div>
             </div>
-        </div>);
+        );
     }
 }
