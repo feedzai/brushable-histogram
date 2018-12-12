@@ -69,5 +69,6 @@
     "roots": [
       "src"
     ]
-  }
+  },
+  "licence": "APACHE-2.0"
 }
