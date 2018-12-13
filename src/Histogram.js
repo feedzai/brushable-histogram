@@ -299,9 +299,6 @@ export class Histogram extends PureComponent {
             return { ...bar, yValue };
         });
 
-
-        console.log(JSON.stringify(timeHistogramBars, null, "    "));
-
         // Setting the histogram y-axis domain scale
         this.histogramChartYScale = scaleLinear()
             .domain([0, d3Max(timeHistogramBars, (bin) => bin.yValue)])
