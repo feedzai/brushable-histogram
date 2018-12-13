@@ -278,14 +278,6 @@ export class Histogram extends PureComponent {
     _updateHistogramChartScales() {
         this.histogramChartXScale = scaleTime();
 
-        // Setting the histogram x-axis domain scale
-        console.log("-----");
-        console.log(this.state.brushDomain.min);
-        console.log(this.state.brushDomain.max);
-        console.log(this.state.histogramChartDimensions.width * X_AXIS_PADDING);
-        console.log(this.state.histogramChartDimensions.width * (1 - X_AXIS_PADDING));
-        console.log(this.props.defaultBarCount);
-
         this.histogramChartXScale
             .domain([ this.state.brushDomain.min, this.state.brushDomain.max ])
             .range([
@@ -332,6 +324,8 @@ export class Histogram extends PureComponent {
                 return null;
             }
 
+            console.log(`${bar.x0} -- ${this.histogramChartXScale(bar.x0)} -- ${this.props.barOptions.margin} -- ${this.props.barOptions.margin / 2}`);
+            
             const barX = this.histogramChartXScale(bar.x0) + this.props.barOptions.margin / 2;
             const barY = this.histogramChartYScale(bar.yValue);
 
@@ -367,6 +361,9 @@ export class Histogram extends PureComponent {
      * @private
      */
     _renderHistogramAxis() {
+        console.log(`width ${this.state.histogramChartDimensions.width}`);
+        
+
         const histogramXAxisScale = scaleTime()
             .domain([
                 this.histogramChartXScale.invert(0),
