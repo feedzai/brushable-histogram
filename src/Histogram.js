@@ -95,8 +95,6 @@ export class Histogram extends PureComponent {
         this.histogramXAxisRef = React.createRef();
         this.histogramYAxisRef = React.createRef();
 
-        console.log(JSON.stringify(this.props.data, null, "    "));
-
         // We need to compute the widths and domain right at the constructor because we
         // need them to compute the scales correctly, which are needed in the children
         this.state = Object.assign({
@@ -300,6 +298,9 @@ export class Histogram extends PureComponent {
 
             return { ...bar, yValue };
         });
+
+
+        console.log(JSON.stringify(timeHistogramBars, null, "    "));
 
         // Setting the histogram y-axis domain scale
         this.histogramChartYScale = scaleLinear()
