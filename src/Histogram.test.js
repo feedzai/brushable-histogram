@@ -11,6 +11,8 @@ jest.mock("./canvasRenderUtils", () => ({
     getRenderContext: () => ({})
 }));
 
+jest.mock("./histogramBinCalculator");
+
 const formatMinute = timeFormat("%I:%M");
 
 function histogramYAxisFormatter(value) {

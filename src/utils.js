@@ -59,11 +59,6 @@ const formatMillisecond = timeFormat(".%L"),
 export function multiDateFormat(date) {
     let formatter;
 
-    console.log("-----");
-    console.log(timeDay(date));
-    console.log(timeMonth(date));
-    console.log(date);
-
     if (timeSecond(date) < date) {
         formatter = formatMillisecond;
     } else if (timeMinute(date) < date) {

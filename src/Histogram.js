@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { histogram as d3Histogram, max as d3Max } from "d3-array";
+import { max as d3Max } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
@@ -21,6 +21,7 @@ import {
     MIN_TOTAL_HEIGHT,
     PADDING
 } from "./constants";
+import histogramBinCalculator from "./histogramBinCalculator";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import DensityChart from "./DensityChart/DensityChart";
 
@@ -286,17 +287,13 @@ export class Histogram extends PureComponent {
             ])
             .nice(this.props.defaultBarCount);
 
-        // Setting the histogram function/converter
-        const histogram = d3Histogram()
-            .value(this.props.xAccessor)
-            .domain(this.histogramChartXScale.domain()) // using the x-axis domain
-            .thresholds(this.histogramChartXScale.ticks(this.props.defaultBarCount));
-
         // Calculating the time histogram bins
-        const timeHistogramBars = histogram(this.props.data).map((bar) => {
-            const yValue = bar.reduce((sum, curr) => sum + this.props.yAccessor(curr), 0);
-
-            return { ...bar, yValue };
+        const timeHistogramBars = histogramBinCalculator({
+            xAccessor: this.props.xAccessor,
+            yAccessor: this.props.yAccessor,
+            histogramChartXScale: this.histogramChartXScale,
+            defaultBarCount: this.props.defaultBarCount,
+            data: this.props.data
         });
 
         // Setting the histogram y-axis domain scale
