@@ -68,10 +68,7 @@
     ],
     "roots": [
       "src"
-    ],
-    "globals": {
-      "TZ": "UTC"
-    }
+    ]
   },
   "licence": "APACHE-2.0"
 }
