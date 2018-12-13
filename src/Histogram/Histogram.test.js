@@ -11,6 +11,11 @@ jest.mock("../canvasRenderUtils", () => ({
     getRenderContext: () => ({})
 }));
 
+// The calculation of the histogram bar positions can vary a bit
+// depending on the system clock so we need to mock it to make sure
+// we have no suprises in ci.
+jest.mock("./histogramBinCalculator");
+
 // The calcule of the bar positions and width depended a bit on the
 // system clock. To avoid that dependency we mock the module that
 // calculates those things.
