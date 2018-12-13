@@ -324,8 +324,6 @@ export class Histogram extends PureComponent {
                 return null;
             }
 
-            console.log(`${bar.x0} -- ${this.histogramChartXScale(bar.x0)} -- ${this.props.barOptions.margin} -- ${this.props.barOptions.margin / 2}`);
-            
             const barX = this.histogramChartXScale(bar.x0) + this.props.barOptions.margin / 2;
             const barY = this.histogramChartYScale(bar.yValue);
 
@@ -361,9 +359,6 @@ export class Histogram extends PureComponent {
      * @private
      */
     _renderHistogramAxis() {
-        console.log(`width ${this.state.histogramChartDimensions.width}`);
-        
-
         const histogramXAxisScale = scaleTime()
             .domain([
                 this.histogramChartXScale.invert(0),
