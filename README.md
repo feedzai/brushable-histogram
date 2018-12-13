@@ -1,7 +1,7 @@
 # Brushable Histogram
 
-[![Coverage Status](https://coveralls.io/repos/github/feedzai/brushable-histogram/badge.svg?branch=master)](https://coveralls.io/github/feedzai/brushable-histogram?branch=master)
 [![Build Status](https://travis-ci.com/feedzai/brushable-histogram.svg?branch=master)](https://travis-ci.com/feedzai/brushable-histogram)
+[![Coverage Status](https://coveralls.io/repos/github/feedzai/brushable-histogram/badge.svg?branch=master)](https://coveralls.io/github/feedzai/brushable-histogram?branch=master)
 
 The brushable histogram renders a time histogram with a preview of the whole data below it, that can be used both to
 pan and zoom in on specific intervals as well as to see an overview of the distribution of the data.
