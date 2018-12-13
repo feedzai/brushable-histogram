@@ -279,6 +279,13 @@ export class Histogram extends PureComponent {
         this.histogramChartXScale = scaleTime();
 
         // Setting the histogram x-axis domain scale
+        console.log("-----");
+        console.log(this.state.brushDomain.min);
+        console.log(this.state.brushDomain.max);
+        console.log(this.state.histogramChartDimensions.width * X_AXIS_PADDING);
+        console.log(this.state.histogramChartDimensions.width * (1 - X_AXIS_PADDING));
+        console.log(this.props.defaultBarCount);
+
         this.histogramChartXScale
             .domain([ this.state.brushDomain.min, this.state.brushDomain.max ])
             .range([
