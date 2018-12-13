@@ -37,7 +37,7 @@ function histogramTooltipBar(bar) {
 
 describe("render", () => {
     it("does a baseline render", () => {
-        console.log((new Date()).getTimezoneOffset() / 60);
+        console.log(new Date());
 
         expect(mount(<Histogram
             data={smallSample}
