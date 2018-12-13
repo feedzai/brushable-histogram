@@ -5,11 +5,7 @@ import { Histogram } from "./Histogram";
 
 import { smallSample } from "../../stories/sampleData";
 
-jest.mock("../canvasRenderUtils", () => ({
-    drawRect: () => {},
-    clearCanvas: () => {},
-    getRenderContext: () => ({})
-}));
+jest.mock("../canvasRenderUtils");
 
 // The calculation of the histogram bar positions can vary a bit
 // depending on the system clock so we need to mock it to make sure
@@ -19,14 +15,7 @@ jest.mock("./histogramBinCalculator");
 // The calcule of the bar positions and width depended a bit on the
 // system clock. To avoid that dependency we mock the module that
 // calculates those things.
-jest.mock("./histogramBarGeometry", () => ({
-    calculatePositionAndDimensions: () => ({
-        height: 10,
-        width: 10,
-        x: 1,
-        y: 1
-    })
-}));
+jest.mock("./histogramBarGeometry");
 
 const formatMinute = timeFormat("%I:%M");
 
