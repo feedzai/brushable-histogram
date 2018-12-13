@@ -3,9 +3,7 @@ import { histogram as d3Histogram } from "d3-array";
 /**
  * histogramBinCalculator
  *
- * This module is a proxy to the histogram logic in d3, and it exists so that ce can mock this logic
- * and in different enviroments the results can be slightly different for the same
- * data (even in the same timezone).
+ * This module contains the histogram bin calculation logic.
  *
  * @author Luis Cardoso (luis.cardoso@feedzai.com)
  */

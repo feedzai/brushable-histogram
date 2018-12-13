@@ -22,6 +22,7 @@ import {
     PADDING
 } from "../constants";
 import histogramBinCalculator from "./histogramBinCalculator";
+import { calculatePositionAndDimensions } from "./histogramBarGeometry";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import DensityChart from "../DensityChart/DensityChart";
 
@@ -316,16 +317,17 @@ export class Histogram extends PureComponent {
      */
     _renderHistogramBars(timeHistogramBars) {
         return timeHistogramBars.map((bar, index) => {
-            const barWidth = this.histogramChartXScale(bar.x1)
-                - this.histogramChartXScale(bar.x0) - this.props.barOptions.margin;
-            const barHeight = this.state.histogramChartDimensions.heightForBars - this.histogramChartYScale(bar.yValue);
+            const { width, height, x, y } = calculatePositionAndDimensions({
+                xScale: this.histogramChartXScale,
+                yScale: this.histogramChartYScale,
+                heightForBars: this.state.histogramChartDimensions.heightForBars,
+                margin: this.props.barOptions.margin,
+                bar
+            });
 
-            if (barWidth <= 0) {
+            if (width <= 0) {
                 return null;
             }
-
-            const barX = this.histogramChartXScale(bar.x0) + this.props.barOptions.margin / 2;
-            const barY = this.histogramChartYScale(bar.yValue);
 
             let onMouseEnter = this._onMouseEnterHistogramBar;
             let onMouseLeave = this._onMouseLeaveHistogramBar;
@@ -340,10 +342,10 @@ export class Histogram extends PureComponent {
                 <rect
                     key={`histogram-bin-${bar.x0.getTime()}`}
                     dataindex={index}
-                    x={barX}
-                    y={barY}
-                    width={barWidth}
-                    height={barHeight}
+                    x={x}
+                    y={y}
+                    width={width}
+                    height={height}
                     onMouseEnter={onMouseEnter}
                     onMouseLeave={onMouseLeave}
                 />

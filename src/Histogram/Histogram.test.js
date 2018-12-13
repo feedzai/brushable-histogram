@@ -11,7 +11,17 @@ jest.mock("../canvasRenderUtils", () => ({
     getRenderContext: () => ({})
 }));
 
-jest.mock("./histogramBinCalculator");
+// The calcule of the bar positions and width depended a bit on the
+// system clock. To avoid that dependency we mock the module that
+// calculates those things.
+jest.mock("./histogramBarGeometry", () => ({
+    calculatePositionAndDimensions: () => ({
+        height: 10,
+        width: 10,
+        x: 1,
+        y: 1
+    })
+}));
 
 const formatMinute = timeFormat("%I:%M");
 
