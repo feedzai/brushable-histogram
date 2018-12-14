@@ -25,7 +25,8 @@
     "publish:dry": "fdz-deploy --dry",
     "publish:major": "fdz-deploy --major",
     "publish:minor": "fdz-deploy --minor",
-    "publish:patch": "fdz-deploy --patch"
+    "publish:patch": "fdz-deploy --patch",
+    "coveralls": "./coverage && cat ./coverage/lcov.info | coveralls"
   },
   "authors": [
     "beatriz.jorge@feedzai.com",
@@ -33,7 +34,6 @@
     "luis.cardoso@feedzai.com"
   ],
   "devDependencies": {
-    "react-dom": "16.6.1",
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
@@ -50,6 +50,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "babel-loader": "^8.0.4",
+    "coveralls": "^3.0.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "enzyme-to-json": "^3.3.4",
@@ -59,6 +60,7 @@
     "eslint-plugin-react": "^7.11.1",
     "jest": "^23.6.0",
     "node-sass": "^4.10.0",
+    "react-dom": "16.6.1",
     "sass-loader": "^7.1.0"
   },
   "jest": {
@@ -68,7 +70,8 @@
     ],
     "roots": [
       "src"
-    ]
+    ],
+    "coverageDirectory": "<rootDir>/coverage"
   },
   "licence": "APACHE-2.0"
 }

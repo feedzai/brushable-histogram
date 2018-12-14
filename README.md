@@ -1,5 +1,8 @@
 # Brushable Histogram
 
+[![Build Status](https://travis-ci.com/feedzai/brushable-histogram.svg?branch=master)](https://travis-ci.com/feedzai/brushable-histogram)
+[![Coverage Status](https://coveralls.io/repos/github/feedzai/brushable-histogram/badge.svg?branch=master)](https://coveralls.io/github/feedzai/brushable-histogram?branch=master)
+
 The brushable histogram renders a time histogram with a preview of the whole data below it, that can be used both to
 pan and zoom in on specific intervals as well as to see an overview of the distribution of the data.
 
@@ -19,7 +22,7 @@ The data to render in the histogram. The properties of each element that will be
 
 A function that will receive an array element as argument and that should return the value of the x axis for that element. A possible example would be `({timestamp}) => timestamp`.
 
-**Important** The histogram assumes that `xAccessor` will return an unique value for each `data` element. 
+**Important** The histogram assumes that `xAccessor` will return an unique value for each `data` element.
 
 ### `yAccessor`
 **Type** `Function` **Required**
