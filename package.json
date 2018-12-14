@@ -26,7 +26,7 @@
     "publish:major": "fdz-deploy --major",
     "publish:minor": "fdz-deploy --minor",
     "publish:patch": "fdz-deploy --patch",
-    "coveralls": "./coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "authors": [
     "beatriz.jorge@feedzai.com",
