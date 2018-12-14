@@ -7,6 +7,9 @@ import {
     drawRect,
     getRenderContext
 } from "../canvasRenderUtils";
+import {
+    havePropsChanged
+} from "../utils";
 import { brushX } from "d3-brush";
 
 /**
@@ -78,9 +81,7 @@ export default class DensityChart extends PureComponent {
 
         // We only need to re-render the density chart if the data, the weight, the height or
         // the chart x scale have changed.
-        if (prevProps.data !== this.props.data || prevProps.width !== this.props.width ||
-                prevProps.height !== this.props.height ||
-                prevProps.densityChartXScale !== this.props.densityChartXScale) {
+        if (this._shouldRedrawDensityChart(prevProps)) {
             this._drawDensityChart();
         }
     }
@@ -146,6 +147,23 @@ export default class DensityChart extends PureComponent {
         d3Select(this.densityBrushRef.current)
             .call(this.brush.move, domain);
     };
+
+    /**
+     * Returns whenever it is necessary to re-render the density chart, based on the current and previous
+     * props.
+     * @param {Object} prevProps
+     * @returns {boolean}
+     */
+    _shouldRedrawDensityChart(prevProps) {
+        return havePropsChanged(this.props, prevProps, [
+            "brushDomainMin",
+            "brushDomainMax",
+            "data",
+            "width",
+            "height",
+            "densityChartXScale"
+        ]);
+    }
 
     /**
      * Draws density strip plot in canvas.

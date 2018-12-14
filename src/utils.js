@@ -118,6 +118,27 @@ export function dateToTimestamp(date) {
 }
 
 /**
+ * Compares the props with the given names in the two prop objects and
+ * returns whenever they have the same value (shallow comparison).
+ *
+ * @param {Object} props
+ * @param {Object} prevProps
+ * @param {Array.<string>} propNames
+ * @returns {boolean}
+ */
+export function havePropsChanged(props, prevProps, propNames) {
+    for (let i = 0; i < propNames.length; i++) {
+        const propName = propNames[i];
+
+        if (prevProps.hasOwnProperty(propName) && props[propName] !== prevProps[propName]) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/**
  * Receives the size the component should have, the padding and the how much vertical space the
  * histogram and the density plots should take and calculates the charts sizes and positions
  *
