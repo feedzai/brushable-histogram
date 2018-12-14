@@ -14,7 +14,7 @@
 [x] Benchmark with a lot of nodes
     - Initial render is relativelly fast with 100k data points
     - Tooltip highlight works smoothly with 300k data points
-    - Brushing works with 100k data points, and smoothly with 25k data points
+    - Brushing works with 70k data points, and smoothly with 25k data points
 [x] Handle different widths and heights correctly
 [x] Remove global selectors
 [ ] Create a static page with the story book

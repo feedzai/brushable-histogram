@@ -5,7 +5,8 @@ import {
     isHistogramDataEqual,
     dateToTimestamp,
     calculateChartsPositionsAndSizing,
-    calculateChartSizesAndDomain
+    calculateChartSizesAndDomain,
+    havePropsChanged
 } from "./utils";
 import { max as d3Max, min as d3Min } from "d3-array";
 import { smallSample } from "../stories/sampleData";
@@ -130,6 +131,21 @@ describe("dateToTimestamp", () => {
 
     it("returns the number if a number is passed", () => {
         expect(dateToTimestamp(1533164400000)).toBe(1533164400000);
+    });
+});
+
+describe("havePropsChanged", () => {
+    it("returns true if a prop has changed", () => {
+        expect(havePropsChanged({ name: "bob", age: 12 }, { name: "gary" }, ["name", "age"])).toBe(true);
+    });
+
+    it("returns false if no prop has changed", () => {
+        expect(havePropsChanged({ name: "bob", age: 12 }, { name: "bob" }, ["name", "age"])).toBe(false);
+    });
+
+    it("returns false if no listed prop has changed", () => {
+        expect(havePropsChanged({ name: "gary", age: 12 }, { name: "bob" }, ["age"])).toBe(false);
+        expect(havePropsChanged({ name: "gary", age: 12 }, { name: "bob", age: 12 }, ["age"])).toBe(false);
     });
 });
 
