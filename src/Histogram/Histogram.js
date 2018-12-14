@@ -181,13 +181,17 @@ export class Histogram extends PureComponent {
     _onMouseEnterHistogramBar = (evt) => {
         const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
 
+        // In order to access into the information in the `SyntheticEvent` inside of the setState callback it inspect
+        // necessary store the currentTarget value in a constant. https://reactjs.org/docs/events.html#event-pooling
+        const currentTarget = evt.currentTarget;
+
         this.setState((state) => {
             const bar = state.timeHistogramBars[index];
 
             return {
                 showHistogramBarTooltip: true,
                 currentBar: bar,
-                selectedBarPosition: evt.currentTarget.getBoundingClientRect()
+                selectedBarPosition: currentTarget.getBoundingClientRect()
             };
         });
     };
