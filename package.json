@@ -21,7 +21,7 @@
     "lint": "eslint src/{,**/}*.js",
     "build": "babel src --out-dir lib",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "build-storybook": "build-storybook -o ghpage",
     "publish:dry": "fdz-deploy --dry",
     "publish:major": "fdz-deploy --major",
     "publish:minor": "fdz-deploy --minor",
