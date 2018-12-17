@@ -1,8 +1,20 @@
 language: node_js
+
 sudo: false
+
+# Travis is configured to run on pushed branches and pull requests so if we don't filter branches it runs twice when
+# we push the PR branch in our repo
+branches:
+  only:
+    - master
+    #tag xx.yy-zz or xx.yy.zz-anythinglikeexperimental
+    - /^\d+\.\d+(\.\d+)?(-\S*)?$/
+
 node_js:
   - "8"
+
 script:
   - npm run lint
   - npm run test
+
 after_script: npm run coveralls
