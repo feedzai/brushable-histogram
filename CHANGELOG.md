@@ -1,5 +1,8 @@
 # Brushable Histogram
 
+# 1.1.1 (2018/12/17)
+- Publishes the `lib` folder
+
 # 1.1.0 (2018/12/17)
 - Document the props and have better defaults
 - Add more unit tests (still missing for Histogram.js)
