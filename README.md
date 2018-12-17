@@ -4,11 +4,14 @@
 [![Coverage Status](https://coveralls.io/repos/github/feedzai/brushable-histogram/badge.svg?branch=master)](https://coveralls.io/github/feedzai/brushable-histogram?branch=master)
 
 The brushable histogram renders a time histogram with a preview of the whole data below it, that can be used both to
-pan and zoom in on specific intervals as well as to see an overview of the distribution of the data.
+pan and zoom in on specific intervals as well as to see an overview of the distribution of the data ([demo](https://feedzai.github.io/brushable-histogram/)).
+
+
+![](https://i.imgur.com/VUYAnxy.gif?raw=true)
 
 Brushable histogram works as an uncontrolled component.
 
-Kudos to Beatriz Malveiro for the ideia and first proptotype and to Victor Fernandes for improvements to that first version.
+Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and first proptotype and to [Victor Fernandes](https://github.com/victorfern91) for improvements to that first version.
 
 ## Props
 
