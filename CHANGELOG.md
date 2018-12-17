@@ -1,23 +1,25 @@
 # Brushable Histogram
 
-# 1.1.0 (TBD)
-[x] Document the props and have better defaults
-[x] Add more unit tests (still missing for Histogram.js)
-[x] Extract the "timeline" to another module
-[x] Remove the dependency on andtd
-[x] Remove the dependency on lodash
-[x] Stop `_playLapseAtInterval` if the component was unmounted
-[x] Improve method order inside main component
-[x] Add missing jsdoc
-[x] Remove the `randomString` key hack
-[x] Make the play button optional
-[x] Benchmark with a lot of nodes
+# 1.1.0 (2018/12/17)
+- Document the props and have better defaults
+- Add more unit tests (still missing for Histogram.js)
+- Extract the "timeline" to another module
+- Remove the dependency on andtd
+- Remove the dependency on lodash
+- Stop `_playLapseAtInterval` if the component was unmounted
+- Improve method order inside main component
+- Add missing jsdoc
+- Remove the `randomString` key hack
+- Make the play button optional
+- Benchmark with a lot of nodes
     - Initial render is relativelly fast with 100k data points
     - Tooltip highlight works smoothly with 300k data points
     - Brushing works with 70k data points, and smoothly with 25k data points
-[x] Handle different widths and heights correctly
-[x] Remove global selectors
-[ ] Create a static page with the story book
+- Handle different widths and heights correctly
+- Remove global selectors
+- Create a static page with the story book
+- Added a `CONTRIBUTING.md`
+- Setup CI with coverage and badges
 
 # 1.0.5 (2018/12/05)
 - Removes usage of `.toString()` to avoid requiring core-js.
