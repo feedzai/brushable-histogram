@@ -13,6 +13,12 @@ Brushable histogram works as an uncontrolled component.
 
 Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and first proptotype and to [Victor Fernandes](https://github.com/victorfern91) for improvements to that first version.
 
+## Instalation
+
+```shell
+npm install --save @feedzai/brushable-histogram
+```
+
 ## Props
 
 ### `data`
