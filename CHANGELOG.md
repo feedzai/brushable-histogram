@@ -1,5 +1,8 @@
 # Brushable Histogram
 
+## 1.1.2 (2018/12/19)
+- Reduces the minimum height to 100 pixels to allow for some internal Feedzai use cases
+
 ## 1.1.1 (2018/12/17)
 - Publishes the `lib` folder
 
