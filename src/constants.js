@@ -26,7 +26,7 @@ export const MIN_ZOOM_VALUE = 1;
 export const DENSITY_CHART_HEIGHT_PX = 20;
 
 // The minimum total height of the chart
-export const MIN_TOTAL_HEIGHT = 150;
+export const MIN_TOTAL_HEIGHT = 100;
 
 // An internal magic value used to align things horizontally
 export const PADDING = 10;
