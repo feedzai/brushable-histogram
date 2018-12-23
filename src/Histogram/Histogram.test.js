@@ -39,18 +39,47 @@ function histogramTooltipBar(bar) {
     );
 }
 
+let wrapper, instance, onIntervalChangeSpy;
+
+beforeEach(() => {
+    onIntervalChangeSpy = jest.fn();
+
+    wrapper = mount(<Histogram
+        data={smallSample}
+        size={{ width: 1000 }}
+        height={150}
+        xAccessor={(datapoint) => datapoint.timestamp}
+        xAxisFormatter={formatMinute}
+        yAccessor={(datapoint) => datapoint.total}
+        yAxisFormatter={histogramYAxisFormatter}
+        tooltipBarCustomization={histogramTooltipBar}
+        onIntervalChange={onIntervalChangeSpy}
+    />);
+    instance = wrapper.instance();
+});
+
 describe("render", () => {
     it("does a baseline render", () => {
-        expect(mount(<Histogram
-            data={smallSample}
-            size={{ width: 1000 }}
-            height={150}
-            xAccessor={(datapoint) => datapoint.timestamp}
-            xAxisFormatter={formatMinute}
-            yAccessor={(datapoint) => datapoint.total}
-            yAxisFormatter={histogramYAxisFormatter}
-            tooltipBarCustomization={histogramTooltipBar}
-            onIntervalChange={() => {}}
-        />)).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
+    });
+});
+
+describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {
+    it("shouldn't call props.onIntervalChange if the domain didn't change", () => {
+        instance._updateBrushedDomainAndReRenderTheHistogramPlot([
+            new Date(1533309900034),
+            new Date(1534164400001)
+        ]);
+
+        expect(onIntervalChangeSpy.mock.calls.length).toBe(0);
+    });
+
+    it("should call props.onIntervalChange if the domain did change", () => {
+        instance._updateBrushedDomainAndReRenderTheHistogramPlot([
+            new Date(1533309910034),
+            new Date(1534164400001)
+        ]);
+
+        expect(onIntervalChangeSpy.mock.calls.length).toBe(1);
     });
 });
