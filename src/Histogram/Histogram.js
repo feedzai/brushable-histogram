@@ -251,10 +251,9 @@ export class Histogram extends PureComponent {
      * @param {Array<Number>} brushedDomain
      * @private
      */
-    _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain){
-        if (brushedDomain[0] !== this.state.brushDomain.min
-            && brushedDomain[1] !== this.state.brushDomain.max){
-
+    _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
+        if (dateToTimestamp(brushedDomain[0]) !== dateToTimestamp(this.state.brushDomain.min)
+            || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)){
             this.setState({
                 brushDomain: {
                     min: brushedDomain[0],
