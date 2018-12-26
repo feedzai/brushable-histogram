@@ -64,6 +64,8 @@ describe("render", () => {
     });
 
     it("renders an empty chart if no data is passed", () => {
+        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+
         const testWrapper = mount(<Histogram
             data={[]}
             size={{ width: 1000 }}

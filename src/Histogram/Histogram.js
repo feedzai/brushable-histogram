@@ -85,6 +85,13 @@ export class Histogram extends PureComponent {
             throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
         }
 
+        // Sometimes the width will be zero, for example when swithing between storybook
+        // stories. In those cases we don't want to do anything so that the histogram
+        // does not enter into an invalid state.
+        if (props.size.width === 0) {
+            return null;
+        }
+
         const nextState = calculateChartSizesAndDomain(props, state.data, state.brushDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
@@ -253,7 +260,7 @@ export class Histogram extends PureComponent {
      */
     _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
         if (dateToTimestamp(brushedDomain[0]) !== dateToTimestamp(this.state.brushDomain.min)
-            || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)){
+                || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
             this.setState({
                 brushDomain: {
                     min: brushedDomain[0],
