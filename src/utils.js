@@ -91,6 +91,10 @@ export function multiDateFormat(date) {
  * @returns {boolean}
  */
 export function isHistogramDataEqual(xAcessor, yAcessor, data1, data2) {
+    if (Array.isArray(data1) === false || Array.isArray(data2) === false) {
+        return false;
+    }
+
     if (data1.length !== data2.length) {
         return false;
     }

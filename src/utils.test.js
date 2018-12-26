@@ -122,6 +122,24 @@ describe("isHistogramDataEqual", () => {
             amount: 8
         }])).toBe(false);
     });
+
+    it("returns false if any of the parameters is not an array", () => {
+        expect(isHistogramDataEqual((elm) => elm.timestamp, (elm) => elm.amount, null, [{
+            timestamp: 1,
+            amount: 2
+        }, {
+            timestamp: 2,
+            amount: 8
+        }])).toBe(false);
+
+        expect(isHistogramDataEqual((elm) => elm.timestamp, (elm) => elm.amount, [{
+            timestamp: 1,
+            amount: 2
+        }, {
+            timestamp: 2,
+            amount: 8
+        }], null)).toBe(false);
+    });
 });
 
 describe("dateToTimestamp", () => {
