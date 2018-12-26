@@ -1,4 +1,4 @@
-const NUMBER_OF_POINTS = 60000;
+const NUMBER_OF_POINTS = 1000;
 const startTimestamp = 1533164400000;
 
 /**

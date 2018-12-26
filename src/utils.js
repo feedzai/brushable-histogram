@@ -188,6 +188,16 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushD
         densityChartDimensions
     };
 
+    if (props.data.length === 0) {
+        return {
+            ...nextState,
+            brushDomain: {
+                min: Date.now(),
+                max: Date.now()
+            }
+        };
+    }
+
     const hasDataChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, previousData);
 
     // If the new information received is different we need to verify if there is any update in the max and min

@@ -299,9 +299,17 @@ export class Histogram extends PureComponent {
             data: this.props.data
         });
 
+        let maxY;
+
+        if (this.props.data.length === 0) {
+            maxY = 1;
+        } else {
+            maxY = d3Max(timeHistogramBars, (bin) => bin.yValue);
+        }
+
         // Setting the histogram y-axis domain scale
         this.histogramChartYScale = scaleLinear()
-            .domain([0, d3Max(timeHistogramBars, (bin) => bin.yValue)])
+            .domain([0, maxY])
             .range([this.state.histogramChartDimensions.heightForBars, 0]);
 
         this.setState({

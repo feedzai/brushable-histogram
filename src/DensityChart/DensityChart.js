@@ -134,6 +134,10 @@ export default class DensityChart extends PureComponent {
      * @private
      */
     _updateBrush() {
+        if (this.props.data.length === 0) {
+            return;
+        }
+
         d3Select(this.densityBrushRef.current)
             .call(this.brush);
     }
@@ -144,6 +148,10 @@ export default class DensityChart extends PureComponent {
      * @param {Array<Number>} domain
      */
     _moveBrush = (domain) => {
+        if (this.props.data.length === 0) {
+            return;
+        }
+
         d3Select(this.densityBrushRef.current)
             .call(this.brush.move, domain);
     };

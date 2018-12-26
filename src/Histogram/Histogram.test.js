@@ -62,6 +62,22 @@ describe("render", () => {
     it("does a baseline render", () => {
         expect(wrapper).toMatchSnapshot();
     });
+
+    it("renders an empty chart if no data is passed", () => {
+        const testWrapper = mount(<Histogram
+            data={[]}
+            size={{ width: 1000 }}
+            height={150}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            xAxisFormatter={formatMinute}
+            yAccessor={(datapoint) => datapoint.total}
+            yAxisFormatter={histogramYAxisFormatter}
+            tooltipBarCustomization={histogramTooltipBar}
+            onIntervalChange={onIntervalChangeSpy}
+        />);
+
+        expect(testWrapper).toMatchSnapshot();
+    });
 });
 
 describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {
