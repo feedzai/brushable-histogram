@@ -450,3 +450,333 @@ exports[`render does a baseline render 1`] = `
   </div>
 </Histogram>
 `;
+
+exports[`render renders an empty chart if no data is passed 1`] = `
+<Histogram
+  barOptions={
+    Object {
+      "margin": 1,
+    }
+  }
+  data={Array []}
+  defaultBarCount={18}
+  height={150}
+  minZoomUnit={1000}
+  onIntervalChange={[MockFunction]}
+  padding={10}
+  renderPlayButton={true}
+  size={
+    Object {
+      "width": 1000,
+    }
+  }
+  spaceBetweenCharts={10}
+  tooltipBarCustomization={[Function]}
+  xAccessor={[Function]}
+  xAxisFormatter={[Function]}
+  yAccessor={[Function]}
+  yAxisFormatter={[Function]}
+  yAxisTicks={3}
+>
+  <div
+    className="fdz-css-graph-histogram"
+  >
+    <svg
+      className="fdz-js-graph-histogram fdz-css-graph-histogram-chart"
+      height={120}
+      style={
+        Object {
+          "marginBottom": 10,
+        }
+      }
+      width={1000}
+    >
+      <g
+        className="fdz-css-graph-histogram-bars"
+      >
+        <rect
+          dataindex={0}
+          height={10}
+          key="histogram-bin-1533294000000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={1}
+          height={10}
+          key="histogram-bin-1533337200000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={2}
+          height={10}
+          key="histogram-bin-1533380400000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={3}
+          height={10}
+          key="histogram-bin-1533423600000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={4}
+          height={10}
+          key="histogram-bin-1533466800000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={5}
+          height={10}
+          key="histogram-bin-1533510000000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={6}
+          height={10}
+          key="histogram-bin-1533553200000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={7}
+          height={10}
+          key="histogram-bin-1533596400000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={8}
+          height={10}
+          key="histogram-bin-1533639600000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={9}
+          height={10}
+          key="histogram-bin-1533682800000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={10}
+          height={10}
+          key="histogram-bin-1533726000000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={11}
+          height={10}
+          key="histogram-bin-1533769200000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={12}
+          height={10}
+          key="histogram-bin-1533812400000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={13}
+          height={10}
+          key="histogram-bin-1533855600000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={14}
+          height={10}
+          key="histogram-bin-1533898800000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={15}
+          height={10}
+          key="histogram-bin-1533942000000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={16}
+          height={10}
+          key="histogram-bin-1533985200000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={17}
+          height={10}
+          key="histogram-bin-1534028400000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={18}
+          height={10}
+          key="histogram-bin-1534071600000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={19}
+          height={10}
+          key="histogram-bin-1534114800000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={20}
+          height={10}
+          key="histogram-bin-1534158000000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+        <rect
+          dataindex={21}
+          height={10}
+          key="histogram-bin-1534201200000"
+          onMouseEnter={[Function]}
+          onMouseLeave={[Function]}
+          width={10}
+          x={1}
+          y={1}
+        />
+      </g>
+      <g
+        className="fdz-js-graph-histogram-axis-x fdz-css-graph-histogram-axis-x"
+        transform="translate(0, 102)"
+      />
+      <g
+        className="fdz-js-graph-histogram-axis-y fdz-css-graph-histogram-axis-y"
+        transform="translate(3, 3)"
+      />
+    </svg>
+    <DensityChart
+      brushDensityChartColor="rgba(33, 150, 243, 0.2)"
+      brushDensityChartFadedColor="rgba(176, 190, 197, 0.2)"
+      brushDomainMax={1479427200000}
+      brushDomainMin={1479427200000}
+      data={Array []}
+      densityChartXScale={[Function]}
+      height={20}
+      onDomainChanged={[Function]}
+      padding={10}
+      renderPlayButton={false}
+      spaceBetweenCharts={10}
+      width={940}
+      xAccessor={[Function]}
+    >
+      <div
+        className="fdz-css-graph-histogram-density__wrapper"
+      >
+        <div
+          className="fdz-css-graph-histogram-density"
+          style={
+            Object {
+              "position": "relative",
+            }
+          }
+        >
+          <canvas
+            aria-label="Density Chart"
+            className="fdz-css-graph-histogram-density__canvas"
+            height={20}
+            style={
+              Object {
+                "left": 20,
+              }
+            }
+            width={940}
+          />
+          <svg
+            alt="Density Chart Brush"
+            className="fdz-css-graph-histogram-brush"
+            height={20}
+            style={
+              Object {
+                "left": 20,
+                "position": "absolute",
+                "top": 0,
+              }
+            }
+            width={940}
+          />
+        </div>
+      </div>
+    </DensityChart>
+  </div>
+</Histogram>
+`;

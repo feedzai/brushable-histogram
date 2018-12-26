@@ -62,6 +62,24 @@ describe("render", () => {
     it("does a baseline render", () => {
         expect(wrapper).toMatchSnapshot();
     });
+
+    it("renders an empty chart if no data is passed", () => {
+        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+
+        const testWrapper = mount(<Histogram
+            data={[]}
+            size={{ width: 1000 }}
+            height={150}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            xAxisFormatter={formatMinute}
+            yAccessor={(datapoint) => datapoint.total}
+            yAxisFormatter={histogramYAxisFormatter}
+            tooltipBarCustomization={histogramTooltipBar}
+            onIntervalChange={onIntervalChangeSpy}
+        />);
+
+        expect(testWrapper).toMatchSnapshot();
+    });
 });
 
 describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {

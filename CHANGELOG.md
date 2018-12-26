@@ -1,5 +1,9 @@
 # Brushable Histogram
 
+## 1.1.4 (2018/12/26)
+- Handles the case when `props.data` is empty
+- Fixes error when switching between storybook stores
+
 ## 1.1.3 (2018/12/23)
 - Fixes tooltip not rendering properlly (it appeared and disappeared)
 

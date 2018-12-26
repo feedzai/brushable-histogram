@@ -41,39 +41,52 @@ function histogramTooltipBar(bar) {
 }
 
 stories
-    .add("Basic example", () =>
-        (<Histogram
+    .add("Basic example", () => (
+        <Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
-        />))
-    .add("With a custom tooltip", () =>
-        (<Histogram
+        />
+    ))
+    .add("With a custom tooltip", () => (
+        <Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             tooltipBarCustomization={histogramTooltipBar}
-        />))
-    .add("With a custom axis formatters", () =>
-        (<Histogram
+        />
+    ))
+    .add("With a custom axis formatters", () => (
+        <Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             xAxisFormatter={formatDayFull}
             yAxisFormatter={(value) => (value > 0 ? `${value}$` : "")}
             yAccessor={(datapoint) => datapoint.total}
-        />))
-    .add("Without the play button", () =>
-        (<Histogram
+        />
+    ))
+    .add("Without the play button", () => (
+        <Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             renderPlayButton={false}
-        />))
-    .add("With a custom a height", () =>
-        (<Histogram
+        />
+    ))
+    .add("With a custom a height", () => (
+        <Histogram
             data={sampleData}
             xAccessor={(datapoint) => datapoint.timestamp}
             yAccessor={(datapoint) => datapoint.total}
             height={number("height (min 150)", 300)}
             tooltipBarCustomization={histogramTooltipBar}
-        />));
+        />
+    ))
+    .add("With no data", () => (
+        <Histogram
+            data={[]}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            yAccessor={(datapoint) => datapoint.total}
+            tooltipBarCustomization={histogramTooltipBar}
+        />
+    ));

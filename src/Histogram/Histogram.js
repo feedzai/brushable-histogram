@@ -85,6 +85,13 @@ export class Histogram extends PureComponent {
             throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
         }
 
+        // Sometimes the width will be zero, for example when swithing between storybook
+        // stories. In those cases we don't want to do anything so that the histogram
+        // does not enter into an invalid state.
+        if (props.size.width === 0) {
+            return null;
+        }
+
         const nextState = calculateChartSizesAndDomain(props, state.data, state.brushDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
@@ -253,7 +260,7 @@ export class Histogram extends PureComponent {
      */
     _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
         if (dateToTimestamp(brushedDomain[0]) !== dateToTimestamp(this.state.brushDomain.min)
-            || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)){
+                || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
             this.setState({
                 brushDomain: {
                     min: brushedDomain[0],
@@ -299,9 +306,17 @@ export class Histogram extends PureComponent {
             data: this.props.data
         });
 
+        let maxY;
+
+        if (this.props.data.length === 0) {
+            maxY = 1;
+        } else {
+            maxY = d3Max(timeHistogramBars, (bin) => bin.yValue);
+        }
+
         // Setting the histogram y-axis domain scale
         this.histogramChartYScale = scaleLinear()
-            .domain([0, d3Max(timeHistogramBars, (bin) => bin.yValue)])
+            .domain([0, maxY])
             .range([this.state.histogramChartDimensions.heightForBars, 0]);
 
         this.setState({
