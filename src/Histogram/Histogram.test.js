@@ -16,7 +16,6 @@ jest.mock("./histogramBinCalculator");
 // system clock. To avoid that dependency we mock the module that
 // calculates those things.
 jest.mock("./histogramBarGeometry");
-
 const formatMinute = timeFormat("%I:%M");
 
 function histogramYAxisFormatter(value) {
@@ -55,6 +54,7 @@ beforeEach(() => {
         tooltipBarCustomization={histogramTooltipBar}
         onIntervalChange={onIntervalChangeSpy}
     />);
+
     instance = wrapper.instance();
 });
 
@@ -99,5 +99,58 @@ describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {
         ]);
 
         expect(onIntervalChangeSpy.mock.calls.length).toBe(1);
+    });
+});
+
+describe("_renderDensityChart", () => {
+    let histogramBarGeometryMock;
+
+    beforeEach(() => {
+        // clear histogramBarGeometryMock
+        histogramBarGeometryMock = require("./histogramBarGeometry");
+    });
+
+    it("should render an histogram bar", () => {
+        expect(
+            instance._renderHistogramBars([{
+                x0: {
+                    getTime: () => "fake-time"
+                }
+            }])
+        ).toMatchSnapshot();
+    });
+
+    it("should not render an histogram bar if the height is negative", () => {
+        histogramBarGeometryMock.calculatePositionAndDimensions = jest.fn().mockImplementation(() => ({
+            x: 0,
+            y: 0,
+            width: 100,
+            height: -1
+        }));
+
+        expect(
+            instance._renderHistogramBars([{
+                x0: {
+                    getTime: () => "fake-time"
+                }
+            }])
+        ).toEqual([null]);
+    });
+
+    it("should not render an histogram bar if the width is negative", () => {
+        histogramBarGeometryMock.calculatePositionAndDimensions = jest.fn().mockImplementation(() => ({
+            x: 0,
+            y: 0,
+            width: -1,
+            height: 100
+        }));
+
+        expect(
+            instance._renderHistogramBars([{
+                x0: {
+                    getTime: () => "fake-time"
+                }
+            }])
+        ).toEqual([null]);
     });
 });

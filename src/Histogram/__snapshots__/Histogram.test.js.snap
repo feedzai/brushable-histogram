@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`_renderDensityChart should render an histogram bar 1`] = `
+Array [
+  <rect
+    dataindex={0}
+    height={10}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    width={10}
+    x={1}
+    y={1}
+  />,
+]
+`;
+
 exports[`render does a baseline render 1`] = `
 <Histogram
   barOptions={
