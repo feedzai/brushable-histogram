@@ -349,14 +349,8 @@ export class Histogram extends PureComponent {
                 return null;
             }
 
-            let onMouseEnter = this._onMouseEnterHistogramBar;
-            let onMouseLeave = this._onMouseLeaveHistogramBar;
-
             // If there is no tooltip we don't need the mouse enter and leave handlers
-            if (typeof this.props.tooltipBarCustomization === "function" === false) {
-                onMouseEnter = null;
-                onMouseLeave = null;
-            }
+            const hasTooltipBarCustomatizations = typeof this.props.tooltipBarCustomization === "function";
 
             return (
                 <rect
@@ -366,8 +360,8 @@ export class Histogram extends PureComponent {
                     y={y}
                     width={width}
                     height={height}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
+                    onMouseEnter={hasTooltipBarCustomatizations ? this._onMouseEnterHistogramBar : null}
+                    onMouseLeave={hasTooltipBarCustomatizations ? this._onMouseLeaveHistogramBar : null}
                 />
             );
         });
