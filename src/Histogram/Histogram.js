@@ -343,7 +343,9 @@ export class Histogram extends PureComponent {
                 bar
             });
 
-            if (width <= 0) {
+            // Do not render the histogram bars when they have negative values for the
+            // width and height
+            if (height <= 0 || width <= 0) {
                 return null;
             }
 
