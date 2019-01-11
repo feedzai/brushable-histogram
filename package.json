@@ -19,7 +19,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "lint": "eslint src/{,**/}*.js",
-    "build": "babel src --out-dir lib",
+    "build": "babel src --out-dir lib && node-sass src/Histogram/Histogram.scss lib/css/brushable-histogram.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "rm -rf docs && build-storybook -o docs",
     "publish:dry": "fdz-deploy --dry",
