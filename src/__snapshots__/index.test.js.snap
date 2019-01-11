@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`index should render the histogram component 1`] = `
+<SizeMeRenderer(Histogram)
+  disablePlaceholder={false}
+  explicitRef={[Function]}
+  size={
+    Object {
+      "height": undefined,
+      "position": undefined,
+      "width": undefined,
+    }
+  }
+/>
+`;
