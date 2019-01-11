@@ -1,12 +1,12 @@
 # Brushable Histogram
 
-## 1.2.0 (TBD)
-- Export a css file
+## 1.7.0 (TBD)
+- Exports a css file
 - Ignoring directories that are irrelevant for this component releases.
   Like unit tests, documentation and storybook files.
-- Update .babelrc file in order to ship the source code without unit
+- Updates .babelrc file in order to ship the source code without unit
   tests.
-- Fix Javascript import path.
+- Fixes Javascript import path.
 - Adds missing check that cause the histogram to blow-up in some cases
 
 ## 1.1.5 & 1.1.6 (2018/12/26) BUMPED
