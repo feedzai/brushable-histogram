@@ -1,3 +1,7 @@
+#ide specific folders
+.vscode
+.idea
+
 # Logs
 logs
 *.log
@@ -29,9 +33,7 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
-# Optional npm cache directory
-.npm
-
+# Optional npm cache directog
 # Optional eslint cache
 .eslintcache
 
@@ -42,7 +44,7 @@ typings/
 *.tgz
 
 # Yarn Integrity file
-.yarn-integrity 
+.yarn-integrity
 
 # OSX metadata files
 .DS_Store
