@@ -1,3 +1,3 @@
-import Histogram from "./Histogram";
+import Histogram from "./Histogram/Histogram";
 
 export default Histogram;
