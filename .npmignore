@@ -8,6 +8,10 @@ stories
 # - source files
 src
 
+#ide specific folders
+.vscode
+.idea
+
 # Logs
 logs
 *.log
