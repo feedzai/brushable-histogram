@@ -1,9 +1,4 @@
 {
-    "ignore": [
-        "**/__mocks__",
-        "**/*.test.js",
-        "setupTests.js"
-    ],
     "presets": [
         ["@babel/env", {
             "targets": {
@@ -19,5 +14,14 @@
         "@babel/plugin-transform-react-jsx",
         "@babel/plugin-proposal-class-properties",
         "@babel/transform-runtime"
-    ]
+    ],
+
+    "env": {
+        "production": {
+            "ignore": [
+                "**/*.test.js",
+                "**/__mocks__"
+            ]
+        }
+    }
 }
