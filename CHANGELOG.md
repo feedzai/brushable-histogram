@@ -7,9 +7,9 @@
 - Updates .babelrc file in order to ship the source code without unit
   tests.
 - Fixes Javascript import path.
-- Adds missing check that cause the histogram to blow-up in some cases
 
-## 1.1.5 (2018/12/26) BUMPED
+## 1.1.5 (2018/12/26)
+- Adds missing check that cause the histogram to blow-up in some cases
 
 ## 1.1.4 (2018/12/26)
 - Handles the case when `props.data` is empty
