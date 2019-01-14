@@ -267,7 +267,7 @@ export class Histogram extends PureComponent {
      */
     _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
         if (dateToTimestamp(brushedDomain[0]) !== dateToTimestamp(this.state.brushDomain.min)
-                || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
+            || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
             this.setState({
                 brushDomain: {
                     min: brushedDomain[0].getTime(),
@@ -424,7 +424,7 @@ export class Histogram extends PureComponent {
             top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
         };
 
-        if (typeof this.props.tooltipBarCustomization === "function" === false) {
+        if (typeof this.props.tooltipBarCustomization !== "function") {
             return null;
         }
 
