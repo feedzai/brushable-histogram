@@ -1,6 +1,6 @@
 {
   "name": "@feedzai/brushable-histogram",
-  "version": "1.1.6",
+  "version": "1.1.5",
   "description": "A time histogram with a time brush that renders a summary of the events",
   "main": "lib/index.js",
   "dependencies": {
@@ -19,7 +19,7 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "lint": "eslint src/{,**/}*.js",
-    "build": "babel src --out-dir lib",
+    "build": "NODE_ENV=production babel src --verbose --out-dir lib && node-sass src/Histogram/Histogram.scss lib/css/brushable-histogram.css",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "rm -rf docs && build-storybook -o docs",
     "publish:dry": "fdz-deploy --dry",
@@ -62,16 +62,6 @@
     "node-sass": "^4.10.0",
     "react-dom": "16.6.1",
     "sass-loader": "^7.1.0"
-  },
-  "jest": {
-    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ],
-    "roots": [
-      "src"
-    ],
-    "coverageDirectory": "<rootDir>/coverage"
   },
   "licence": "APACHE-2.0"
 }

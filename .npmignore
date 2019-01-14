@@ -1,3 +1,17 @@
+# Ignoring irrelevant files for the npm deploying
+# files like:
+# - documentation & storybook
+docs
+.storybook
+stories
+
+# - source files
+src
+
+#ide specific folders
+.vscode
+.idea
+
 # Logs
 logs
 *.log
@@ -31,7 +45,7 @@ typings/
 *.tgz
 
 # Yarn Integrity file
-.yarn-integrity 
+.yarn-integrity
 
 # OSX metadata files
 .DS_Store

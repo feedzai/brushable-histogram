@@ -5,7 +5,7 @@ import { storiesOf } from "@storybook/react";
 import { withKnobs, number } from "@storybook/addon-knobs";
 
 import sampleData from "./sampleData";
-import Histogram from "../src/Histogram/Histogram";
+import Histogram from "../src/index";
 import "../src/Histogram/Histogram.scss";
 
 const stories = storiesOf("Histogram", module);
