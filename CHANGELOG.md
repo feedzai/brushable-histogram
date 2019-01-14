@@ -1,6 +1,6 @@
 # Brushable Histogram
 
-## 1.7.0 (TBD)
+## 1.1.6 (TBD)
 - Exports a css file
 - Ignoring directories that are irrelevant for this component releases.
   Like unit tests, documentation and storybook files.
@@ -9,7 +9,7 @@
 - Fixes Javascript import path.
 - Adds missing check that cause the histogram to blow-up in some cases
 
-## 1.1.5 & 1.1.6 (2018/12/26) BUMPED
+## 1.1.5 (2018/12/26) BUMPED
 
 ## 1.1.4 (2018/12/26)
 - Handles the case when `props.data` is empty
