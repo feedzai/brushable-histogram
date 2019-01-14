@@ -254,6 +254,10 @@ describe("calculateChartSizesAndDomain", () => {
                 "max": 1534164400001,
                 "min": 1533309900034
             },
+            "timeDomain": {
+                "max": 1534164400001,
+                "min": 1533309900034
+            },
             "densityChartDimensions": {
                 "height": 20,
                 "width": 960

@@ -183,21 +183,25 @@ export function calculateChartsPositionsAndSizing(props) {
  * @returns {Object}
  */
 export function calculateChartSizesAndDomain(props, previousData, previousBrushDomain) {
-    let nextState = {};
-
     const { histogramChartDimensions, densityChartDimensions } = calculateChartsPositionsAndSizing(props);
 
-    nextState = {
+    let nextState = {
         histogramChartDimensions,
         densityChartDimensions
     };
 
     if (props.data.length === 0) {
+        const now = dateToTimestamp(Date.now());
+
         return {
             ...nextState,
             brushDomain: {
-                min: Date.now(),
-                max: Date.now()
+                min: now,
+                max: now
+            },
+            timeDomain: {
+                min: now,
+                max: now
             }
         };
     }
@@ -224,8 +228,12 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushD
             nextState = {
                 ...nextState,
                 brushDomain: {
-                    min,
-                    max
+                    min: dateToTimestamp(min),
+                    max: dateToTimestamp(max)
+                },
+                timeDomain: {
+                    min: dateToTimestamp(min),
+                    max: dateToTimestamp(max)
                 }
             };
         }

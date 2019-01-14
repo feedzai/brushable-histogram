@@ -4,6 +4,7 @@ import { max as d3Max } from "d3-array";
 import { scaleTime, scaleLinear } from "d3-scale";
 import { event as d3Event, select as d3Select } from "d3-selection";
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
+import { timeMillisecond } from "d3-time";
 import { withSize } from "react-sizeme";
 import {
     histogramDefaultYAxisFormatter,
@@ -78,14 +79,14 @@ export class Histogram extends PureComponent {
         onIntervalChange: () => {},
         minZoomUnit: 1000,
         renderPlayButton: true
-    }
+    };
 
     static getDerivedStateFromProps(props, state) {
         if (props.height < MIN_TOTAL_HEIGHT) {
             throw new Error(`The minimum height is ${MIN_TOTAL_HEIGHT}px.`);
         }
 
-        // Sometimes the width will be zero, for example when swithing between storybook
+        // Sometimes the width will be zero, for example when switching between storybook
         // stories. In those cases we don't want to do anything so that the histogram
         // does not enter into an invalid state.
         if (props.size.width === 0) {
@@ -166,6 +167,7 @@ export class Histogram extends PureComponent {
      * @private
      */
     _onResizeZoom = () => {
+        // This is an early return in order to avoid processing brush event
         if (d3Event.sourceEvent && d3Event.sourceEvent.type === "brush") {
             return;
         }
@@ -175,6 +177,11 @@ export class Histogram extends PureComponent {
         // We apply the zoom transformation to rescale densityChartScale.
         // Then we get the new domain, this is the new domain for the histogram x scale
         const brushedDomain = transform.rescaleX(this.densityChartXScale).domain();
+
+        if (brushedDomain[1] >= this.state.timeDomain.max) {
+            brushedDomain[0] = timeMillisecond(this.state.timeDomain.max - (brushedDomain[1].getTime() - brushedDomain[0].getTime()));
+            brushedDomain[1] = timeMillisecond(this.state.timeDomain.max);
+        }
 
         this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
     };
@@ -263,8 +270,8 @@ export class Histogram extends PureComponent {
                 || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
             this.setState({
                 brushDomain: {
-                    min: brushedDomain[0],
-                    max: brushedDomain[1]
+                    min: brushedDomain[0].getTime(),
+                    max: brushedDomain[1].getTime()
                 },
                 showHistogramBarTooltip: false
             }, this._updateHistogramChartScales);
@@ -480,17 +487,17 @@ export class Histogram extends PureComponent {
      * @returns {React.Element}
      */
     _renderDensityChart() {
-        const { densityChartDimensions, brushDomain } = this.state;
         const { frameStep, frameDelay, xAccessor, spaceBetweenCharts, brushDensityChartColor,
             brushDensityChartFadedColor, renderPlayButton, data } = this.props;
 
         return (
             <DensityChart
-                width={densityChartDimensions.width}
-                height={densityChartDimensions.height}
+                width={this.state.densityChartDimensions.width}
+                height={this.state.densityChartDimensions.height}
                 padding={PADDING}
-                brushDomainMax={dateToTimestamp(brushDomain.max)}
-                brushDomainMin={dateToTimestamp(brushDomain.min)}
+                brushDomainMin={this.state.brushDomain.min}
+                brushDomainMax={this.state.brushDomain.max}
+                timeDomainMax={this.state.timeDomain.max}
                 frameStep={frameStep}
                 frameDelay={frameDelay}
                 xAccessor={xAccessor}

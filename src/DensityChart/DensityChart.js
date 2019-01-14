@@ -28,8 +28,9 @@ export default class DensityChart extends PureComponent {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         padding: PropTypes.number.isRequired,
-        brushDomainMax: PropTypes.number.isRequired,
+        timeDomainMax: PropTypes.number.isRequired,
         brushDomainMin: PropTypes.number.isRequired,
+        brushDomainMax: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
         onDomainChanged: PropTypes.func.isRequired,
         xAccessor: PropTypes.func.isRequired,
@@ -73,11 +74,24 @@ export default class DensityChart extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { brushDomainMin, brushDomainMax, densityChartXScale } = this.props;
+        let min = this.props.brushDomainMin;
+        let max = this.props.brushDomainMax;
+
+        const { densityChartXScale } = this.props;
+
+        if (max >= this.props.timeDomainMax) {
+            const delta = this.props.brushDomainMax - this.props.brushDomainMin;
+
+            min = this.props.timeDomainMax - delta;
+            max = this.props.timeDomainMax;
+        }
 
         this._updateBrush();
 
-        this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
+        this._moveBrush([
+            densityChartXScale(min),
+            densityChartXScale(max)
+        ]);
 
         // We only need to re-render the density chart if the data, the weight, the height or
         // the chart x scale have changed.
@@ -228,8 +242,8 @@ export default class DensityChart extends PureComponent {
             <PlayButton
                 width={width}
                 densityChartXScale={densityChartXScale}
-                brushDomainMax={brushDomainMax}
                 brushDomainMin={brushDomainMin}
+                brushDomainMax={brushDomainMax}
                 frameStep={frameStep}
                 frameDelay={frameDelay}
                 moveBrush={this._moveBrush}
