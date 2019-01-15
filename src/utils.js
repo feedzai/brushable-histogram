@@ -218,13 +218,11 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushD
 
         const min = d3Min(props.data, props.xAccessor);
 
-        let max = d3Max(props.data, props.xAccessor);
-
-        // This plus one is to avoid that the last data point to have no width on the histogram
-        max += 1;
+        // We're incrementing 1 millisecond in order avoid the last data point to have no width on the histogram
+        const max = d3Max(props.data, props.xAccessor) + 1;
 
         // If the brush domain changed we could
-        if (previousBrushDomain.min > min || previousBrushDomain.max < max) {
+        if (min !== previousBrushDomain.min || max !== previousBrushDomain.max) {
             nextState = {
                 ...nextState,
                 brushDomain: {

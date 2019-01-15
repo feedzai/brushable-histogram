@@ -179,7 +179,9 @@ export class Histogram extends PureComponent {
         const brushedDomain = transform.rescaleX(this.densityChartXScale).domain();
 
         if (brushedDomain[1] >= this.state.timeDomain.max) {
-            brushedDomain[0] = timeMillisecond(this.state.timeDomain.max - (brushedDomain[1].getTime() - brushedDomain[0].getTime()));
+            const brushDomainInterval = brushedDomain[1].getTime() - brushedDomain[0].getTime();
+
+            brushedDomain[0] = timeMillisecond(this.state.timeDomain.max - brushDomainInterval);
             brushedDomain[1] = timeMillisecond(this.state.timeDomain.max);
         }
 
@@ -266,8 +268,8 @@ export class Histogram extends PureComponent {
      * @private
      */
     _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
-        if (dateToTimestamp(brushedDomain[0]) !== dateToTimestamp(this.state.brushDomain.min)
-            || dateToTimestamp(brushedDomain[1]) !== dateToTimestamp(this.state.brushDomain.max)) {
+        if (dateToTimestamp(brushedDomain[0]) !== this.state.brushDomain.min
+            || dateToTimestamp(brushedDomain[1]) !== this.state.brushDomain.max) {
             this.setState({
                 brushDomain: {
                     min: brushedDomain[0].getTime(),
@@ -275,16 +277,16 @@ export class Histogram extends PureComponent {
                 },
                 showHistogramBarTooltip: false
             }, this._updateHistogramChartScales);
-
-            const fullDomain = this.densityChartXScale.domain();
-            const isFullDomain = fullDomain[0].getTime() === brushedDomain[0].getTime()
-                && fullDomain[1].getTime() === brushedDomain[1].getTime();
-
-            this.props.onIntervalChange([
-                brushedDomain[0].getTime(),
-                brushedDomain[1].getTime()
-            ], isFullDomain);
         }
+        const fullDomain = this.densityChartXScale.domain();
+
+        const isFullDomain = fullDomain[0].getTime() === brushedDomain[0].getTime()
+            && fullDomain[1].getTime() === brushedDomain[1].getTime();
+
+        this.props.onIntervalChange([
+            brushedDomain[0].getTime(),
+            brushedDomain[1].getTime()
+        ], isFullDomain);
     }
 
     /**
