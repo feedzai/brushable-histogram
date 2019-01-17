@@ -268,25 +268,24 @@ export class Histogram extends PureComponent {
      * @private
      */
     _updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain) {
-        if (dateToTimestamp(brushedDomain[0]) !== this.state.brushDomain.min
-            || dateToTimestamp(brushedDomain[1]) !== this.state.brushDomain.max) {
+        const brushedDomainMin = dateToTimestamp(brushedDomain[0]);
+        const brushedDomainMax = dateToTimestamp(brushedDomain[1]);
+
+        if (brushedDomainMin !== this.state.brushDomain.min || brushedDomainMax !== this.state.brushDomain.max) {
             this.setState({
                 brushDomain: {
-                    min: brushedDomain[0].getTime(),
-                    max: brushedDomain[1].getTime()
+                    min: brushedDomainMin,
+                    max: brushedDomainMax
                 },
                 showHistogramBarTooltip: false
             }, this._updateHistogramChartScales);
+
+            const fullDomain = this.densityChartXScale.domain();
+
+            const isFullDomain = fullDomain[0].getTime() === brushedDomainMin && fullDomain[1].getTime() === brushedDomainMax;
+
+            this.props.onIntervalChange([ brushedDomainMin, brushedDomainMax ], isFullDomain);
         }
-        const fullDomain = this.densityChartXScale.domain();
-
-        const isFullDomain = fullDomain[0].getTime() === brushedDomain[0].getTime()
-            && fullDomain[1].getTime() === brushedDomain[1].getTime();
-
-        this.props.onIntervalChange([
-            brushedDomain[0].getTime(),
-            brushedDomain[1].getTime()
-        ], isFullDomain);
     }
 
     /**
