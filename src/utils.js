@@ -179,10 +179,10 @@ export function calculateChartsPositionsAndSizing(props) {
  * Calculates the size of the histogram and density charts and the domain.
  * @param {Object} props
  * @param {Array.<Object>} previousData
- * @param {Object} previousBrushDomain
+ * @param {Object} previousBrushTimeDomain
  * @returns {Object}
  */
-export function calculateChartSizesAndDomain(props, previousData, previousBrushDomain) {
+export function calculateChartSizesAndDomain(props, previousData, previousBrushTimeDomain) {
     const { histogramChartDimensions, densityChartDimensions } = calculateChartsPositionsAndSizing(props);
 
     let nextState = {
@@ -195,11 +195,11 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushD
 
         return {
             ...nextState,
-            brushDomain: {
+            brushTimeDomain: {
                 min: now,
                 max: now
             },
-            timeDomain: {
+            overallTimeDomain: {
                 min: now,
                 max: now
             }
@@ -222,14 +222,14 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushD
         const max = d3Max(props.data, props.xAccessor) + 1;
 
         // If the brush domain changed we could
-        if (min !== previousBrushDomain.min || max !== previousBrushDomain.max) {
+        if (min !== previousBrushTimeDomain.min || max !== previousBrushTimeDomain.max) {
             nextState = {
                 ...nextState,
-                brushDomain: {
+                brushTimeDomain: {
                     min: dateToTimestamp(min),
                     max: dateToTimestamp(max)
                 },
-                timeDomain: {
+                overallTimeDomain: {
                     min: dateToTimestamp(min),
                     max: dateToTimestamp(max)
                 }

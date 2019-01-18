@@ -28,7 +28,7 @@ export default class DensityChart extends PureComponent {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         padding: PropTypes.number.isRequired,
-        timeDomainMax: PropTypes.number.isRequired,
+        overallTimeDomainMax: PropTypes.number.isRequired,
         brushDomainMin: PropTypes.number.isRequired,
         brushDomainMax: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
@@ -79,11 +79,11 @@ export default class DensityChart extends PureComponent {
 
         const { densityChartXScale } = this.props;
 
-        if (max >= this.props.timeDomainMax) {
+        if (max >= this.props.overallTimeDomainMax) {
             const delta = this.props.brushDomainMax - this.props.brushDomainMin;
 
-            min = this.props.timeDomainMax - delta;
-            max = this.props.timeDomainMax;
+            min = this.props.overallTimeDomainMax - delta;
+            max = this.props.overallTimeDomainMax;
         }
 
         this._updateBrush();

@@ -93,7 +93,7 @@ export class Histogram extends PureComponent {
             return null;
         }
 
-        const nextState = calculateChartSizesAndDomain(props, state.data, state.brushDomain);
+        const nextState = calculateChartSizesAndDomain(props, state.data, state.brushTimeDomain);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
@@ -178,11 +178,15 @@ export class Histogram extends PureComponent {
         // Then we get the new domain, this is the new domain for the histogram x scale
         const brushedDomain = transform.rescaleX(this.densityChartXScale).domain();
 
-        if (brushedDomain[1] >= this.state.timeDomain.max) {
+        // if the max value of the brushed domain is greater than the max value of the overallTimeDomain imposed
+        // by the data we should avoid the scrolling in that area because it doesn't make any sense.
+        if (brushedDomain[1] >= this.state.overallTimeDomain.max) {
+            // Here we get the delta of the brush domain
             const brushDomainInterval = brushedDomain[1].getTime() - brushedDomain[0].getTime();
 
-            brushedDomain[0] = timeMillisecond(this.state.timeDomain.max - brushDomainInterval);
-            brushedDomain[1] = timeMillisecond(this.state.timeDomain.max);
+            // And apply that in this min value of the brush domain in order to keep that interval
+            brushedDomain[0] = timeMillisecond(this.state.overallTimeDomain.max - brushDomainInterval);
+            brushedDomain[1] = timeMillisecond(this.state.overallTimeDomain.max);
         }
 
         this._updateBrushedDomainAndReRenderTheHistogramPlot(brushedDomain);
@@ -227,7 +231,7 @@ export class Histogram extends PureComponent {
      * @private
      */
     _createScaleAndZoom() {
-        const { min, max } = this.state.brushDomain;
+        const { min, max } = this.state.brushTimeDomain;
         const { width, height } = this.state.histogramChartDimensions;
 
         this.densityChartXScale = scaleTime()
@@ -271,9 +275,9 @@ export class Histogram extends PureComponent {
         const brushedDomainMin = dateToTimestamp(brushedDomain[0]);
         const brushedDomainMax = dateToTimestamp(brushedDomain[1]);
 
-        if (brushedDomainMin !== this.state.brushDomain.min || brushedDomainMax !== this.state.brushDomain.max) {
+        if (brushedDomainMin !== this.state.brushTimeDomain.min || brushedDomainMax !== this.state.brushTimeDomain.max) {
             this.setState({
-                brushDomain: {
+                brushTimeDomain: {
                     min: brushedDomainMin,
                     max: brushedDomainMax
                 },
@@ -282,7 +286,8 @@ export class Histogram extends PureComponent {
 
             const fullDomain = this.densityChartXScale.domain();
 
-            const isFullDomain = fullDomain[0].getTime() === brushedDomainMin && fullDomain[1].getTime() === brushedDomainMax;
+            const isFullDomain = fullDomain[0].getTime() === brushedDomainMin
+                && fullDomain[1].getTime() === brushedDomainMax;
 
             this.props.onIntervalChange([ brushedDomainMin, brushedDomainMax ], isFullDomain);
         }
@@ -298,7 +303,7 @@ export class Histogram extends PureComponent {
         this.histogramChartXScale = scaleTime();
 
         this.histogramChartXScale
-            .domain([ this.state.brushDomain.min, this.state.brushDomain.max ])
+            .domain([ this.state.brushTimeDomain.min, this.state.brushTimeDomain.max ])
             .range([
                 this.state.histogramChartDimensions.width * X_AXIS_PADDING,
                 this.state.histogramChartDimensions.width * (1 - X_AXIS_PADDING)
@@ -496,9 +501,9 @@ export class Histogram extends PureComponent {
                 width={this.state.densityChartDimensions.width}
                 height={this.state.densityChartDimensions.height}
                 padding={PADDING}
-                brushDomainMin={this.state.brushDomain.min}
-                brushDomainMax={this.state.brushDomain.max}
-                timeDomainMax={this.state.timeDomain.max}
+                brushDomainMin={this.state.brushTimeDomain.min}
+                brushDomainMax={this.state.brushTimeDomain.max}
+                overallTimeDomainMax={this.state.overallTimeDomain.max}
                 frameStep={frameStep}
                 frameDelay={frameDelay}
                 xAccessor={xAccessor}
