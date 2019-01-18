@@ -80,6 +80,7 @@ exports[`render does a baseline render 1`] = `
       ],
     }
   }
+  overallTimeDomainMax={-Infinity}
   padding={10}
   renderPlayButton={true}
   width={1000}

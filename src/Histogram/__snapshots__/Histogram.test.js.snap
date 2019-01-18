@@ -382,10 +382,10 @@ exports[`render does a baseline render 1`] = `
       densityChartXScale={[Function]}
       height={20}
       onDomainChanged={[Function]}
+      overallTimeDomainMax={1534164400001}
       padding={10}
       renderPlayButton={true}
       spaceBetweenCharts={10}
-      timeDomainMax={1534164400001}
       width={940}
       xAccessor={[Function]}
     >
@@ -748,10 +748,10 @@ exports[`render renders an empty chart if no data is passed 1`] = `
       densityChartXScale={[Function]}
       height={20}
       onDomainChanged={[Function]}
+      overallTimeDomainMax={1479427200000}
       padding={10}
       renderPlayButton={false}
       spaceBetweenCharts={10}
-      timeDomainMax={1479427200000}
       width={940}
       xAccessor={[Function]}
     >

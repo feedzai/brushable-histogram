@@ -28,7 +28,7 @@ export default class DensityChart extends PureComponent {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         padding: PropTypes.number.isRequired,
-        overallTimeDomainMax: PropTypes.number.isRequired,
+        overallTimeDomainMax: PropTypes.number,
         brushDomainMin: PropTypes.number.isRequired,
         brushDomainMax: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
@@ -43,6 +43,7 @@ export default class DensityChart extends PureComponent {
 
     static defaultProps = {
         renderPlayButton: true,
+        overallTimeDomainMax: -Infinity,
         brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
         brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)"
     };
