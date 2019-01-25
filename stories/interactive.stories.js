@@ -1,20 +1,8 @@
-/**
- * 2019, Feedzai
- *
- * This source code is licensed under the LGPL license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { withKnobs, object } from "@storybook/addon-knobs";
 import Histogram from "../src/index";
 import "../src/Histogram/Histogram.scss";
-
-/**
- * @author Victor Fernandes (victor.fernandes@feedzai.com)
- * @since 1.7.0
- */
 
 const stories = storiesOf("Histogram - Interactive data", module);
 
