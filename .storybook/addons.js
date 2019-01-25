@@ -1,3 +1,3 @@
-import '@storybook/addon-actions/register';
-import '@storybook/addon-links/register';
+// Storybook addons
+
 import '@storybook/addon-knobs/register';

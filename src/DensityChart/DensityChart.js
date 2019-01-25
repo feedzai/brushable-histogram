@@ -28,8 +28,9 @@ export default class DensityChart extends PureComponent {
         width: PropTypes.number.isRequired,
         height: PropTypes.number.isRequired,
         padding: PropTypes.number.isRequired,
-        brushDomainMax: PropTypes.number.isRequired,
+        overallTimeDomainMax: PropTypes.number,
         brushDomainMin: PropTypes.number.isRequired,
+        brushDomainMax: PropTypes.number.isRequired,
         densityChartXScale: PropTypes.func.isRequired,
         onDomainChanged: PropTypes.func.isRequired,
         xAccessor: PropTypes.func.isRequired,
@@ -42,6 +43,7 @@ export default class DensityChart extends PureComponent {
 
     static defaultProps = {
         renderPlayButton: true,
+        overallTimeDomainMax: -Infinity,
         brushDensityChartColor: "rgba(33, 150, 243, 0.2)",
         brushDensityChartFadedColor: "rgba(176, 190, 197, 0.2)"
     };
@@ -73,11 +75,24 @@ export default class DensityChart extends PureComponent {
     }
 
     componentDidUpdate(prevProps) {
-        const { brushDomainMin, brushDomainMax, densityChartXScale } = this.props;
+        let min = this.props.brushDomainMin;
+        let max = this.props.brushDomainMax;
+
+        const { densityChartXScale } = this.props;
+
+        if (max >= this.props.overallTimeDomainMax) {
+            const delta = this.props.brushDomainMax - this.props.brushDomainMin;
+
+            min = this.props.overallTimeDomainMax - delta;
+            max = this.props.overallTimeDomainMax;
+        }
 
         this._updateBrush();
 
-        this._moveBrush([densityChartXScale(brushDomainMin), densityChartXScale(brushDomainMax)]);
+        this._moveBrush([
+            densityChartXScale(min),
+            densityChartXScale(max)
+        ]);
 
         // We only need to re-render the density chart if the data, the weight, the height or
         // the chart x scale have changed.
@@ -228,8 +243,8 @@ export default class DensityChart extends PureComponent {
             <PlayButton
                 width={width}
                 densityChartXScale={densityChartXScale}
-                brushDomainMax={brushDomainMax}
                 brushDomainMin={brushDomainMin}
+                brushDomainMax={brushDomainMax}
                 frameStep={frameStep}
                 frameDelay={frameDelay}
                 moveBrush={this._moveBrush}

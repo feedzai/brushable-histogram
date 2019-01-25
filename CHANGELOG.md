@@ -1,6 +1,8 @@
 # Brushable Histogram
 
 ## 1.1.6 (TBD)
+- Fix a bug related with the zooming interactions between the histogram
+  and brushing areas ([#26](https://github.com/feedzai/brushable-histogram/issues/26))
 - Exports a css file
 - Ignoring directories that are irrelevant for this component releases.
   Like unit tests, documentation and storybook files.
@@ -19,7 +21,8 @@
 - Fixes tooltip not rendering properlly (it appeared and disappeared)
 
 ## 1.1.2 (2018/12/19)
-- Reduces the minimum height to 100 pixels to allow for some internal Feedzai use cases
+- Reduces the minimum height to 100 pixels to allow for some internal
+  Feedzai use cases
 
 ## 1.1.1 (2018/12/17)
 - Publishes the `lib` folder
@@ -38,7 +41,8 @@
 - Benchmark with a lot of nodes
     - Initial render is relativelly fast with 100k data points
     - Tooltip highlight works smoothly with 300k data points
-    - Brushing works with 70k data points, and smoothly with 25k data points
+    - Brushing works with 70k data points, and smoothly with 25k data
+      points
 - Handle different widths and heights correctly
 - Remove global selectors
 - Create a static page with the story book
@@ -49,7 +53,8 @@
 - Removes usage of `.toString()` to avoid requiring core-js.
 
 ## 1.0.4 (2018/12/05)
-- Reduces dependencies of the transpiled code to reduce the bundle size of the package consumers.
+- Reduces dependencies of the transpiled code to reduce the bundle size
+  of the package consumers.
 
 ## 1.0.3 (2018/12/04)
 - Adds missing antd dependency
@@ -58,7 +63,8 @@
 - Adds a build step to compile the src files
 
 ## 1.0.1 (2018/11/30)
-- Fixes index.js link and changes the dependencies version to match the ones in genome
+- Fixes index.js link and changes the dependencies version to match the
+  ones in genome
 
 ## 1.0.0 (2018/11/30)
 - Copied the implementation from Genome

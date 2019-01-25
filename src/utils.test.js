@@ -237,7 +237,7 @@ describe("calculateChartSizesAndDomain", () => {
         });
     });
 
-    it("returns the data and domain if the domain has changed", () => {
+    it("should return the data and domain if the domain has changed", () => {
         expect(calculateChartSizesAndDomain({
             height: 150,
             renderPlayButton: false,
@@ -250,7 +250,11 @@ describe("calculateChartSizesAndDomain", () => {
             yAccessor: yAccessor
         }, smallSample.slice(1), { min: 1533164500146, max: 1533167401146 })).toEqual({
             "data": smallSample,
-            "brushDomain": {
+            "brushTimeDomain": {
+                "max": 1534164400001,
+                "min": 1533309900034
+            },
+            "overallTimeDomain": {
                 "max": 1534164400001,
                 "min": 1533309900034
             },
