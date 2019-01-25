@@ -1,5 +1,5 @@
 {
   "hooks": {
-    "pre-push": "npm run build && git add . && git commit -m '🐕  [husky] Update documentation'",
+    "post-commit": "npm run build && git add . && git commit -m '🐕  [husky] Update documentation'",
   }
 }
