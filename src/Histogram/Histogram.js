@@ -231,7 +231,7 @@ export class Histogram extends PureComponent {
      * @private
      */
     _createScaleAndZoom() {
-        const { min, max } = this.state.brushTimeDomain;
+        const { min, max } = this.state.overallTimeDomain;
         const { width, height } = this.state.histogramChartDimensions;
 
         this.densityChartXScale = scaleTime()
