@@ -1,6 +1,6 @@
 # Brushable Histogram
 
-## 1.1.6 (2019/02/19)
+## 1.1.7 (2019/02/19)
 - Fix a bug related with the zooming interactions between the histogram
   and brushing areas ([#26](https://github.com/feedzai/brushable-histogram/issues/26))
 - Fix bug related with brush size resizing ([#30](https://github.com/feedzai/brushable-histogram/issues/30))
@@ -10,6 +10,8 @@
 - Updates .babelrc file in order to ship the source code without unit
   tests.
 - Fixes Javascript import path.
+
+## 1.1.6 - BUMP
 
 ## 1.1.5 (2018/12/26)
 - Adds missing check that cause the histogram to blow-up in some cases
