@@ -1,8 +1,9 @@
 # Brushable Histogram
 
-## 1.1.6 (TBD)
+## 1.1.6 (2019/02/19)
 - Fix a bug related with the zooming interactions between the histogram
   and brushing areas ([#26](https://github.com/feedzai/brushable-histogram/issues/26))
+- Fix bug related with brush size resizing ([#30](https://github.com/feedzai/brushable-histogram/issues/30))
 - Exports a css file
 - Ignoring directories that are irrelevant for this component releases.
   Like unit tests, documentation and storybook files.
