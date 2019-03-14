@@ -102,6 +102,22 @@ describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {
     });
 });
 
+describe("_onResizeZoom", () => {
+    it("should zoom event to be triggered", () => {
+        instance._updateBrushedDomainAndReRenderTheHistogramPlot = jest.fn();
+        instance.state.overallTimeDomain = {
+            max: 153416440004
+        };
+
+
+        // Simulate a wheek event to test the resize event
+        instance.histogramChartRef.current
+            .dispatchEvent(new WheelEvent("wheel", { deltaY: -100 }));
+
+        expect(instance._updateBrushedDomainAndReRenderTheHistogramPlot).toHaveBeenCalledTimes(1);
+    });
+});
+
 describe("_renderDensityChart", () => {
     let histogramBarGeometryMock;
 
