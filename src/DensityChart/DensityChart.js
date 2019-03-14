@@ -78,13 +78,22 @@ export default class DensityChart extends PureComponent {
         let min = this.props.brushDomainMin;
         let max = this.props.brushDomainMax;
 
-        const { densityChartXScale } = this.props;
+        const { densityChartXScale, width, height } = this.props;
 
         if (max >= this.props.overallTimeDomainMax) {
             const delta = this.props.brushDomainMax - this.props.brushDomainMin;
 
             min = this.props.overallTimeDomainMax - delta;
             max = this.props.overallTimeDomainMax;
+        }
+
+        // We need to resize the max value of the brush when the screen has resized
+        if (prevProps.width !== width || prevProps.height !== height) {
+            this.brush
+                .extent([
+                    [0, 0],
+                    [width, height]
+                ]);
         }
 
         this._updateBrush();
