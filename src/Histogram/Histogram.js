@@ -168,7 +168,7 @@ export class Histogram extends PureComponent {
      */
     _onResizeZoom = () => {
         // This is an early return in order to avoid processing brush event
-        if (d3Event.sourceEvent && d3Event.sourceEvent.type === "brush") {
+        if (d3Event.sourceEvent && d3Event.sourceEvent.target.name === "brush") {
             return;
         }
 
@@ -235,7 +235,7 @@ export class Histogram extends PureComponent {
         const { width, height } = this.state.histogramChartDimensions;
 
         this.densityChartXScale = scaleTime()
-            .domain([ min, max])
+            .domain([ min, max ])
             .range([ 0, this.state.densityChartDimensions.width ]);
 
         // max zoom is the ratio of the initial domain extent to the minimum unit we want to zoom to.

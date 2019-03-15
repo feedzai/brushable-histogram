@@ -86,6 +86,37 @@ describe("_onResizeBrush", () => {
     });
 });
 
+describe("componentDidUpdate", () => {
+    it("update the brush when the screen have been resized", () => {
+        const wrapper = mount(<DensityChart
+            data={smallSample}
+            width={width}
+            height={50}
+            padding={10}
+            brushDomainMax={brushDomainMax}
+            brushDomainMin={brushDomainMin}
+            densityChartXScale={densityChartXScale}
+            onDomainChanged={onDomainChanged}
+            xAccessor={xAccessor}
+            renderPlayButton={false}
+        />);
+        const brushExtendMock = jest.fn();
+        const instance = wrapper.instance();
+        const newWidth = width - 50;
+
+        instance.brush.extent = brushExtendMock;
+
+        wrapper.setProps({ width: newWidth });
+
+        expect(brushExtendMock).toHaveBeenCalledTimes(1);
+        expect(brushExtendMock).toHaveBeenCalledWith([
+            [0, 0],
+            [newWidth, 50]
+        ]);
+
+    });
+});
+
 describe("render", () => {
     it("does a baseline render", () => {
         expect(mount(<DensityChart
