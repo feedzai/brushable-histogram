@@ -1,5 +1,9 @@
 # Brushable Histogram
 
+## 1.1.8 (2019/03/15)
+
+- Fix a bug related with screen resizing events
+
 ## 1.1.7 (2019/02/19)
 - Fix a bug related with the zooming interactions between the histogram
   and brushing areas ([#26](https://github.com/feedzai/brushable-histogram/issues/26))
