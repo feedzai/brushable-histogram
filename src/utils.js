@@ -195,6 +195,7 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushT
 
         return {
             ...nextState,
+            data: [],
             brushTimeDomain: {
                 min: now,
                 max: now
