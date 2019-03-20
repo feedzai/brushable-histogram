@@ -270,6 +270,22 @@ describe("calculateChartSizesAndDomain", () => {
         });
     });
 
+    it("should return the empty data even if the previousData had some value", () => {
+        const ret = calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: [],
+            xAccessor: xAccessor,
+            yAccessor: yAccessor
+        }, smallSample, { min: 1533164500146, max: 1533167401146 });
+
+        expect(ret.data).toEqual([]);
+    });
+
     it("returns doesn't return data and domain if the data has not changed", () => {
         expect(calculateChartSizesAndDomain({
             height: 150,
