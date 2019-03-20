@@ -1,5 +1,9 @@
 # Brushable Histogram
 
+## 1.1.9 (2019/03/20)
+
+- Fix a bug related with data replacement on update ([#36](https://github.com/feedzai/brushable-histogram/pull/36#issue-262504945))
+
 ## 1.1.8 (2019/03/15)
 
 - Fix a bug related with screen resizing events
