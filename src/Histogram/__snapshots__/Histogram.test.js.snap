@@ -68,7 +68,36 @@ exports[`render does a baseline render 1`] = `
   defaultBarCount={18}
   height={150}
   minZoomUnit={1000}
-  onIntervalChange={[MockFunction]}
+  onIntervalChange={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            1533309900034,
+            1534164400001,
+          ],
+          true,
+        ],
+        Array [
+          Array [
+            1533309900034,
+            1534164400001,
+          ],
+          true,
+        ],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
   padding={10}
   renderPlayButton={true}
   size={
@@ -477,7 +506,36 @@ exports[`render renders an empty chart if no data is passed 1`] = `
   defaultBarCount={18}
   height={150}
   minZoomUnit={1000}
-  onIntervalChange={[MockFunction]}
+  onIntervalChange={
+    [MockFunction] {
+      "calls": Array [
+        Array [
+          Array [
+            1533309900034,
+            1534164400001,
+          ],
+          true,
+        ],
+        Array [
+          Array [
+            1533309900034,
+            1534164400001,
+          ],
+          true,
+        ],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
   padding={10}
   renderPlayButton={true}
   size={
