@@ -82,26 +82,6 @@ describe("render", () => {
     });
 });
 
-describe("_updateBrushedDomainAndReRenderTheHistogramPlot", () => {
-    it("shouldn't call props.onIntervalChange if the domain didn't change", () => {
-        instance._updateBrushedDomainAndReRenderTheHistogramPlot([
-            new Date(1533309900034),
-            new Date(1534164400001)
-        ]);
-
-        expect(onIntervalChangeSpy.mock.calls.length).toBe(0);
-    });
-
-    it("should call props.onIntervalChange if the domain did change", () => {
-        instance._updateBrushedDomainAndReRenderTheHistogramPlot([
-            new Date(1533309910034),
-            new Date(1534164400001)
-        ]);
-
-        expect(onIntervalChangeSpy.mock.calls.length).toBe(1);
-    });
-});
-
 describe("_onResizeZoom", () => {
     it("should zoom event to be triggered", () => {
         instance._updateBrushedDomainAndReRenderTheHistogramPlot = jest.fn();
