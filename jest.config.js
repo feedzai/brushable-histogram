@@ -22,7 +22,7 @@ module.exports = {
         "/node_modules/"
     ],
 
-    setupTestFrameworkScriptFile: "<rootDir>/jest.setup.js",
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 
     snapshotSerializers: ["enzyme-to-json/serializer"],
 
