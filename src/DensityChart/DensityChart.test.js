@@ -113,7 +113,6 @@ describe("componentDidUpdate", () => {
             [0, 0],
             [newWidth, 50]
         ]);
-
     });
 });
 

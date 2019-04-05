@@ -212,7 +212,6 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushT
     // If the new information received is different we need to verify if there is any update in the max and min
     // values for the brush domain.
     if (hasDataChanged) {
-
         // We need to store the date so that we can compare it to new data comming from `props`
         // to see if we need to recalculate the domain
         nextState = { ...nextState, data: props.data };

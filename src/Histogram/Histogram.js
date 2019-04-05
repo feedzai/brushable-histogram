@@ -39,7 +39,6 @@ import DensityChart from "../DensityChart/DensityChart";
  */
 
 export class Histogram extends PureComponent {
-
     static propTypes = {
         data: PropTypes.array.isRequired,
         size: PropTypes.shape({
@@ -127,8 +126,8 @@ export class Histogram extends PureComponent {
         const hasWidthChanged = prevProps.size.width !== this.props.size.width;
         const hasDataChanged = prevProps.data.length !== this.props.data.length
             || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.props.data);
-        const hasAcessorsChanged = this.props.xAccessor !== prevProps.xAccessor ||
-            this.props.yAccessor !== prevProps.yAccessor;
+        const hasAcessorsChanged = this.props.xAccessor !== prevProps.xAccessor
+            || this.props.yAccessor !== prevProps.yAccessor;
 
         if (hasWidthChanged || hasDataChanged || hasAcessorsChanged) {
             this._createScaleAndZoom();
@@ -474,13 +473,15 @@ export class Histogram extends PureComponent {
                 </g>
 
                 {/* Rendering the histogram x-axis */}
-                <g ref={this.histogramXAxisRef}
+                <g
+                    ref={this.histogramXAxisRef}
                     className={histogramXAxisClassname}
                     transform={`translate(0, ${histogramChartDimensions.heightForBars})`}
                 />
 
                 {/* Rendering the histogram y-axis */}
-                <g ref={this.histogramYAxisRef}
+                <g
+                    ref={this.histogramYAxisRef}
                     className={histogramYAxisClassname}
                     transform={`translate(${Y_AXIS_PADDING}, ${Y_AXIS_PADDING})`}
                 />
