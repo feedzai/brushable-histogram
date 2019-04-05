@@ -127,8 +127,10 @@ export class Histogram extends PureComponent {
         const hasWidthChanged = prevProps.size.width !== this.props.size.width;
         const hasDataChanged = prevProps.data.length !== this.props.data.length
             || !isHistogramDataEqual(this.props.xAccessor, this.props.yAccessor, prevProps.data, this.props.data);
+        const hasAcessorsChanged = this.props.xAccessor !== prevProps.xAccessor ||
+            this.props.yAccessor !== prevProps.yAccessor;
 
-        if ((hasWidthChanged || hasDataChanged)) {
+        if (hasWidthChanged || hasDataChanged || hasAcessorsChanged) {
             this._createScaleAndZoom();
             this._setUpZoomAndChartScales();
         }

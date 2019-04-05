@@ -58,27 +58,48 @@ beforeEach(() => {
     instance = wrapper.instance();
 });
 
-describe("render", () => {
-    it("does a baseline render", () => {
-        expect(wrapper).toMatchSnapshot();
+describe("componentDidUpdate", () => {
+    it("should update the the scales and zoom if the data changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            data: [{
+                "timestamp": 1000,
+                "total": 3
+            }]
+        }));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
     });
 
-    it("renders an empty chart if no data is passed", () => {
-        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+    it("should update the the scales and zoom if the width changed", () => {
+        instance._createScaleAndZoom = jest.fn();
 
-        const testWrapper = mount(<Histogram
-            data={[]}
-            size={{ width: 1000 }}
-            height={150}
-            xAccessor={(datapoint) => datapoint.timestamp}
-            xAxisFormatter={formatMinute}
-            yAccessor={(datapoint) => datapoint.total}
-            yAxisFormatter={histogramYAxisFormatter}
-            tooltipBarCustomization={histogramTooltipBar}
-            onIntervalChange={onIntervalChangeSpy}
-        />);
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            size: {
+                width: 100
+            }
+        }));
 
-        expect(testWrapper).toMatchSnapshot();
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
+    });
+
+    it("should update the the scales and zoom if the acessors changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            yAccessor: (datapoint) => datapoint.total
+        }));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not update the the scales and zoom if nothing relevant changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(0);
     });
 });
 
@@ -148,5 +169,29 @@ describe("_renderDensityChart", () => {
                 }
             }])
         ).toEqual([null]);
+    });
+
+    describe("render", () => {
+        it("does a baseline render", () => {
+            expect(wrapper).toMatchSnapshot();
+        });
+
+        it("renders an empty chart if no data is passed", () => {
+            jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+
+            const testWrapper = mount(<Histogram
+                data={[]}
+                size={{ width: 1000 }}
+                height={150}
+                xAccessor={(datapoint) => datapoint.timestamp}
+                xAxisFormatter={formatMinute}
+                yAccessor={(datapoint) => datapoint.total}
+                yAxisFormatter={histogramYAxisFormatter}
+                tooltipBarCustomization={histogramTooltipBar}
+                onIntervalChange={onIntervalChangeSpy}
+            />);
+
+            expect(testWrapper).toMatchSnapshot();
+        });
     });
 });

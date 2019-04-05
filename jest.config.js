@@ -8,6 +8,10 @@ module.exports = {
         "<rootDir>/src"
     ],
 
+    roots: [
+        "<rootDir>/src"
+    ],
+
     collectCoverageFrom: [
         "src/**/*.js"
     ],
