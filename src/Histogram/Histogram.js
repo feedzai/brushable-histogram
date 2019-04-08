@@ -92,7 +92,8 @@ export class Histogram extends PureComponent {
             return null;
         }
 
-        const nextState = calculateChartSizesAndDomain(props, state.data, state.brushTimeDomain);
+        const nextState = calculateChartSizesAndDomain(props, state.data, state.brushTimeDomain,
+            state.brushDomainFromProps);
 
         return Object.keys(nextState).length > 0 ? nextState : null;
     }
