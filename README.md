@@ -69,7 +69,7 @@ To render a tooltip when the mouse hovers it this prop should be passed with a f
 
 ## `brushDomain`
 **Type** `Object` **Default** `undefined`
-A custom brush domain. Should have two properties: `min` and `max` both timestamps. Please note that if the user
+A custom brush domain. Should have two properties: `min` and `max` both timestamps in milliseconds. Please note that if the user
 changes the brush domain by interacting with the brush bar this will be ignored until you pass it a different one.
 
 ## How to install it?
