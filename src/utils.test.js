@@ -309,4 +309,62 @@ describe("calculateChartSizesAndDomain", () => {
             }
         });
     });
+
+    it("overrides the brushDomain if one is passed from the props", () => {
+        const previousBrushTimeDomain = { min: 1533164500146, max: 1533167401146 };
+        const brushDomain = { min: 1533164500146, max: 1533167411146 };
+
+        expect(calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: smallSample,
+            xAccessor: xAccessor,
+            yAccessor: yAccessor,
+            brushDomain: brushDomain
+        }, smallSample, previousBrushDomain, previousBrushTimeDomain)).toEqual({
+            "densityChartDimensions": {
+                "height": 20,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 115,
+                "heightForBars": 97,
+                "width": 990
+            },
+            brushTimeDomain: brushDomain,
+            brushDomainFromProps: brushDomain
+        });
+    });
+
+    it("does not overridde the brushDomain if the one is passed from the props if the same as the last one", () => {
+        const previousBrushTimeDomain = { min: 1533164500146, max: 1533167401146 };
+
+        expect(calculateChartSizesAndDomain({
+            height: 150,
+            renderPlayButton: false,
+            spaceBetweenCharts: 15,
+            size: {
+                width: 1000
+            },
+            data: smallSample,
+            xAccessor: xAccessor,
+            yAccessor: yAccessor,
+            brushDomain: previousBrushTimeDomain
+        }, smallSample, previousBrushDomain, previousBrushTimeDomain)).toEqual({
+            "densityChartDimensions": {
+                "height": 20,
+                "width": 960
+            },
+            "histogramChartDimensions": {
+                "height": 115,
+                "heightForBars": 97,
+                "width": 990
+            },
+            brushDomainFromProps: previousBrushTimeDomain
+        });
+    });
 });

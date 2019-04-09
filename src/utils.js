@@ -28,6 +28,16 @@ export function isObject(obj) {
 }
 
 /**
+ * Returns true if the two given objects are equal deeply.
+ * @param {*} obj1
+ * @param {*} obj2
+ * @returns {boolean}
+ */
+function isEqual(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+
+/**
  * The default histogram y axis formatter. Only returns integer values.
  * @param {number} value
  * @returns {String}
@@ -180,9 +190,11 @@ export function calculateChartsPositionsAndSizing(props) {
  * @param {Object} props
  * @param {Array.<Object>} previousData
  * @param {Object} previousBrushTimeDomain
+ * @param {Object} [previousBrushDomainFromProps]
  * @returns {Object}
  */
-export function calculateChartSizesAndDomain(props, previousData, previousBrushTimeDomain) {
+export function calculateChartSizesAndDomain(props, previousData, previousBrushTimeDomain,
+    previousBrushDomainFromProps) {
     const { histogramChartDimensions, densityChartDimensions } = calculateChartsPositionsAndSizing(props);
 
     let nextState = {
@@ -203,16 +215,21 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushT
             overallTimeDomain: {
                 min: now,
                 max: now
-            }
+            },
+            brushDomainFromProps: props.brushDomain
         };
     }
 
     const hasDataChanged = !isHistogramDataEqual(props.xAccessor, props.yAccessor, props.data, previousData);
 
+    // We allow the user to pass a custom brush domain via props, however we only want to honor that
+    // as long as the user didn't interact with the brush via the UI.
+    const brushDomainChanged = isObject(props.brushDomain)
+        && !isEqual(props.brushDomain, previousBrushDomainFromProps);
+
     // If the new information received is different we need to verify if there is any update in the max and min
     // values for the brush domain.
     if (hasDataChanged) {
-
         // We need to store the date so that we can compare it to new data comming from `props`
         // to see if we need to recalculate the domain
         nextState = { ...nextState, data: props.data };
@@ -237,6 +254,12 @@ export function calculateChartSizesAndDomain(props, previousData, previousBrushT
             };
         }
     }
+
+    if (brushDomainChanged) {
+        nextState.brushTimeDomain = props.brushDomain;
+    }
+
+    nextState.brushDomainFromProps = props.brushDomain;
 
     return nextState;
 }

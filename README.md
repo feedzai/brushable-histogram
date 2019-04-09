@@ -19,6 +19,8 @@ Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and fi
 npm install --save @feedzai/brushable-histogram
 ```
 
+Note that by default no style is included. If you want you can use the `src/Histogram/Histogram.scss` as a starting point.
+
 ## Props
 
 ### `data`
@@ -64,6 +66,11 @@ This callback will be called when the selected intervall changes.
 **Type** `Function` **Default** `() => {}`
 
 To render a tooltip when the mouse hovers it this prop should be passed with a function that returns a React Element. This function will receive as an argument the data object relative to that column.
+
+## `brushDomain`
+**Type** `Object` **Default** `undefined`
+A custom brush domain. Should have two properties: `min` and `max` both timestamps in milliseconds. Please note that if the user
+changes the brush domain by interacting with the brush bar this will be ignored until you pass it a different one.
 
 ## How to install it?
 `npm install brushable-histogram` --save

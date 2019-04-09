@@ -58,27 +58,74 @@ beforeEach(() => {
     instance = wrapper.instance();
 });
 
-describe("render", () => {
-    it("does a baseline render", () => {
-        expect(wrapper).toMatchSnapshot();
+describe("getDerivedStateFromProps", () => {
+    it("should throw an error if the height is less than the minimum height", () => {
+        const testFunction = () => {
+            Histogram.getDerivedStateFromProps({ size: { height: 10 } });
+        };
+
+        expect(testFunction).toThrow(Error);
     });
 
-    it("renders an empty chart if no data is passed", () => {
-        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+    it("should return null if the width is zero", () => {
+        expect(Histogram.getDerivedStateFromProps({ size: { width: 0 } })).toBe(null);
+    });
+});
 
-        const testWrapper = mount(<Histogram
-            data={[]}
-            size={{ width: 1000 }}
-            height={150}
-            xAccessor={(datapoint) => datapoint.timestamp}
-            xAxisFormatter={formatMinute}
-            yAccessor={(datapoint) => datapoint.total}
-            yAxisFormatter={histogramYAxisFormatter}
-            tooltipBarCustomization={histogramTooltipBar}
-            onIntervalChange={onIntervalChangeSpy}
-        />);
+describe("componentDidUpdate", () => {
+    it("should update the the scales and zoom if the data changed", () => {
+        instance._createScaleAndZoom = jest.fn();
 
-        expect(testWrapper).toMatchSnapshot();
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            data: [{
+                "timestamp": 1000,
+                "total": 3
+            }]
+        }));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
+    });
+
+    it("should update the the scales and zoom if the width changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            size: {
+                width: 100
+            }
+        }));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
+    });
+
+    it("should update the the scales and zoom if the acessors changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props, {
+            yAccessor: (datapoint) => datapoint.total
+        }));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(1);
+    });
+
+    it("should not update the the scales and zoom if nothing relevant changed", () => {
+        instance._createScaleAndZoom = jest.fn();
+
+        instance.componentDidUpdate(Object.assign({}, instance.props));
+
+        expect(instance._createScaleAndZoom).toHaveBeenCalledTimes(0);
+    });
+});
+
+describe("componentWillUnmount", () => {
+    it("should unsubscribe to the zoom", () => {
+        instance.zoom = {
+            on: jest.fn()
+        };
+
+        instance.componentWillUnmount();
+
+        expect(instance.zoom.on).toHaveBeenCalledWith("zoom", null);
     });
 });
 
@@ -95,6 +142,44 @@ describe("_onResizeZoom", () => {
             .dispatchEvent(new WheelEvent("wheel", { deltaY: -100 }));
 
         expect(instance._updateBrushedDomainAndReRenderTheHistogramPlot).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("_onMouseEnterHistogramBar", () => {
+    it("should update the state to reflect the selected bar", () => {
+        instance._onMouseEnterHistogramBar({
+            currentTarget: {
+                getAttribute: () => "0",
+                getBoundingClientRect: () => ({})
+            }
+        });
+
+        expect(instance.state.showHistogramBarTooltip).toBe(true);
+    });
+});
+
+describe("_onMouseLeaveHistogramBar", () => {
+    it("should update the state to reflect that no bar is selected", () => {
+        instance._onMouseEnterHistogramBar({
+            currentTarget: {
+                getAttribute: () => "0",
+                getBoundingClientRect: () => ({})
+            }
+        });
+
+        expect(instance.state.showHistogramBarTooltip).toBe(true);
+
+        instance._onMouseLeaveHistogramBar();
+
+        expect(instance.state.showHistogramBarTooltip).toBe(false);
+    });
+});
+
+describe("_renderBarTooltip", () => {
+    it("should return null if props.tooltipBarCustomization is not a function", () => {
+        wrapper.setProps({ tooltipBarCustomization: null });
+
+        expect(instance._renderBarTooltip({})).toBe(null);
     });
 });
 
@@ -148,5 +233,29 @@ describe("_renderDensityChart", () => {
                 }
             }])
         ).toEqual([null]);
+    });
+});
+
+describe("render", () => {
+    it("does a baseline render", () => {
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it("renders an empty chart if no data is passed", () => {
+        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+
+        const testWrapper = mount(<Histogram
+            data={[]}
+            size={{ width: 1000 }}
+            height={150}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            xAxisFormatter={formatMinute}
+            yAccessor={(datapoint) => datapoint.total}
+            yAxisFormatter={histogramYAxisFormatter}
+            tooltipBarCustomization={histogramTooltipBar}
+            onIntervalChange={onIntervalChangeSpy}
+        />);
+
+        expect(testWrapper).toMatchSnapshot();
     });
 });

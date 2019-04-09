@@ -1,5 +1,11 @@
 # Brushable Histogram
 
+## 1.2.0 (2019/04/9)
+- Allow the user to define a custom `brushDomain` via `props`.
+- Update Storybook to 5.x
+- The scales are updared if `yAccessor` or `xAccessor` are changed
+- Update eslint config
+
 ## 1.1.10 (2019/03/29)
 
 - Fix Histogram's `onIntervalChange` method not being called when the graph's histogram data changes (and the graph itself) but the domain min and max remains the same. This change will cause a little degradation in the brushing performance, since the `setState` method will be invoke many times, even when there was no changes in the brush range. We will try to address this side effect in the next version.
