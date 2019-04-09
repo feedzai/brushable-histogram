@@ -1,6 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`_renderDensityChart render does a baseline render 1`] = `
+exports[`_renderDensityChart should render an histogram bar 1`] = `
+Array [
+  <rect
+    dataindex={0}
+    height={10}
+    onMouseEnter={[Function]}
+    onMouseLeave={[Function]}
+    width={10}
+    x={1}
+    y={1}
+  />,
+]
+`;
+
+exports[`render does a baseline render 1`] = `
 <Histogram
   barOptions={
     Object {
@@ -260,7 +274,7 @@ exports[`_renderDensityChart render does a baseline render 1`] = `
 </Histogram>
 `;
 
-exports[`_renderDensityChart render renders an empty chart if no data is passed 1`] = `
+exports[`render renders an empty chart if no data is passed 1`] = `
 <Histogram
   barOptions={
     Object {
@@ -397,18 +411,4 @@ exports[`_renderDensityChart render renders an empty chart if no data is passed 
     </DensityChart>
   </div>
 </Histogram>
-`;
-
-exports[`_renderDensityChart should render an histogram bar 1`] = `
-Array [
-  <rect
-    dataindex={0}
-    height={10}
-    onMouseEnter={[Function]}
-    onMouseLeave={[Function]}
-    width={10}
-    x={1}
-    y={1}
-  />,
-]
 `;

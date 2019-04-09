@@ -58,6 +58,20 @@ beforeEach(() => {
     instance = wrapper.instance();
 });
 
+describe("getDerivedStateFromProps", () => {
+    it("should throw an error if the height is less than the minimum height", () => {
+        const testFunction = () => {
+            Histogram.getDerivedStateFromProps({ size: { height: 10 } });
+        };
+
+        expect(testFunction).toThrow(Error);
+    });
+
+    it("should return null if the width is zero", () => {
+        expect(Histogram.getDerivedStateFromProps({ size: { width: 0 } })).toBe(null);
+    });
+});
+
 describe("componentDidUpdate", () => {
     it("should update the the scales and zoom if the data changed", () => {
         instance._createScaleAndZoom = jest.fn();
@@ -103,6 +117,18 @@ describe("componentDidUpdate", () => {
     });
 });
 
+describe("componentWillUnmount", () => {
+    it("should unsubscribe to the zoom", () => {
+        instance.zoom = {
+            on: jest.fn()
+        };
+
+        instance.componentWillUnmount();
+
+        expect(instance.zoom.on).toHaveBeenCalledWith("zoom", null);
+    });
+});
+
 describe("_onResizeZoom", () => {
     it("should zoom event to be triggered", () => {
         instance._updateBrushedDomainAndReRenderTheHistogramPlot = jest.fn();
@@ -116,6 +142,44 @@ describe("_onResizeZoom", () => {
             .dispatchEvent(new WheelEvent("wheel", { deltaY: -100 }));
 
         expect(instance._updateBrushedDomainAndReRenderTheHistogramPlot).toHaveBeenCalledTimes(1);
+    });
+});
+
+describe("_onMouseEnterHistogramBar", () => {
+    it("should update the state to reflect the selected bar", () => {
+        instance._onMouseEnterHistogramBar({
+            currentTarget: {
+                getAttribute: () => "0",
+                getBoundingClientRect: () => ({})
+            }
+        });
+
+        expect(instance.state.showHistogramBarTooltip).toBe(true);
+    });
+});
+
+describe("_onMouseLeaveHistogramBar", () => {
+    it("should update the state to reflect that no bar is selected", () => {
+        instance._onMouseEnterHistogramBar({
+            currentTarget: {
+                getAttribute: () => "0",
+                getBoundingClientRect: () => ({})
+            }
+        });
+
+        expect(instance.state.showHistogramBarTooltip).toBe(true);
+
+        instance._onMouseLeaveHistogramBar();
+
+        expect(instance.state.showHistogramBarTooltip).toBe(false);
+    });
+});
+
+describe("_renderBarTooltip", () => {
+    it("should return null if props.tooltipBarCustomization is not a function", () => {
+        wrapper.setProps({ tooltipBarCustomization: null });
+
+        expect(instance._renderBarTooltip({})).toBe(null);
     });
 });
 
@@ -170,28 +234,28 @@ describe("_renderDensityChart", () => {
             }])
         ).toEqual([null]);
     });
+});
 
-    describe("render", () => {
-        it("does a baseline render", () => {
-            expect(wrapper).toMatchSnapshot();
-        });
+describe("render", () => {
+    it("does a baseline render", () => {
+        expect(wrapper).toMatchSnapshot();
+    });
 
-        it("renders an empty chart if no data is passed", () => {
-            jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
+    it("renders an empty chart if no data is passed", () => {
+        jest.spyOn(Date, "now").mockImplementation(() => 1479427200000);
 
-            const testWrapper = mount(<Histogram
-                data={[]}
-                size={{ width: 1000 }}
-                height={150}
-                xAccessor={(datapoint) => datapoint.timestamp}
-                xAxisFormatter={formatMinute}
-                yAccessor={(datapoint) => datapoint.total}
-                yAxisFormatter={histogramYAxisFormatter}
-                tooltipBarCustomization={histogramTooltipBar}
-                onIntervalChange={onIntervalChangeSpy}
-            />);
+        const testWrapper = mount(<Histogram
+            data={[]}
+            size={{ width: 1000 }}
+            height={150}
+            xAccessor={(datapoint) => datapoint.timestamp}
+            xAxisFormatter={formatMinute}
+            yAccessor={(datapoint) => datapoint.total}
+            yAxisFormatter={histogramYAxisFormatter}
+            tooltipBarCustomization={histogramTooltipBar}
+            onIntervalChange={onIntervalChangeSpy}
+        />);
 
-            expect(testWrapper).toMatchSnapshot();
-        });
+        expect(testWrapper).toMatchSnapshot();
     });
 });

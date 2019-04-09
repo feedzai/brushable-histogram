@@ -424,15 +424,15 @@ export class Histogram extends PureComponent {
      */
 
     _renderBarTooltip(currentBar) {
+        if (typeof this.props.tooltipBarCustomization !== "function") {
+            return null;
+        }
+
         const tooltipStyle = {
             position: "fixed",
             left: `${this.state.selectedBarPosition.left + this.state.selectedBarPosition.width / 2}px`,
             top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
         };
-
-        if (typeof this.props.tooltipBarCustomization !== "function") {
-            return null;
-        }
 
         const tooltipElement = this.props.tooltipBarCustomization(currentBar);
 
