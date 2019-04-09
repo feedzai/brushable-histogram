@@ -2,7 +2,7 @@
 
 ## 1.2.0 (2019/04/9)
 - Allow the user to define a custom `brushDomain` via `props`.
-- Upgrades Storybook to 5.x
+- Update Storybook to 5.x
 - The scales are updared if `yAccessor` or `xAccessor` are changed
 - Update eslint config
 
