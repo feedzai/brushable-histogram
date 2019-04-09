@@ -2,6 +2,7 @@
 
 ## 1.2.0 (2019/04/?)
 - Allow the user to define a custom `brushDomain` via `props`.
+- Upgrades Storybook to 5.x
 
 ## 1.1.10 (2019/03/29)
 

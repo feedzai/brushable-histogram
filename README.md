@@ -19,6 +19,8 @@ Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and fi
 npm install --save @feedzai/brushable-histogram
 ```
 
+Note that by default no style is included. If you want you can use the `src/Histogram/Histogram.scss` as a starting point.
+
 ## Props
 
 ### `data`
