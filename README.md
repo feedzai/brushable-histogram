@@ -9,7 +9,7 @@ pan and zoom in on specific intervals as well as to see an overview of the distr
 
 ![](https://i.imgur.com/VUYAnxy.gif?raw=true)
 
-Brushable histogram works as an uncontrolled component.
+Brushable histogram is a React component and works as an uncontrolled component.
 
 Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and first proptotype and to [Victor Fernandes](https://github.com/victorfern91) for improvements to that first version.
 
