@@ -9,7 +9,7 @@ pan and zoom in on specific intervals as well as to see an overview of the distr
 
 ![](https://i.imgur.com/VUYAnxy.gif?raw=true)
 
-Brushable histogram works as an uncontrolled component.
+Brushable histogram is a React component and works as an uncontrolled component.
 
 Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and first proptotype and to [Victor Fernandes](https://github.com/victorfern91) for improvements to that first version.
 
@@ -19,7 +19,53 @@ Kudos to [Beatriz Malveiro](https://github.com/biamalveiro) for the ideia and fi
 npm install --save @feedzai/brushable-histogram
 ```
 
-Note that by default no style is included. If you want you can use the `src/Histogram/Histogram.scss` as a starting point.
+Note that by default no style is included. If you want you can use the css at `@feedzai/brushable-histogram/lib/css/brushable-histogram.css` to get the same style as in the examples.
+
+## Usage example
+
+```js
+import React, { PureComponent, Fragment } from "react";
+import Histogram from "@feedzai/brushable-histogram";
+import "@feedzai/brushable-histogram/lib/css/brushable-histogram.css";
+
+const xAccessor = (datapoint) => datapoint.timestamp;
+const yAccessor = (datapoint) => datapoint.total;
+
+function histogramTooltipBar(bar) {
+    return (
+        <Fragment>
+            <div className="fdz-css-graph-histogram-bars--tooltip-value">
+                {Math.floor(bar.yValue)} Events
+            </div>
+        </Fragment>
+    );
+}
+
+export default class HistogramExample extends PureComponent {
+    render() {
+        return (
+            <Histogram
+                data={[
+                    {
+                      "timestamp": 1170070000000,
+                      "total": 100
+                    },
+                    {
+                      "timestamp": 1270070000000,
+                      "total": 23
+                    }
+                  ]}
+                xAccessor={xAccessor}
+                yAccessor={yAccessor}
+                tooltipBarCustomization={histogramTooltipBar}
+            />
+        );
+    }
+}
+```
+
+For more advanced use cases please checkout the examples in the `stories` folder.
+
 
 ## Props
 
