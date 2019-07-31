@@ -26,5 +26,5 @@ module.exports = {
 
     snapshotSerializers: ["enzyme-to-json/serializer"],
 
-    coverageReporters: ["html", "lcov"]
+    coverageReporters: ["html", "lcov", "clover"]
 };
