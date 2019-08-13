@@ -1,5 +1,8 @@
 # Brushable Histogram
 
+## Unreleased
+- Move `react` in `package.json` from `dependency` to `peerDependency`.
+
 ## 1.2.1 (2019/04/9)
 - Allow the user to define a custom `brushDomain` via `props`.
 - Update Storybook to 5.x
