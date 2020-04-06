@@ -4,8 +4,8 @@
   "description": "A time histogram with a time brush that renders a summary of the events",
   "main": "lib/index.js",
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/feedzai/brushable-histogram.git"
+    "type": "git",
+    "url": "https://github.com/feedzai/brushable-histogram.git"
   },
   "scripts": {
     "test": "jest --coverage",
