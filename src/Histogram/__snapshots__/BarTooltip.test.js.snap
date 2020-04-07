@@ -55,9 +55,7 @@ exports[`Histogram/BarTooltip render should render the tooltip 1`] = `
   }
   tooltipBarCustomization={[Function]}
 >
-  <Portal
-    removeOnUnmount={false}
-  >
+  <Portal>
     <Portal
       containerInfo={
         <div>

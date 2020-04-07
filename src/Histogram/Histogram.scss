@@ -177,8 +177,3 @@ $histogram-tooltip-heigth: 40;
         }
     }
 }
-
-:export {
-    tooltipWidth: $histogram-tooltip-width;
-    tooltipHeight: $histogram-tooltip-heigth;
-}

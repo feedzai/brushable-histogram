@@ -27,3 +27,7 @@ export const MIN_TOTAL_HEIGHT = 100;
 
 // An internal magic value used to align things horizontally
 export const PADDING = 10;
+
+// Histogram bar tooltip size constants
+export const HISTOGRAM_BAR_TOOLTIP_WIDTH = 100;
+export const HISTOGRAM_BAR_TOOLTIP_HEIGHT = 40;

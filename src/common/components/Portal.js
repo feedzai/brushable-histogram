@@ -12,12 +12,10 @@ import ReactDOM from "react-dom";
  */
 
 const propTypes = {
-    children: PropTypes.element,
-    removeOnUnmount: PropTypes.bool
+    children: PropTypes.element
 };
 const defaultProps = {
-    children: null,
-    removeOnUnmount: false
+    children: null
 };
 
 export default class Portal extends React.PureComponent {
@@ -32,9 +30,7 @@ export default class Portal extends React.PureComponent {
     }
 
     componentWillUnmount() {
-        if (this.props.removeOnUnmount) {
-            document.body.removeChild(this.el);
-        }
+        document.body.removeChild(this.el);
     }
 
     render() {

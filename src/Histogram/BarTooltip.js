@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Portal from "../common/components/Portal";
-import histogramScssVariables from "./Histogram.scss";
+import { HISTOGRAM_BAR_TOOLTIP_WIDTH, HISTOGRAM_BAR_TOOLTIP_HEIGHT } from "../constants";
 
 /**
  * BarTootip
@@ -37,8 +37,8 @@ function BarTooltip({ selectedBarPosition, currentBar, tooltipBarCustomization }
     const { top, left, width } = selectedBarPosition;
     const tooltipStyle = {
         position: "fixed",
-        left: `${left - (histogramScssVariables.tooltipWidth / 2) + (width / 2)}px`,
-        top: `${top - histogramScssVariables.tooltipHeight}px`
+        left: `${left - (HISTOGRAM_BAR_TOOLTIP_WIDTH / 2) + (width / 2)}px`,
+        top: `${top - HISTOGRAM_BAR_TOOLTIP_HEIGHT}px`
     };
 
     const tooltipElement = tooltipBarCustomization(currentBar);
