@@ -175,14 +175,6 @@ describe("_onMouseLeaveHistogramBar", () => {
     });
 });
 
-describe("_renderBarTooltip", () => {
-    it("should return null if props.tooltipBarCustomization is not a function", () => {
-        wrapper.setProps({ tooltipBarCustomization: null });
-
-        expect(instance._renderBarTooltip({})).toBe(null);
-    });
-});
-
 describe("_renderDensityChart", () => {
     let histogramBarGeometryMock;
 

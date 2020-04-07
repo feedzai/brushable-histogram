@@ -17,9 +17,6 @@ export const BUTTON_PADDING = 20;
 // We place as many ticks as a third of the number of bars, enough to give context and not overlap.
 export const BARS_TICK_RATIO = 3;
 
-// Magical value so that the tooltip is positioned correctly vertically
-export const BAR_TOOLTIP_ARROW_HEIGHT = -10;
-
 export const MIN_ZOOM_VALUE = 1;
 
 // The density chart has a fixed height
