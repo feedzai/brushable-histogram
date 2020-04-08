@@ -1,0 +1,153 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Histogram/BarTooltip render should render the tooltip 1`] = `
+<BarTooltip
+  currentBar={
+    Array [
+      Object {
+        "timestamp": 1534164400000,
+        "total": 0,
+      },
+      Object {
+        "timestamp": 1533704702305,
+        "total": 0.8414709848078965,
+      },
+      Object {
+        "timestamp": 1533580546837,
+        "total": 0.9092974268256817,
+      },
+      Object {
+        "timestamp": 1534154392497,
+        "total": 0.1411200080598672,
+      },
+      Object {
+        "timestamp": 1533818043621,
+        "total": 0.7568024953079282,
+      },
+      Object {
+        "timestamp": 1533448062185,
+        "total": 0.9589242746631385,
+      },
+      Object {
+        "timestamp": 1534124570286,
+        "total": 0.27941549819892586,
+      },
+      Object {
+        "timestamp": 1533918302254,
+        "total": 0.6569865987187891,
+      },
+      Object {
+        "timestamp": 1533309900034,
+        "total": 0.9893582466233818,
+      },
+      Object {
+        "timestamp": 1534075530262,
+        "total": 0.4121184852417566,
+      },
+    ]
+  }
+  selectedBarPosition={
+    Object {
+      "left": 50,
+      "top": 100,
+      "width": 20,
+    }
+  }
+  tooltipBarCustomization={[Function]}
+>
+  <Portal>
+    <Portal
+      containerInfo={
+        <div>
+          <div
+            class="fdz-css-graph-histogram-bars--tooltip"
+            style="position: fixed; left: 10px; top: 60px;"
+          >
+            <div>
+               Events
+            </div>
+            <div>
+              12:NaN - 12:NaN
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <div
+        className="fdz-css-graph-histogram-bars--tooltip"
+        style={
+          Object {
+            "left": "10px",
+            "position": "fixed",
+            "top": "60px",
+          }
+        }
+      >
+        <div>
+           Events
+        </div>
+        <div>
+          12:NaN - 12:NaN
+        </div>
+      </div>
+    </Portal>
+  </Portal>
+</BarTooltip>
+`;
+
+exports[`Histogram/BarTooltip render should return null if props.tooltipBarCustomization is not a function 1`] = `
+<BarTooltip
+  currentBar={
+    Array [
+      Object {
+        "timestamp": 1534164400000,
+        "total": 0,
+      },
+      Object {
+        "timestamp": 1533704702305,
+        "total": 0.8414709848078965,
+      },
+      Object {
+        "timestamp": 1533580546837,
+        "total": 0.9092974268256817,
+      },
+      Object {
+        "timestamp": 1534154392497,
+        "total": 0.1411200080598672,
+      },
+      Object {
+        "timestamp": 1533818043621,
+        "total": 0.7568024953079282,
+      },
+      Object {
+        "timestamp": 1533448062185,
+        "total": 0.9589242746631385,
+      },
+      Object {
+        "timestamp": 1534124570286,
+        "total": 0.27941549819892586,
+      },
+      Object {
+        "timestamp": 1533918302254,
+        "total": 0.6569865987187891,
+      },
+      Object {
+        "timestamp": 1533309900034,
+        "total": 0.9893582466233818,
+      },
+      Object {
+        "timestamp": 1534075530262,
+        "total": 0.4121184852417566,
+      },
+    ]
+  }
+  selectedBarPosition={
+    Object {
+      "left": 50,
+      "top": 100,
+      "width": 20,
+    }
+  }
+  tooltipBarCustomization={null}
+/>
+`;

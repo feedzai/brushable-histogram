@@ -17,7 +17,6 @@ import {
     X_AXIS_PADDING,
     Y_AXIS_PADDING,
     BARS_TICK_RATIO,
-    BAR_TOOLTIP_ARROW_HEIGHT,
     MIN_ZOOM_VALUE,
     MIN_TOTAL_HEIGHT,
     PADDING
@@ -26,6 +25,7 @@ import histogramBinCalculator from "./histogramBinCalculator";
 import { calculatePositionAndDimensions } from "./histogramBarGeometry";
 import { zoom as d3Zoom, zoomIdentity as d3ZoomIdentity } from "d3-zoom";
 import DensityChart from "../DensityChart/DensityChart";
+import BarTooltip from "./BarTooltip";
 
 /**
  * Histogram
@@ -201,11 +201,10 @@ export class Histogram extends PureComponent {
      * @private
      */
     _onMouseEnterHistogramBar = (evt) => {
-        const index = +evt.currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
-
         // In order to access into the information in the `SyntheticEvent` inside of the setState callback it inspect
         // necessary store the currentTarget value in a constant. https://reactjs.org/docs/events.html#event-pooling
         const currentTarget = evt.currentTarget;
+        const index = +currentTarget.getAttribute("dataindex"); // The `+` converts "1" to 1
 
         this.setState((state) => {
             const bar = state.timeHistogramBars[index];
@@ -424,25 +423,15 @@ export class Histogram extends PureComponent {
      */
 
     _renderBarTooltip(currentBar) {
-        if (typeof this.props.tooltipBarCustomization !== "function") {
-            return null;
-        }
-
-        const tooltipStyle = {
-            position: "fixed",
-            left: `${this.state.selectedBarPosition.left + this.state.selectedBarPosition.width / 2}px`,
-            top: `${this.state.selectedBarPosition.top - BAR_TOOLTIP_ARROW_HEIGHT}px`
-        };
-
-        const tooltipElement = this.props.tooltipBarCustomization(currentBar);
+        const { tooltipBarCustomization } = this.props;
+        const { selectedBarPosition } = this.state;
 
         return (
-            <div
-                className="fdz-css-graph-histogram-bars--tooltip"
-                style={tooltipStyle}
-            >
-                {tooltipElement}
-            </div>
+            <BarTooltip
+                tooltipBarCustomization={tooltipBarCustomization}
+                selectedBarPosition={selectedBarPosition}
+                currentBar={currentBar}
+            />
         );
     }
 

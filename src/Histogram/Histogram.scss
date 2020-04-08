@@ -1,3 +1,6 @@
+$histogram-tooltip-width: 100;
+$histogram-tooltip-heigth: 40;
+
 .fdz-css-graph-histogram {
     margin-top: 80px;
 
@@ -12,9 +15,6 @@
     $color-blue-gray-100: #cfd8dc;
 
     $grey-6: #bfbfbf;
-
-    $tooltip-width: 100px;
-    $tooltip-heigth: 40px;
 
     $histogram-tooltip-z-index: 11;
 
@@ -31,10 +31,8 @@
 
         &--tooltip {
             background-color: $color-blue-gray-600;
-            width: $tooltip-width;
+            width: $histogram-tooltip-width + px;
             padding: 0.3em 0.1em 0.3em 0.1em;
-            margin-left: -$tooltip-width / 2;
-            margin-top: -$tooltip-heigth - 10;
             text-align: center;
             z-index: $histogram-tooltip-z-index;
             font-family: 'Roboto Mono', Arial, sans-serif;

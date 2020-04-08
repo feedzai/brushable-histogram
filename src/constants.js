@@ -17,9 +17,6 @@ export const BUTTON_PADDING = 20;
 // We place as many ticks as a third of the number of bars, enough to give context and not overlap.
 export const BARS_TICK_RATIO = 3;
 
-// Magical value so that the tooltip is positioned correctly vertically
-export const BAR_TOOLTIP_ARROW_HEIGHT = -10;
-
 export const MIN_ZOOM_VALUE = 1;
 
 // The density chart has a fixed height
@@ -30,3 +27,7 @@ export const MIN_TOTAL_HEIGHT = 100;
 
 // An internal magic value used to align things horizontally
 export const PADDING = 10;
+
+// Histogram bar tooltip size constants
+export const HISTOGRAM_BAR_TOOLTIP_WIDTH = 100;
+export const HISTOGRAM_BAR_TOOLTIP_HEIGHT = 40;
