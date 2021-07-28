@@ -107,7 +107,7 @@ stories
             onIntervalChange={(domain) => console.log(domain)}
         />
     ))
-    .add("Allows to custumize the brush interval", () => (
+    .add("Allows to customize the brush interval", () => (
         <Histogram
             data={object("Data", [
                 { timestamp: 1170070000000, total: 100 },
