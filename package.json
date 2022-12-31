@@ -47,7 +47,7 @@
     "@feedzai/eslint-config-feedzai-react": "3.1.0",
     "@storybook/addon-knobs": "^5.0.6",
     "@storybook/addons": "^5.0.6",
-    "@storybook/react": "^5.0.6",
+    "@storybook/react": "^6.5.15",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.7.1",
@@ -65,7 +65,7 @@
     "node-sass": "^4.10.0",
     "react": "16.6.1",
     "react-dom": "16.6.1",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^13.2.0"
   },
   "peerDependencies": {
     "react": "16.x",
